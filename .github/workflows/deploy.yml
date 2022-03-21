@@ -40,21 +40,21 @@ jobs:
         shell: bash
 
       - name: Generate deployment package # (1)
-          run: |
-            mkdir -p deploy
-            cp build/libs/*.jar deploy/application.jar
-            cp Procfile deploy/Procfile
-            cp -r .ebextensions deploy/.ebextensions
-            cp -r .platform deploy/.platform
-            cd deploy && zip -r deploy.zip .
+        run: |
+          mkdir -p deploy
+          cp build/libs/*.jar deploy/application.jar
+          cp Procfile deploy/Procfile
+          cp -r .ebextensions deploy/.ebextensions
+          cp -r .platform deploy/.platform
+          cd deploy && zip -r deploy.zip .
 
       - name: Deploy to EB # (2)
-          uses: einaregilsson/beanstalk-deploy@v14
-          with:
-            aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
-            aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-            application_name: MetaverseStation
-            environment_name: MetaverseStation-env
-            version_label: github-action-${{steps.current-time.outputs.formattedTime}}
-            region: ap-northeast-2
-            deployment_package: deploy/deploy.zip
+        uses: einaregilsson/beanstalk-deploy@v14
+        with:
+          aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          application_name: MetaverseStation
+          environment_name: MetaverseStation-env
+          version_label: github-action-${{steps.current-time.outputs.formattedTime}}
+          region: ap-northeast-2
+          deployment_package: deploy/deploy.zip
