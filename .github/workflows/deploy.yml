@@ -27,17 +27,12 @@ jobs:
         run: ./gradlew clean build # (7)
         shell: bash
 
-
       - name: Get current time
         uses: 1466587594/get-current-time@v2
         id: current-time
         with:
           format: YYYY-MM-DDTHH-mm-ss # (1)
           utcOffset: "+09:00"
-
-      - name: Show Current Time
-        run: echo "CurrentTime=${{steps.current-time.outputs.formattedTime}}" # (2)
-        shell: bash
 
       - name: Generate deployment package
         run: |
@@ -49,7 +44,7 @@ jobs:
           cd deploy && zip -r deploy.zip .
 
       - name: Deploy to EB
-        uses: einaregilsson/beanstalk-deploy@v14
+        uses: einaregilsson/beanstalk-deploy@v20
         with:
           aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
