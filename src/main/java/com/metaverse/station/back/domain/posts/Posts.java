@@ -18,15 +18,19 @@ public class Posts {
     @Column(length = 500, nullable = false)
     private String title;
 
-    @Column(columnDefinition = "TEST", nullable = false)
+    @Column(columnDefinition = "TEXT", nullable = false)
     private String content;
+
+    @Column(columnDefinition = "TEXT", nullable = false)
+    private String link;
 
     private String author;
 
     @Builder
-    public Posts(String title, String content, String author) {
+    public Posts(String title, String content, String author, String link) {
         this.title = title;
         this.content = content;
         this.author = author;
+        this.link = link;
     }
 }
