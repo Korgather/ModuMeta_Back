@@ -2,6 +2,7 @@ package com.metaverse.station.back.web;
 
 import com.metaverse.station.back.domain.posts.Posts;
 import com.metaverse.station.back.domain.posts.PostsRepository;
+import com.metaverse.station.back.utils.S3Uploader;
 import com.metaverse.station.back.web.dto.PostsSaveRequestDto;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
@@ -11,11 +12,13 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.test.context.TestPropertySource;
 
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+//@TestPropertySource("classpath:application-local-real.properties")
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class PostsApiControllerTest {
 
@@ -33,7 +36,7 @@ class PostsApiControllerTest {
         postsRepository.deleteAll();
     }
 
-    @Test
+//    @Test
     public void Post_등록() throws Exception {
         String title = "title";
         String content = "content";
