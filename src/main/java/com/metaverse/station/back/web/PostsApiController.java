@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
@@ -31,7 +32,7 @@ public class PostsApiController {
 
     @PostMapping("/api/v1/upload")
     @ResponseBody
-    public String upload(@RequestParam("data") MultipartFile multipartFile) throws IOException {
+    public List<String> upload(@RequestParam("data") List<MultipartFile> multipartFile) throws IOException {
         return s3Uploader.upload(multipartFile, "static");
     }
 
