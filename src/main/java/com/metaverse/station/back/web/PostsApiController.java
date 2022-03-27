@@ -20,7 +20,7 @@ public class PostsApiController {
     private final S3Uploader s3Uploader;
 
     @PostMapping("/api/v1/posts")
-    public Posts save(@RequestBody PostsSaveRequestDto requestDto) {
+    public PostsSaveRequestDto save(@RequestBody PostsSaveRequestDto requestDto) {
 
         return postsService.save(requestDto);
     }
