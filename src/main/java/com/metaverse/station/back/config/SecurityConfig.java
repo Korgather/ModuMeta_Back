@@ -14,8 +14,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         httpSecurity
                 .httpBasic().disable()
                 .csrf().disable()
-                .authorizeRequests().antMatchers("/h2-console/**").permitAll()
-                .and()
-                .headers().frameOptions().disable();
+                .authorizeRequests().antMatchers("/h2-console/**").permitAll();
+//                .and()
+//                .headers().frameOptions().disable();
     }
 }
