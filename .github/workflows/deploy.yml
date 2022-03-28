@@ -3,7 +3,7 @@ name: backend-deploy
 on:
   push:
     branches:
-      - sprint-BE
+      - dev-oauthlogin
   workflow_dispatch: # (2) 수동 실행
 
 jobs:
