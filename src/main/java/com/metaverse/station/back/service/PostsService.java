@@ -8,6 +8,7 @@ import com.metaverse.station.back.web.dto.PostsResponseDto;
 import com.metaverse.station.back.web.dto.PostsSaveRequestDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,9 +20,15 @@ import java.util.List;
 public class PostsService {
 
     private final PostsRepository postsRepository;
+    private final UserService userService;
 
     @Transactional
-    public PostsSaveRequestDto save(PostsSaveRequestDto requestDto, User user) {
+    public PostsSaveRequestDto save(PostsSaveRequestDto requestDto) {
+
+        org.springframework.security.core.userdetails.User principal = (org.springframework.security.core.userdetails.User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        User user = userService.getUser(principal.getUsername());
+
         List<Images> images = requestDto.getImages();
 
         Posts posts = requestDto.toEntity();

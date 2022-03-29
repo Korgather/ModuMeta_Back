@@ -23,9 +23,9 @@ public class PostsApiController {
     private final S3Uploader s3Uploader;
 
     @PostMapping("/api/v1/posts")
-    public PostsSaveRequestDto save(@RequestBody PostsSaveRequestDto requestDto, @AuthenticationPrincipal User user) {
+    public PostsSaveRequestDto save(@RequestBody PostsSaveRequestDto requestDto) {
 
-        return postsService.save(requestDto,user);
+        return postsService.save(requestDto);
     }
 
     @GetMapping("/api/v1/posts/{id}")
