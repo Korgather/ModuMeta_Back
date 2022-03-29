@@ -16,7 +16,6 @@ public class PostsSaveRequestDto {
 
     private String title;
     private String content;
-    private String author;
     private String link;
     private User user;
 
@@ -24,17 +23,16 @@ public class PostsSaveRequestDto {
 
 
     @Builder
-    public PostsSaveRequestDto(String title, String content, String author, String link, List<Images> images) {
+    public PostsSaveRequestDto(String title, String content, String link, List<Images> images) {
         this.title = title;
         this.content = content;
-        this.author = author;
         this.link = link;
         this.images = images;
 //        this.user = user;
     }
 
     public Posts toEntity() {
-        return Posts.builder().title(title).content(content).author(author).link(link).images(images).user(user).build();
+        return Posts.builder().title(title).content(content).link(link).images(images).user(user).build();
     }
 
     public void setUser(User user){

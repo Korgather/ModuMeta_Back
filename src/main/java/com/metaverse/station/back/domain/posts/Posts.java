@@ -33,8 +33,6 @@ public class Posts extends BaseTimeEntity {
     @Column(columnDefinition = "TEXT", nullable = false)
     private String link;
 
-    private String author;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "userId")
     private User user;
@@ -48,11 +46,10 @@ public class Posts extends BaseTimeEntity {
     private List<Images> images = new ArrayList<>();
 
     @Builder
-    public Posts(Long id, String title, String content, String author, String link, List<Images> images, User user) {
+    public Posts(Long id, String title, String content, String link, List<Images> images, User user) {
         this.id = id;
         this.title = title;
         this.content = content;
-        this.author = author;
         this.link = link;
         this.images = images;
         this.user = user;
