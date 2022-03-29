@@ -18,17 +18,16 @@ public class PostsSaveRequestDto {
     private String content;
     private String link;
     private User user;
-
     private List<Images> images;
 
 
     @Builder
-    public PostsSaveRequestDto(String title, String content, String link, List<Images> images) {
+    public PostsSaveRequestDto(String title, String content, String link, List<Images> images, User user) {
         this.title = title;
         this.content = content;
         this.link = link;
         this.images = images;
-//        this.user = user;
+        this.user = user;
     }
 
     public Posts toEntity() {

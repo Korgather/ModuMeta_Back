@@ -2,6 +2,7 @@ package com.metaverse.station.back.domain.user;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.metaverse.station.back.domain.BaseTimeEntity;
 import com.metaverse.station.back.domain.posts.Posts;
 import com.metaverse.station.back.oauth.domain.ProviderType;
 import com.metaverse.station.back.oauth.domain.RoleType;
@@ -23,7 +24,7 @@ import java.util.List;
 @AllArgsConstructor
 @Entity
 @Table(name = "USER")
-public class User {
+public class User extends BaseTimeEntity {
     @JsonIgnore
     @Id
     @Column(name = "USER_SEQ")
@@ -71,16 +72,17 @@ public class User {
     @NotNull
     private RoleType roleType;
 
-    @Column(name = "CREATED_AT")
-    @NotNull
-    private LocalDateTime createdAt;
-
-    @Column(name = "MODIFIED_AT")
-    @NotNull
-    private LocalDateTime modifiedAt;
+//    @Column(name = "CREATED_AT")
+//    @NotNull
+//    private LocalDateTime createdAt;
+//
+//    @Column(name = "MODIFIED_AT")
+//    @NotNull
+//    private LocalDateTime modifiedAt;
 
     @OneToMany(mappedBy = "user", cascade = {CascadeType.PERSIST},orphanRemoval = true)
     private List<Posts> postList = new ArrayList<>();
+
 
     public User(
             @NotNull @Size(max = 64) String userId,
@@ -89,9 +91,9 @@ public class User {
             @NotNull @Size(max = 1) String emailVerifiedYn,
             @NotNull @Size(max = 512) String profileImageUrl,
             @NotNull ProviderType providerType,
-            @NotNull RoleType roleType,
-            @NotNull LocalDateTime createdAt,
-            @NotNull LocalDateTime modifiedAt
+            @NotNull RoleType roleType
+//            @NotNull LocalDateTime createdAt,
+//            @NotNull LocalDateTime modifiedAt
     ) {
         this.userId = userId;
         this.username = username;
@@ -101,8 +103,8 @@ public class User {
         this.profileImageUrl = profileImageUrl != null ? profileImageUrl : "";
         this.providerType = providerType;
         this.roleType = roleType;
-        this.createdAt = createdAt;
-        this.modifiedAt = modifiedAt;
+//        this.createdAt = createdAt;
+//        this.modifiedAt = modifiedAt;
     }
 
     public void addPost(Posts posts) {
