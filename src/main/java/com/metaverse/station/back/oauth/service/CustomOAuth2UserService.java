@@ -62,7 +62,6 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
     }
 
     private User createUser(OAuth2UserInfo userInfo, ProviderType providerType) {
-        LocalDateTime now = LocalDateTime.now();
         User user = new User(
                 userInfo.getId(),
                 userInfo.getName(),
@@ -70,9 +69,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
                 "Y",
                 userInfo.getImageUrl(),
                 providerType,
-                RoleType.USER,
-                now,
-                now
+                RoleType.USER
         );
 
         return userRepository.saveAndFlush(user);
