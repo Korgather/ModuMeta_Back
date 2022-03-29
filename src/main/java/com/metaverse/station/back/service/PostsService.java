@@ -3,6 +3,7 @@ package com.metaverse.station.back.service;
 import com.metaverse.station.back.domain.images.Images;
 import com.metaverse.station.back.domain.posts.Posts;
 import com.metaverse.station.back.domain.posts.PostsRepository;
+import com.metaverse.station.back.domain.user.User;
 import com.metaverse.station.back.web.dto.PostsResponseDto;
 import com.metaverse.station.back.web.dto.PostsSaveRequestDto;
 import lombok.RequiredArgsConstructor;
@@ -20,11 +21,12 @@ public class PostsService {
     private final PostsRepository postsRepository;
 
     @Transactional
-    public PostsSaveRequestDto save(PostsSaveRequestDto requestDto) {
+    public PostsSaveRequestDto save(PostsSaveRequestDto requestDto, User user) {
         List<Images> images = requestDto.getImages();
 
         Posts posts = requestDto.toEntity();
 
+        posts.addUser(user);
         images.forEach(posts::addImages);
 
         postsRepository.save(posts);

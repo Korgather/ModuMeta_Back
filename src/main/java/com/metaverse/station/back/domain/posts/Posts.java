@@ -3,6 +3,7 @@ package com.metaverse.station.back.domain.posts;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.metaverse.station.back.domain.BaseTimeEntity;
 import com.metaverse.station.back.domain.images.Images;
+import com.metaverse.station.back.domain.user.User;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -34,26 +35,35 @@ public class Posts extends BaseTimeEntity {
 
     private String author;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "userId")
+    private User user;
+
     @OneToMany(
             mappedBy = "posts",
             cascade = {CascadeType.PERSIST, CascadeType.REMOVE},
             orphanRemoval = true
     )
-//    @JsonIgnoreProperties({"posts"})
     @JsonManagedReference
     private List<Images> images = new ArrayList<>();
 
     @Builder
-    public Posts(Long id, String title, String content, String author, String link, List<Images> images) {
+    public Posts(Long id, String title, String content, String author, String link, List<Images> images, User user) {
         this.id = id;
         this.title = title;
         this.content = content;
         this.author = author;
         this.link = link;
         this.images = images;
+        this.user = user;
     }
 
     public void addImages(Images image) {
         image.setPosts(this);
+    }
+
+    public void addUser(User user){
+        this.user = user;
+        user.addPost(this);
     }
 }

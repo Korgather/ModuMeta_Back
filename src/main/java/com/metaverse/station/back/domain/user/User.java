@@ -2,6 +2,7 @@ package com.metaverse.station.back.domain.user;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.metaverse.station.back.domain.posts.Posts;
 import com.metaverse.station.back.oauth.domain.ProviderType;
 import com.metaverse.station.back.oauth.domain.RoleType;
 import lombok.AllArgsConstructor;
@@ -13,6 +14,8 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -76,6 +79,9 @@ public class User {
     @NotNull
     private LocalDateTime modifiedAt;
 
+    @OneToMany(mappedBy = "user", cascade = {CascadeType.PERSIST},orphanRemoval = true)
+    private List<Posts> postList = new ArrayList<>();
+
     public User(
             @NotNull @Size(max = 64) String userId,
             @NotNull @Size(max = 100) String username,
@@ -97,5 +103,9 @@ public class User {
         this.roleType = roleType;
         this.createdAt = createdAt;
         this.modifiedAt = modifiedAt;
+    }
+
+    public void addPost(Posts posts) {
+        postList.add(posts);
     }
 }
