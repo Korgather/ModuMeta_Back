@@ -34,7 +34,11 @@ public class PostsService {
         Posts posts = requestDto.toEntity();
 
         posts.addUser(user);
-        images.forEach(posts::addImages);
+        requestDto.setUser(user);
+
+        if(images != null){
+            images.forEach(posts::addImages);
+        }
 
         postsRepository.save(posts);
 
