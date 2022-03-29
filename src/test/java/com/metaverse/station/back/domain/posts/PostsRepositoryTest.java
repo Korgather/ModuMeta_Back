@@ -30,7 +30,7 @@ class PostsRepositoryTest {
         String title = "테스트 게시글";
         String content = "테스트 본문";
 
-        postsRepository.save(Posts.builder().title(title).content(content).link("https://").author("me").build());
+        postsRepository.save(Posts.builder().title(title).content(content).link("https://").build());
 
         List<Posts> postsList = postsRepository.findAll();
 
