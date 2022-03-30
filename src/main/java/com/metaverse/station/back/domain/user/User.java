@@ -5,13 +5,11 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.metaverse.station.back.domain.BaseTimeEntity;
+import com.metaverse.station.back.domain.images.Images;
 import com.metaverse.station.back.domain.posts.Posts;
 import com.metaverse.station.back.oauth.domain.ProviderType;
 import com.metaverse.station.back.oauth.domain.RoleType;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -76,11 +74,12 @@ public class User extends BaseTimeEntity {
 
 
     @OneToMany(mappedBy = "user", cascade = {CascadeType.PERSIST},orphanRemoval = true)
-    @JsonIgnore
+//    @JsonIgnore
     private List<Posts> postList = new ArrayList<>();
 
 
 
+    @Builder
     public User(
             @NotNull @Size(max = 64) String userId,
             @NotNull @Size(max = 100) String username,
@@ -89,6 +88,7 @@ public class User extends BaseTimeEntity {
             @NotNull @Size(max = 512) String profileImageUrl,
             @NotNull ProviderType providerType,
             @NotNull RoleType roleType
+//            List<Posts> postList
     ) {
         this.userId = userId;
         this.username = username;
@@ -99,6 +99,7 @@ public class User extends BaseTimeEntity {
         this.providerType = providerType;
         this.roleType = roleType;
     }
+
 
     public void addPost(Posts posts) {
         postList.add(posts);

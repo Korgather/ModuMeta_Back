@@ -16,13 +16,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Getter
-@NoArgsConstructor(access = AccessLevel.PUBLIC)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Table(name = "posts")
 public class Posts extends BaseTimeEntity {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "post_id")
     private Long id;
 
@@ -45,7 +45,7 @@ public class Posts extends BaseTimeEntity {
             cascade = {CascadeType.PERSIST, CascadeType.REMOVE},
             orphanRemoval = true
     )
-    @JsonManagedReference
+//    @JsonManagedReference
     private List<Images> images = new ArrayList<>();
 
     @Builder
@@ -64,6 +64,6 @@ public class Posts extends BaseTimeEntity {
 
     public void addUser(User user){
         this.user = user;
-        user.addPost(this);
+//        user.addPost(this);
     }
 }
