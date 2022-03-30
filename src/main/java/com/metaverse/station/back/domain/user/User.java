@@ -75,7 +75,6 @@ public class User extends BaseTimeEntity {
 
 
     @OneToMany(mappedBy = "user", cascade = {CascadeType.PERSIST},orphanRemoval = true)
-    @JsonManagedReference
     private List<Posts> postList = new ArrayList<>();
 
 
