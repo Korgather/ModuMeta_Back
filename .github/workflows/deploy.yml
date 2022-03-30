@@ -3,7 +3,7 @@ name: backend-deploy
 on:
   push:
     branches:
-      - sprint-BE
+      - dev-oauthlogin
   workflow_dispatch: # (2) 수동 실행
 
 jobs:
@@ -24,7 +24,7 @@ jobs:
         shell: bash
 
       - name: Build with Gradle
-        run: ./gradlew clean build --debug # (7)
+        run: ./gradlew clean build # (7)
         shell: bash
 
       - name: Get current time
