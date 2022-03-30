@@ -29,19 +29,19 @@ public class PostsSaveRequestResponseDto {
         private String username;
         private String profileImageUrl;
         private String email;
-        private List<Long> postList = new ArrayList<>();
+//        private List<Long> postList = new ArrayList<>();
         private String roleType;
 
         private postUser(User user) {
             this.username = user.getUsername();
             this.profileImageUrl = user.getProfileImageUrl();
             this.email = user.getEmail();
-            if (user.getPostList() != null) {
-                for (Posts post : user.getPostList()) {
-                    System.out.println(user.getPostList().size());
-                    postList.add(post.getId());
-                }
-            }
+//            if (user.getPostList() != null) {
+//                for (Posts post : user.getPostList()) {
+//                    System.out.println(user.getPostList().size());
+//                    postList.add(post.getId());
+//                }
+//            }
             this.roleType = user.getRoleType().toString();
         }
     }
