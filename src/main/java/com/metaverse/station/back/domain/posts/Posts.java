@@ -1,5 +1,7 @@
 package com.metaverse.station.back.domain.posts;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.metaverse.station.back.domain.BaseTimeEntity;
 import com.metaverse.station.back.domain.images.Images;
@@ -35,6 +37,7 @@ public class Posts extends BaseTimeEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "userId")
+//    @JsonIgnore
     private User user;
 
     @OneToMany(

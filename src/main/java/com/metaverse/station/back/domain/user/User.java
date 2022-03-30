@@ -1,6 +1,7 @@
 package com.metaverse.station.back.domain.user;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.metaverse.station.back.domain.BaseTimeEntity;
@@ -75,6 +76,7 @@ public class User extends BaseTimeEntity {
 
 
     @OneToMany(mappedBy = "user", cascade = {CascadeType.PERSIST},orphanRemoval = true)
+    @JsonIgnore
     private List<Posts> postList = new ArrayList<>();
 
 
