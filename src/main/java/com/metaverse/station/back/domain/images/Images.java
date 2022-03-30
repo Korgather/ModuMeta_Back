@@ -20,7 +20,7 @@ public class Images {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "post_id")
-    @JsonBackReference
+//    @JsonBackReference
     private Posts posts;
 
     @Column(nullable = false)

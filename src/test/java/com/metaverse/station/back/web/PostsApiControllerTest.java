@@ -40,7 +40,7 @@ class PostsApiControllerTest {
     public void Post_등록() throws Exception {
         String title = "title";
         String content = "content";
-        PostsSaveRequestDto requestDto = PostsSaveRequestDto.builder().title(title).content(content).author("a").link("https://").build();
+        PostsSaveRequestDto requestDto = PostsSaveRequestDto.builder().title(title).content(content).link("https://").build();
 
         String url = "http://localhost:" + port + "/api/v1/posts";
 
