@@ -30,12 +30,14 @@ public class PostsResponseDto {
     @Getter
     @NoArgsConstructor
     static class postUser {
+        private Long userId;
         private String username;
         private String profileImageUrl;
         private String email;
         private String roleType;
 
         private postUser(User user) {
+            this.userId = user.getUserSeq();
             this.username = user.getUsername();
             this.profileImageUrl = user.getProfileImageUrl();
             this.email = user.getEmail();
@@ -46,12 +48,14 @@ public class PostsResponseDto {
     @Getter
     @NoArgsConstructor
     static class postComment {
+        private Long userId;
         private String username;
         private String content;
         private LocalDateTime createdDate;
         private LocalDateTime modifiedDate;
 
         private postComment(Comments comment) {
+            this.userId = comment.getUser().getUserSeq();
             this.username = comment.getUser().getUsername();
             this.content = comment.getContent();
             this.createdDate = comment.getCreatedDate();
