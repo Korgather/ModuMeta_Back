@@ -8,6 +8,7 @@ import com.metaverse.station.back.utils.S3Uploader;
 import com.metaverse.station.back.web.dto.PostsResponseDto;
 import com.metaverse.station.back.web.dto.PostsSaveRequestDto;
 import com.metaverse.station.back.web.dto.PostsSaveRequestResponseDto;
+import com.metaverse.station.back.web.dto.PostsUpdateRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -32,6 +33,11 @@ public class PostsApiController {
     @GetMapping("/api/v1/posts/{id}")
     public PostsResponseDto findById(@PathVariable Long id) {
         return postsService.findById(id);
+    }
+
+    @PutMapping("/api/v1/posts/{id}")
+    public Long update(@PathVariable Long id, @RequestBody PostsUpdateRequestDto requestDto) {
+        return postsService.update(id, requestDto);
     }
 
     @PostMapping("/api/v1/upload")
