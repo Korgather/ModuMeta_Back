@@ -3,11 +3,11 @@ package com.metaverse.station.back.domain.posts;
 import com.metaverse.station.back.domain.user.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.repository.PagingAndSortingRepository;
 
-public interface PostsRepository extends JpaRepository<Posts,Long> {
+public interface PostsRepository extends PagingAndSortingRepository<Posts,Long> {
 
 //    Page<Posts> findByUserOrderByIdDesc(User user, Pageable pageable);
-    Page<Posts> findAll(Pageable pageable);
+//    Page<Posts> findAll(Pageable pageable);
 
 }

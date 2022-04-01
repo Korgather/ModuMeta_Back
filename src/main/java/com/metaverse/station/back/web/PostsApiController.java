@@ -10,7 +10,9 @@ import com.metaverse.station.back.web.dto.PostsSaveRequestDto;
 import com.metaverse.station.back.web.dto.PostsSaveRequestResponseDto;
 import com.metaverse.station.back.web.dto.PostsUpdateRequestDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -27,8 +29,13 @@ public class PostsApiController {
     private final S3Uploader s3Uploader;
 
 
+//    @GetMapping("/api/v1/posts")
+//    public List<PostsResponseDto> findAll(@PageableDefault(size = 8) Pageable pageable) {
+//        return postsService.findAll(pageable);
+//    }
+
     @GetMapping("/api/v1/posts")
-    public List<PostsResponseDto> findAll(@PageableDefault(size = 8) Pageable pageable) {
+    public Page<PostsResponseDto> findAll(@PageableDefault(size = 8,sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
         return postsService.findAll(pageable);
     }
 

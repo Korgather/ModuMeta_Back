@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -71,14 +72,22 @@ public class PostsService {
         return id;
     }
 
-    public List<PostsResponseDto> findAll(Pageable pageable) {
+//    public List<PostsResponseDto> findAll(Pageable pageable) {
+//        Page<Posts> page= postsRepository.findAll(Sort.by("id"));
+////        pageable;
+//        List<PostsResponseDto> postsResponseDtos = new ArrayList<>();
+//        if(page != null){
+//            for(Posts posts : page){
+//                postsResponseDtos.add(new PostsResponseDto(posts));
+//            }
+//        }
+//        return postsResponseDtos;
+//    }
+
+    public Page<PostsResponseDto> findAll(Pageable pageable) {
+
         Page<Posts> page= postsRepository.findAll(pageable);
-        List<PostsResponseDto> postsResponseDtos = new ArrayList<>();
-        if(page != null){
-            for(Posts posts : page){
-                postsResponseDtos.add(new PostsResponseDto(posts));
-            }
-        }
-        return postsResponseDtos;
+
+        return page.map(PostsResponseDto::new);
     }
 }
