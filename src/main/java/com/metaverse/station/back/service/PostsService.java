@@ -7,6 +7,7 @@ import com.metaverse.station.back.domain.user.User;
 import com.metaverse.station.back.web.dto.PostsResponseDto;
 import com.metaverse.station.back.web.dto.PostsSaveRequestDto;
 import com.metaverse.station.back.web.dto.PostsSaveRequestResponseDto;
+import com.metaverse.station.back.web.dto.PostsUpdateRequestDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -32,11 +33,13 @@ public class PostsService {
 
         List<Images> images = requestDto.getImages();
 
+        requestDto.setUser(user);
+
         Posts posts = requestDto.toEntity();
 
-        posts.addUser(user);
+//        posts.addUser(user);
 //        user.addPost(posts);
-        requestDto.setUser(user);
+
 
         if(images != null){
             images.forEach(posts::addImages);
@@ -51,5 +54,17 @@ public class PostsService {
         Posts entity = postsRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("해당 게시글이 없습니다. id=" + id));
 
         return new PostsResponseDto(entity);
+    }
+
+    @Transactional
+    public Long update(Long id, PostsUpdateRequestDto requestDto) {
+        Posts posts = postsRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("해당 게시글이 없습니다."));
+
+//        if(requestDto.getImages() != null){
+//
+//        }
+        posts.update(requestDto.getTitle(), requestDto.getContent(), requestDto.getImages(),requestDto.getLink());
+
+        return id;
     }
 }

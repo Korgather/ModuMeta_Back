@@ -1,26 +1,22 @@
 package com.metaverse.station.back.web;
 
-import com.metaverse.station.back.service.PostsService;
-import com.metaverse.station.back.utils.S3Uploader;
-import com.metaverse.station.back.web.dto.PostsResponseDto;
-import com.metaverse.station.back.web.dto.PostsSaveRequestDto;
-import com.metaverse.station.back.web.dto.PostsSaveRequestResponseDto;
+
+import com.metaverse.station.back.service.CommentsService;
+import com.metaverse.station.back.web.dto.CommentsSaveRequestDto;
+import com.metaverse.station.back.web.dto.CommentsSaveRequestResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-
-import java.io.IOException;
-import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
 public class CommentsApiController {
 
+    private final CommentsService commentsService;
 
-    @PostMapping("/api/v1/comments")
-    public Long save(@RequestBody PostsSaveRequestDto requestDto) {
+    @PostMapping("/api/v1/posts/{id}/comments")
+    public CommentsSaveRequestResponseDto save(@PathVariable Long id,@RequestBody CommentsSaveRequestDto requestDto) {
 
-        return null;
+        return commentsService.save(id, requestDto);
     }
 
 }
