@@ -19,7 +19,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Getter
-@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
@@ -103,5 +102,13 @@ public class User extends BaseTimeEntity {
 
     public void addPost(Posts posts) {
         postList.add(posts);
+    }
+
+    public void setUserName(String userName) {
+        this.username = userName;
+    }
+
+    public void setProfileImageUrl(String imageUrl) {
+        this.profileImageUrl = imageUrl;
     }
 }
