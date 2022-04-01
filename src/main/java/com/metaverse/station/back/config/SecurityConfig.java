@@ -16,6 +16,7 @@ import com.metaverse.station.back.oauth.token.AuthTokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.BeanIds;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -72,6 +73,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
                     .antMatchers("/h2-console/**").permitAll()
                     .antMatchers("/api/**").hasAnyAuthority(RoleType.USER.getCode())
+                    .antMatchers(HttpMethod.GET, "/api/v1/posts/**").permitAll()
                     .antMatchers("/api/**/admin/**").hasAnyAuthority(RoleType.ADMIN.getCode())
                     .anyRequest().authenticated()
                 .and()
