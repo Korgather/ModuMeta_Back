@@ -51,6 +51,7 @@ public class PostsResponseDto {
         private Long userId;
         private String username;
         private String content;
+        private String profileImageUrl;
         private LocalDateTime createdDate;
         private LocalDateTime modifiedDate;
 
@@ -58,6 +59,7 @@ public class PostsResponseDto {
             this.userId = comment.getUser().getUserSeq();
             this.username = comment.getUser().getUsername();
             this.content = comment.getContent();
+            this.profileImageUrl = comment.getUser().getProfileImageUrl();
             this.createdDate = comment.getCreatedDate();
             this.modifiedDate = comment.getModifiedDate();
         }
