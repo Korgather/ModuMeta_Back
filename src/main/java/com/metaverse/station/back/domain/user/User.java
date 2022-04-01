@@ -10,6 +10,8 @@ import com.metaverse.station.back.domain.posts.Posts;
 import com.metaverse.station.back.oauth.domain.ProviderType;
 import com.metaverse.station.back.oauth.domain.RoleType;
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -23,6 +25,7 @@ import java.util.List;
 @AllArgsConstructor
 @Entity
 @Table(name = "USER")
+@DynamicInsert
 public class User extends BaseTimeEntity {
     @JsonIgnore
     @Id
@@ -71,6 +74,11 @@ public class User extends BaseTimeEntity {
     @NotNull
     private RoleType roleType;
 
+    @Column(name = "USER_NAME_MODIFIED_YN", length = 1)
+    @Size(min = 1, max = 1)
+    @ColumnDefault("'N'")
+    private String usernameModifiedYn;
+
 
     @OneToMany(mappedBy = "user", cascade = {CascadeType.PERSIST},orphanRemoval = true)
 //    @JsonIgnore
@@ -100,9 +108,9 @@ public class User extends BaseTimeEntity {
     }
 
 
-    public void addPost(Posts posts) {
-        postList.add(posts);
-    }
+//    public void addPost(Posts posts) {
+//        postList.add(posts);
+//    }
 
     public void setUserName(String userName) {
         this.username = userName;
@@ -110,5 +118,9 @@ public class User extends BaseTimeEntity {
 
     public void setProfileImageUrl(String imageUrl) {
         this.profileImageUrl = imageUrl;
+    }
+
+    public void setUserNameModifiedYn(String usernameModifiedYn) {
+        this.usernameModifiedYn = usernameModifiedYn;
     }
 }

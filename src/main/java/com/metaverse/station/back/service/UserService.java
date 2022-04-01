@@ -23,6 +23,7 @@ public class UserService {
         User user = getUser(principal.getUsername());
 
         user.setUserName(userName);
+        user.setUserNameModifiedYn("Y");
 
         return userName;
     }
