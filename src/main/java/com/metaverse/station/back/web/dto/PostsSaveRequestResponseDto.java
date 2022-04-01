@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
 import javax.validation.constraints.NotNull;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,6 +22,8 @@ public class PostsSaveRequestResponseDto {
     private String link;
     private postUser user;
     private List<String> imageList = new ArrayList<>();
+    private LocalDateTime createdDate;
+    private LocalDateTime modifiedDate;
 
 
     @Getter
@@ -56,6 +59,8 @@ public class PostsSaveRequestResponseDto {
             }
         }
         this.user = new postUser(posts.getUser());
+        this.modifiedDate = posts.getModifiedDate();
+        this.createdDate = posts.getCreatedDate();
     }
 
 }
