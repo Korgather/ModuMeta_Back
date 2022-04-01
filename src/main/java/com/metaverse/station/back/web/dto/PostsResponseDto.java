@@ -4,6 +4,7 @@ import com.metaverse.station.back.domain.comments.Comments;
 import com.metaverse.station.back.domain.images.Images;
 import com.metaverse.station.back.domain.posts.Posts;
 import com.metaverse.station.back.domain.user.User;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -24,6 +25,7 @@ public class PostsResponseDto {
     private List<postComment> postCommentList = new ArrayList<>();
     private LocalDateTime createdDate;
     private LocalDateTime modifiedDate;
+
 
     @Getter
     @NoArgsConstructor
