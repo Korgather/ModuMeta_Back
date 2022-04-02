@@ -41,6 +41,10 @@ public class Posts extends BaseTimeEntity {
 //    @JsonIgnore
     private User user;
 
+    @Column(columnDefinition = "integer default 0", nullable = false)
+    private int view;
+
+
     @OneToMany(
             mappedBy = "posts",
             cascade = {CascadeType.PERSIST, CascadeType.REMOVE},

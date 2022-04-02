@@ -20,6 +20,7 @@ public class PostsResponseDto {
     private postUser postUser;
     private String title;
     private String content;
+    private int view;
     private List<String> imageList = new ArrayList<>();
     private String link;
     private List<postComment> postCommentList = new ArrayList<>();
@@ -71,6 +72,7 @@ public class PostsResponseDto {
         this.title = entity.getTitle();
         this.content = entity.getContent();
         this.link = entity.getLink();
+        this.view = entity.getView();
         if(entity.getImages() != null){
             for( Images image : entity.getImages()){
                 this.imageList.add(image.getImagePath());

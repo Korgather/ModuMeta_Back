@@ -64,12 +64,14 @@ public class PostsService {
     public Long update(Long id, PostsUpdateRequestDto requestDto) {
         Posts posts = postsRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("해당 게시글이 없습니다."));
 
-//        if(requestDto.getImages() != null){
-//
-//        }
         posts.update(requestDto.getTitle(), requestDto.getContent(), requestDto.getImages(),requestDto.getLink());
 
         return id;
+    }
+
+    @Transactional
+    public void updateView(Long id){
+        postsRepository.updateView(id);
     }
 
 //    public List<PostsResponseDto> findAll(Pageable pageable) {
