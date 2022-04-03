@@ -65,8 +65,8 @@ public class PostsService {
     }
 
     @Transactional
-    public void updateView(Long id){
-        postsRepository.updateView(id);
+    public String updateView(Long id){
+        return "게시글 id: "+id+"  view: " + postsRepository.updateView(id);
     }
 
 //    public List<PostsResponseDto> findAll(Pageable pageable) {
