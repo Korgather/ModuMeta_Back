@@ -9,6 +9,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @RequiredArgsConstructor
 @Service
 public class LikesService {
@@ -25,11 +27,15 @@ public class LikesService {
 
         Posts posts = postsRepository.findById(postId).orElseThrow(() -> new IllegalArgumentException("해당 게시글이 없습니다. id=" + postId));;
 
-        if (likesRepository.findByUserAndPosts(user, posts).isEmpty()) {
+        Optional<Likes> likes = likesRepository.findByUserAndPosts(user, posts);
+
+        if (likes.isEmpty()) {
             likesRepository.save(new Likes(posts, user));
             return true;
+        } else {
+            likesRepository.delete(likes.orElseThrow(() -> new IllegalArgumentException("잘못된 요청입니다.") ));
+            return false;
         }
-        return false;
 
     }
 

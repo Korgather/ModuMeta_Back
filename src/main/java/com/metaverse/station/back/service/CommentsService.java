@@ -34,7 +34,6 @@ public class CommentsService {
         Comments comments = requestDto.toEntity();
         commentsRepository.save(comments);
 
-
         return new CommentsSaveRequestResponseDto(comments);
 
 
