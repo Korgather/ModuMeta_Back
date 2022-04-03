@@ -2,6 +2,7 @@ package com.metaverse.station.back.web.dto;
 
 import com.metaverse.station.back.domain.comments.Comments;
 import com.metaverse.station.back.domain.images.Images;
+import com.metaverse.station.back.domain.likes.Likes;
 import com.metaverse.station.back.domain.posts.Posts;
 import com.metaverse.station.back.domain.user.User;
 import lombok.Builder;
@@ -9,8 +10,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Getter
 @NoArgsConstructor
@@ -24,6 +24,7 @@ public class PostsResponseDto {
     private List<String> imageList = new ArrayList<>();
     private String link;
     private List<postComment> postCommentList = new ArrayList<>();
+    private Map<Long,String> likeUserList = new HashMap<>();
     private LocalDateTime createdDate;
     private LocalDateTime modifiedDate;
 
@@ -73,12 +74,17 @@ public class PostsResponseDto {
         this.content = entity.getContent();
         this.link = entity.getLink();
         this.view = entity.getView();
+        if(!entity.getLikes().isEmpty()) {
+            for (Likes likes : entity.getLikes()) {
+                likeUserList.put(likes.getUser().getUserSeq(),likes.getUser().getUsername());
+            }
+        }
         if(entity.getImages() != null){
             for( Images image : entity.getImages()){
                 this.imageList.add(image.getImagePath());
             }
         }
-        if(entity.getCommentsList().size() != 0){
+        if(!entity.getCommentsList().isEmpty()){
             for (Comments comment : entity.getCommentsList()) {
                 this.postCommentList.add(new postComment(comment));
             }

@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.metaverse.station.back.domain.BaseTimeEntity;
 import com.metaverse.station.back.domain.comments.Comments;
 import com.metaverse.station.back.domain.images.Images;
+import com.metaverse.station.back.domain.likes.Likes;
 import com.metaverse.station.back.domain.user.User;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -14,7 +15,9 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -58,6 +61,9 @@ public class Posts extends BaseTimeEntity {
             fetch = FetchType.EAGER
     )
     private List<Comments> commentsList;
+
+    @OneToMany(mappedBy = "posts", cascade = CascadeType.ALL)
+    Set<Likes> likes = new HashSet<>();
 
     @Builder
     public Posts(Long id, String title, String content, String link, List<Images> images, User user, List<Comments> commentsList) {
