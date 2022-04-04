@@ -22,10 +22,10 @@ public class PostsResponseDto {
     private String title;
     private String content;
     private int view;
-    private List<String> imageList = new ArrayList<>();
+    private final List<ImagesDto> imageList = new ArrayList<>();
     private String link;
-    private List<postComment> postCommentList = new ArrayList<>();
-    private Map<Long,String> likeUserList = new HashMap<>();
+    private final List<postComment> postCommentList = new ArrayList<>();
+    private final Map<Long,String> likeUserList = new HashMap<>();
     private LocalDateTime createdDate;
     private LocalDateTime modifiedDate;
 
@@ -79,6 +79,7 @@ public class PostsResponseDto {
     @Getter
     @NoArgsConstructor
     static class postCommentReply {
+        private Long commentId;
         private Long replyId;
         private Long userId;
         private String username;
@@ -88,6 +89,7 @@ public class PostsResponseDto {
         private LocalDateTime modifiedDate;
 
         private postCommentReply(Replies replies) {
+            this.commentId = replies.getComments().getId();
             this.replyId = replies.getId();
             this.userId = replies.getUser().getUserSeq();
             this.username = replies.getUser().getUsername();
@@ -112,7 +114,7 @@ public class PostsResponseDto {
         }
         if(entity.getImages() != null){
             for( Images image : entity.getImages()){
-                this.imageList.add(image.getImagePath());
+                this.imageList.add(new ImagesDto(image));
             }
         }
         if(!entity.getCommentsList().isEmpty()){
