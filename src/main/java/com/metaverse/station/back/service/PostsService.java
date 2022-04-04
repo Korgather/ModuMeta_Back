@@ -65,6 +65,12 @@ public class PostsService {
         User user = userService.getUser(principal.getUsername());
         Posts posts = postsRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("해당 게시글이 없습니다."));
 
+        List<Images> images = requestDto.getImages();
+
+        if(images != null){
+            images.forEach(posts::addImages);
+        }
+
         if(posts.getUser() == user) {
             posts.update(requestDto.getTitle(), requestDto.getContent(), requestDto.getImages(),requestDto.getLink());
         }
