@@ -13,6 +13,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -57,9 +59,15 @@ public class PostsService {
 
     @Transactional
     public Long update(Long id, PostsUpdateRequestDto requestDto) {
+
+        org.springframework.security.core.userdetails.User principal = (org.springframework.security.core.userdetails.User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        User user = userService.getUser(principal.getUsername());
         Posts posts = postsRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("해당 게시글이 없습니다."));
 
-        posts.update(requestDto.getTitle(), requestDto.getContent(), requestDto.getImages(),requestDto.getLink());
+        if(posts.getUser() == user) {
+            posts.update(requestDto.getTitle(), requestDto.getContent(), requestDto.getImages(),requestDto.getLink());
+        }
 
         return id;
     }
@@ -69,22 +77,27 @@ public class PostsService {
         return "게시글 id: "+id+"  view + " + postsRepository.updateView(id);
     }
 
-//    public List<PostsResponseDto> findAll(Pageable pageable) {
-//        Page<Posts> page= postsRepository.findAll(Sort.by("id"));
-////        pageable;
-//        List<PostsResponseDto> postsResponseDtos = new ArrayList<>();
-//        if(page != null){
-//            for(Posts posts : page){
-//                postsResponseDtos.add(new PostsResponseDto(posts));
-//            }
-//        }
-//        return postsResponseDtos;
-//    }
-
     public Page<PostsResponseDto> findAll(Pageable pageable) {
 
         Page<Posts> page= postsRepository.findAll(pageable);
 
         return page.map(PostsResponseDto::new);
+    }
+
+    @Transactional
+    public ResponseEntity<String> deletePost(Long id) {
+        org.springframework.security.core.userdetails.User principal = (org.springframework.security.core.userdetails.User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        User user = userService.getUser(principal.getUsername());
+        Posts posts = postsRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("해당 게시글이 없습니다."));
+
+        if(posts.getUser() == user){
+            postsRepository.delete(posts);
+            return ResponseEntity.ok().body("Success");
+        }
+        else {
+            return ResponseEntity.badRequest().body("Fail");
+        }
+
     }
 }

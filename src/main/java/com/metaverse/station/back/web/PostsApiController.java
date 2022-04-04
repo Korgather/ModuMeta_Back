@@ -14,6 +14,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -51,16 +52,23 @@ public class PostsApiController {
         return postsService.findById(id);
     }
 
+    @PutMapping("/api/v1/posts/{id}")
+    public Long update(@PathVariable Long id, @RequestBody PostsUpdateRequestDto requestDto) {
+        return postsService.update(id, requestDto);
+    }
+
+    @DeleteMapping("/api/v1/posts/{id}")
+    public ResponseEntity<String> delete(@PathVariable Long id) {
+        return postsService.deletePost(id);
+    }
+
     @GetMapping("/api/v1/posts/view/{id}")
     public String viewCountUp(@PathVariable Long id) {
 
         return postsService.updateView(id);
     }
 
-    @PutMapping("/api/v1/posts/{id}")
-    public Long update(@PathVariable Long id, @RequestBody PostsUpdateRequestDto requestDto) {
-        return postsService.update(id, requestDto);
-    }
+
 
     @PostMapping("/api/v1/upload")
     @ResponseBody
