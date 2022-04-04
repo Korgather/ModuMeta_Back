@@ -38,4 +38,7 @@ public class Replies extends BaseTimeEntity {
         this.comments = comments;
     }
 
+    public void update(String content) {
+        this.content = content;
+    }
 }
