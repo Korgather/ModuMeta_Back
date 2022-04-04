@@ -53,11 +53,11 @@ public class Posts extends BaseTimeEntity {
             cascade = {CascadeType.PERSIST, CascadeType.REMOVE},
             orphanRemoval = true
     )
-//    @JsonManagedReference
     private List<Images> images = new ArrayList<>();
 
     @OneToMany(
             mappedBy = "posts",
+            cascade = {CascadeType.REMOVE},
             fetch = FetchType.EAGER
     )
     private List<Comments> commentsList;
