@@ -9,13 +9,11 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 
 @Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-public class Comments extends BaseTimeEntity {
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+public class Replies extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,24 +27,15 @@ public class Comments extends BaseTimeEntity {
     private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "postId")
-    private Posts posts;
-
-    @OneToMany(mappedBy = "comments", cascade = CascadeType.ALL)
-    private List<Replies> repliesList = new ArrayList<>();
-
-
-//    public void addUser(User user){
-//        this.user = user;
-//    }
+    @JoinColumn(name = "commentId")
+    private Comments comments;
 
     @Builder
-    public Comments(Long id, String content,User user, Posts posts){
+    public Replies(Long id, String content,User user, Comments comments){
         this.id = id;
         this.content = content;
         this.user = user;
-        this.posts = posts;
+        this.comments = comments;
     }
-
 
 }

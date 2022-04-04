@@ -1,6 +1,7 @@
 package com.metaverse.station.back.web.dto;
 
 import com.metaverse.station.back.domain.comments.Comments;
+import com.metaverse.station.back.domain.comments.Replies;
 import com.metaverse.station.back.domain.images.Images;
 import com.metaverse.station.back.domain.likes.Likes;
 import com.metaverse.station.back.domain.posts.Posts;
@@ -50,6 +51,35 @@ public class PostsResponseDto {
     @Getter
     @NoArgsConstructor
     static class postComment {
+        private Long commentId;
+        private Long userId;
+        private String username;
+        private String content;
+        private String profileImageUrl;
+        private List<postCommentReply> postCommentReplyList = new ArrayList<>();
+        private LocalDateTime createdDate;
+        private LocalDateTime modifiedDate;
+
+        private postComment(Comments comment) {
+            this.commentId = comment.getId();
+            this.userId = comment.getUser().getUserSeq();
+            this.username = comment.getUser().getUsername();
+            this.content = comment.getContent();
+            this.profileImageUrl = comment.getUser().getProfileImageUrl();
+            if(!comment.getRepliesList().isEmpty()){
+                for (Replies reply : comment.getRepliesList()) {
+                    this.postCommentReplyList.add(new postCommentReply(reply));
+                }
+            }
+            this.createdDate = comment.getCreatedDate();
+            this.modifiedDate = comment.getModifiedDate();
+        }
+    }
+
+    @Getter
+    @NoArgsConstructor
+    static class postCommentReply {
+        private Long replyId;
         private Long userId;
         private String username;
         private String content;
@@ -57,13 +87,14 @@ public class PostsResponseDto {
         private LocalDateTime createdDate;
         private LocalDateTime modifiedDate;
 
-        private postComment(Comments comment) {
-            this.userId = comment.getUser().getUserSeq();
-            this.username = comment.getUser().getUsername();
-            this.content = comment.getContent();
-            this.profileImageUrl = comment.getUser().getProfileImageUrl();
-            this.createdDate = comment.getCreatedDate();
-            this.modifiedDate = comment.getModifiedDate();
+        private postCommentReply(Replies replies) {
+            this.replyId = replies.getId();
+            this.userId = replies.getUser().getUserSeq();
+            this.username = replies.getUser().getUsername();
+            this.content = replies.getContent();
+            this.profileImageUrl = replies.getUser().getProfileImageUrl();
+            this.createdDate = replies.getCreatedDate();
+            this.modifiedDate = replies.getModifiedDate();
         }
     }
 

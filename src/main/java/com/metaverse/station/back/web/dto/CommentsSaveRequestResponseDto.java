@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 @Getter
 @NoArgsConstructor
 public class CommentsSaveRequestResponseDto {
+    private Long commentId;
     private Long userId;
     private String content;
     private String username;
@@ -18,6 +19,7 @@ public class CommentsSaveRequestResponseDto {
     private LocalDateTime modifiedDate;
 
     public CommentsSaveRequestResponseDto(Comments comments) {
+        this.commentId = comments.getId();
         this.userId = comments.getUser().getUserSeq();
         this.content = comments.getContent();
         this.username = comments.getUser().getUsername();
