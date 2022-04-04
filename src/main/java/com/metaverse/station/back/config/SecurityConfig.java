@@ -71,22 +71,39 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                     .authorizeRequests()
                     .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
+                //게시글 작성
                     .antMatchers(HttpMethod.POST,"/api/v1/posts/**").hasAnyAuthority(RoleType.USER.getCode())
-                    .antMatchers(HttpMethod.PUT,"/api/v1/comments/*").hasAnyAuthority(RoleType.USER.getCode())
-                    .antMatchers(HttpMethod.DELETE,"/api/v1/comments/*").hasAnyAuthority(RoleType.USER.getCode())
-                    .antMatchers(HttpMethod.POST,"/api/v1/comments/*").hasAnyAuthority(RoleType.USER.getCode())
-                    .antMatchers(HttpMethod.PUT,"/api/v1/replies/*").hasAnyAuthority(RoleType.USER.getCode())
-                    .antMatchers(HttpMethod.DELETE,"/api/v1/replies/*").hasAnyAuthority(RoleType.USER.getCode())
-                    .antMatchers(HttpMethod.DELETE,"/api/v1/posts/*").hasAnyAuthority(RoleType.USER.getCode())
-                    .antMatchers(HttpMethod.POST,"/api/v1/upload").hasAnyAuthority(RoleType.USER.getCode())
-                    .antMatchers(HttpMethod.DELETE,"/api/v1/upload").hasAnyAuthority(RoleType.USER.getCode())
-                    .antMatchers(HttpMethod.POST,"/api/v1/like/**").hasAnyAuthority(RoleType.USER.getCode())
-                    .antMatchers(HttpMethod.GET,"/api/v1/users").hasAnyAuthority(RoleType.USER.getCode())
-                    .antMatchers(HttpMethod.GET,"/api/v1/auth/refresh").hasAnyAuthority(RoleType.USER.getCode())
-                    .antMatchers(HttpMethod.PUT,"/api/v1/users/**").hasAnyAuthority(RoleType.USER.getCode())
-                    .antMatchers(HttpMethod.GET,"/api/v1/posts/*").permitAll()
-                    .antMatchers(HttpMethod.GET,"/api/v1/posts").permitAll()
+                //게시글 수정
                     .antMatchers(HttpMethod.PUT,"/api/v1/posts/*").hasAnyAuthority(RoleType.USER.getCode())
+                //게시글 삭제
+                    .antMatchers(HttpMethod.DELETE,"/api/v1/posts/*").hasAnyAuthority(RoleType.USER.getCode())
+                //댓글 수정
+                    .antMatchers(HttpMethod.PUT,"/api/v1/comments/*").hasAnyAuthority(RoleType.USER.getCode())
+                //댓글 삭제
+                    .antMatchers(HttpMethod.DELETE,"/api/v1/comments/*").hasAnyAuthority(RoleType.USER.getCode())
+                //대댓글 작성
+                    .antMatchers(HttpMethod.POST,"/api/v1/comments/*").hasAnyAuthority(RoleType.USER.getCode())
+                //대댓글 수정
+                    .antMatchers(HttpMethod.PUT,"/api/v1/replies/*").hasAnyAuthority(RoleType.USER.getCode())
+                //대댓글 삭제
+                    .antMatchers(HttpMethod.DELETE,"/api/v1/replies/*").hasAnyAuthority(RoleType.USER.getCode())
+                //이미지 업로드요청
+                    .antMatchers(HttpMethod.POST,"/api/v1/upload").hasAnyAuthority(RoleType.USER.getCode())
+                //이미지 삭제
+                    .antMatchers(HttpMethod.DELETE,"/api/v1/upload").hasAnyAuthority(RoleType.USER.getCode())
+                //좋아요
+                    .antMatchers(HttpMethod.POST,"/api/v1/like/**").hasAnyAuthority(RoleType.USER.getCode())
+                //유저정보조회
+                    .antMatchers(HttpMethod.GET,"/api/v1/users").hasAnyAuthority(RoleType.USER.getCode())
+                //Refresh토큰
+                    .antMatchers(HttpMethod.GET,"/api/v1/auth/refresh").hasAnyAuthority(RoleType.USER.getCode())
+                //유저정보 수정 관련
+                    .antMatchers(HttpMethod.PUT,"/api/v1/users/**").hasAnyAuthority(RoleType.USER.getCode())
+                //단일 게시글 조회
+                    .antMatchers(HttpMethod.GET,"/api/v1/posts/*").permitAll()
+                //전체 게시글 조회
+                    .antMatchers(HttpMethod.GET,"/api/v1/posts").permitAll()
+
                     .antMatchers("/h2-console/**").permitAll()
                     .antMatchers("/api/**/admin/**").hasAnyAuthority(RoleType.ADMIN.getCode())
                     .anyRequest().denyAll()
