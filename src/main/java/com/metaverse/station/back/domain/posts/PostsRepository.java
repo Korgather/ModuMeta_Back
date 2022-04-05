@@ -24,4 +24,5 @@ public interface PostsRepository extends PagingAndSortingRepository<Posts,Long> 
 
     Page<Posts> findPostsByLikesUserUserSeq(Long id,Pageable pageable);
 
+    Page<Posts> findPostsByUserUserSeq(Long id, Pageable pageable);
 }

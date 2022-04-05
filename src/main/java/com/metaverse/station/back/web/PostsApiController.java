@@ -83,6 +83,11 @@ public class PostsApiController {
         return postsService.findByLikeUserId(id,pageable);
     }
 
+    @GetMapping("/api/v1/posts/userid/{id}")
+    public Page<PostsResponseDto> getUserPost(@PathVariable Long id, @PageableDefault(size = 8) Pageable pageable) {
+
+        return postsService.findByUserId(id,pageable);
+    }
 
 
 }

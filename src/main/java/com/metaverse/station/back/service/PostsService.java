@@ -111,9 +111,14 @@ public class PostsService {
 
     public Page<PostsResponseDto> findByLikeUserId(Long id, Pageable pageable){
 
-        User user = userService.getUserById(id);
-
         Page<Posts> page = postsRepository.findPostsByLikesUserUserSeq(id,pageable);
+
+        return page.map(PostsResponseDto::new);
+    }
+
+    public Page<PostsResponseDto> findByUserId(Long id, Pageable pageable){
+
+        Page<Posts> page = postsRepository.findPostsByUserUserSeq(id,pageable);
 
         return page.map(PostsResponseDto::new);
     }
