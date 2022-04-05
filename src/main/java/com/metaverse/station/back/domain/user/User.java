@@ -79,6 +79,8 @@ public class User extends BaseTimeEntity {
     @ColumnDefault("'N'")
     private String usernameModifiedYn;
 
+    @Column(length = 500)
+    private String bio;
 
     @OneToMany(mappedBy = "user", cascade = {CascadeType.PERSIST},orphanRemoval = true)
 //    @JsonIgnore
@@ -114,6 +116,12 @@ public class User extends BaseTimeEntity {
 
     public void setUserName(String userName) {
         this.username = userName;
+    }
+
+    public void update(String userName, String bio, String profileImageUrl) {
+        this.username = userName;
+        this.bio = bio;
+        this.profileImageUrl = profileImageUrl;
     }
 
     public void setProfileImageUrl(String imageUrl) {

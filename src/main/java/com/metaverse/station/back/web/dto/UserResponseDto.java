@@ -18,6 +18,7 @@ public class UserResponseDto {
     private String roleType;
     private String emailVerifiedYn;
     private String userNameModifiedYn;
+    private String bio;
     private List<Long> postList = new ArrayList<>();
 
     public UserResponseDto(User user) {
@@ -29,6 +30,7 @@ public class UserResponseDto {
         this.roleType = user.getRoleType().toString();
         this.emailVerifiedYn = user.getEmailVerifiedYn();
         this.userNameModifiedYn = user.getUsernameModifiedYn();
+        this.bio = user.getBio();
 
         if (user.getPostList() != null) {
             for (Posts post : user.getPostList()) {
