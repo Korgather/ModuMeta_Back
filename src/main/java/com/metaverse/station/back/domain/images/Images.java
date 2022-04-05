@@ -41,7 +41,11 @@ public class Images {
 
     public void setPosts(Posts posts) {
         this.posts = posts;
-//        posts.getImages().add(this);
-
     }
+
+//    public void updateImages(String origFileName, String imagePath, Long fileSize){
+//        this.origFileName = origFileName;
+//        this.imagePath = imagePath;
+//        this.fileSize = fileSize;
+//    }
 }
