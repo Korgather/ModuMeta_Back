@@ -122,4 +122,12 @@ public class PostsService {
 
         return page.map(PostsResponseDto::new);
     }
+
+    public Page<PostsResponseDto> findByContentOrTitle(String text, Pageable pageable) {
+
+        Page<Posts> page = postsRepository.findPostsByContentContainingIgnoreCaseOrTitleContainingIgnoreCase(text,text, pageable);
+
+
+        return page.map(PostsResponseDto::new);
+    }
 }

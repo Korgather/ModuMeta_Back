@@ -1,8 +1,5 @@
 package com.metaverse.station.back.web;
 
-import com.metaverse.station.back.domain.posts.Posts;
-import com.metaverse.station.back.domain.user.User;
-import com.metaverse.station.back.oauth.domain.UserPrincipal;
 import com.metaverse.station.back.service.PostsService;
 import com.metaverse.station.back.utils.S3Uploader;
 import com.metaverse.station.back.web.dto.PostsResponseDto;
@@ -15,7 +12,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -36,9 +32,19 @@ public class PostsApiController {
 //    }
 
     @GetMapping("/api/v1/posts")
-    public Page<PostsResponseDto> findAll(@PageableDefault(size = 8,sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
-        return postsService.findAll(pageable);
+    public Page<PostsResponseDto> findAll(@RequestParam String keyword, @PageableDefault(size = 8,sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
+        if (keyword == null) {
+            return postsService.findAll(pageable);
+        }
+        else {
+            return postsService.findByContentOrTitle(keyword, pageable);
+        }
     }
+
+//    @GetMapping("/api/v1/posts")
+//    public Page<PostsResponseDto> findByContentAndTitle(@RequestParam String keyword, @PageableDefault(size = 8,sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
+//        return postsService.findByContentAndTitle(keyword, pageable);
+//    }
 
     @PostMapping("/api/v1/posts")
     public PostsSaveRequestResponseDto save(@RequestBody PostsSaveRequestDto requestDto) {

@@ -6,6 +6,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
@@ -25,4 +26,6 @@ public interface PostsRepository extends PagingAndSortingRepository<Posts,Long> 
     Page<Posts> findPostsByLikesUserUserSeq(Long id,Pageable pageable);
 
     Page<Posts> findPostsByUserUserSeq(Long id, Pageable pageable);
+
+    Page<Posts> findPostsByContentContainingIgnoreCaseOrTitleContainingIgnoreCase(String content, String title, Pageable pageable);
 }
