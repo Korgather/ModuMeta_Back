@@ -17,9 +17,11 @@ public class Likes {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "userId")
     private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "postId")
     private Posts posts;
 
     public Likes(Posts posts, User user) {

@@ -16,6 +16,10 @@ public class UserService {
         return userRepository.findByUserId(userId);
     }
 
+    public User getUserById(Long id) {
+        return userRepository.findById(id).orElseThrow(()->new IllegalArgumentException("존재하지 않는 회원입니다."));
+    }
+
     @Transactional
     public String setUserName(String userName) {
         org.springframework.security.core.userdetails.User principal = (org.springframework.security.core.userdetails.User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();

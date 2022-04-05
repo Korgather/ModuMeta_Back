@@ -100,7 +100,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 //유저정보 수정 관련
                     .antMatchers(HttpMethod.PUT,"/api/v1/users/**").hasAnyAuthority(RoleType.USER.getCode())
                 //단일 게시글 조회
-                    .antMatchers(HttpMethod.GET,"/api/v1/posts/*").permitAll()
+                    .antMatchers(HttpMethod.GET,"/api/v1/posts/**").permitAll()
                 //전체 게시글 조회
                     .antMatchers(HttpMethod.GET,"/api/v1/posts").permitAll()
 

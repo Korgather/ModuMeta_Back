@@ -50,7 +50,7 @@ public class User extends BaseTimeEntity {
     private String password;
 
     @Column(name = "EMAIL", length = 512, unique = true)
-    @NotNull
+//    @NotNull
     @Size(max = 512)
     private String email;
 

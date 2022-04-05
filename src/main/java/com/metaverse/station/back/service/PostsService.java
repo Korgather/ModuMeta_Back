@@ -1,6 +1,7 @@
 package com.metaverse.station.back.service;
 
 import com.metaverse.station.back.domain.images.Images;
+import com.metaverse.station.back.domain.images.ImagesRepository;
 import com.metaverse.station.back.domain.posts.Posts;
 import com.metaverse.station.back.domain.posts.PostsRepository;
 import com.metaverse.station.back.domain.user.User;
@@ -29,6 +30,7 @@ public class PostsService {
 
     private final PostsRepository postsRepository;
     private final UserService userService;
+    private final ImagesRepository imagesRepository;
 
     @Transactional
     public PostsSaveRequestResponseDto save(PostsSaveRequestDto requestDto) {
@@ -105,5 +107,14 @@ public class PostsService {
             return ResponseEntity.badRequest().body("Fail");
         }
 
+    }
+
+    public Page<PostsResponseDto> findByLikeUserId(Long id, Pageable pageable){
+
+        User user = userService.getUserById(id);
+
+        Page<Posts> page = postsRepository.findPostsByLikesUserUserSeq(id,pageable);
+
+        return page.map(PostsResponseDto::new);
     }
 }

@@ -76,4 +76,13 @@ public class PostsApiController {
         return s3Uploader.upload(multipartFile, "static");
     }
 
+
+    @GetMapping("/api/v1/posts/likepost/{id}")
+    public Page<PostsResponseDto> getLikePost(@PathVariable Long id, @PageableDefault(size = 8) Pageable pageable) {
+
+        return postsService.findByLikeUserId(id,pageable);
+    }
+
+
+
 }

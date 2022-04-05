@@ -21,4 +21,7 @@ public interface PostsRepository extends PagingAndSortingRepository<Posts,Long> 
     @Query("update Posts p set p.view = p.view + 1 where p.id = :id")
     int updateView(Long id);
 
+
+    Page<Posts> findPostsByLikesUserUserSeq(Long id,Pageable pageable);
+
 }
