@@ -99,6 +99,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .antMatchers(HttpMethod.GET,"/api/v1/auth/refresh").hasAnyAuthority(RoleType.USER.getCode())
                 //유저정보 수정 관련
                     .antMatchers(HttpMethod.PUT,"/api/v1/users/**").hasAnyAuthority(RoleType.USER.getCode())
+                //유저 프로필이미지 업로드
+                    .antMatchers(HttpMethod.POST,"/api/v1/users/profileimage").hasAnyAuthority(RoleType.USER.getCode())
                 //단일 게시글 조회
                     .antMatchers(HttpMethod.GET,"/api/v1/posts/**").permitAll()
                 //전체 게시글 조회

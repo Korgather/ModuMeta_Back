@@ -2,6 +2,7 @@ package com.metaverse.station.back.service;
 
 import com.metaverse.station.back.domain.user.User;
 import com.metaverse.station.back.domain.user.UserRepository;
+import com.metaverse.station.back.web.dto.UserProfileUpdateRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -30,5 +31,18 @@ public class UserService {
         user.setUserNameModifiedYn("Y");
 
         return userName;
+    }
+
+    @Transactional
+    public UserProfileUpdateRequestDto updateUserProfile(UserProfileUpdateRequestDto requestDto) {
+
+        org.springframework.security.core.userdetails.User principal = (org.springframework.security.core.userdetails.User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        User user = getUser(principal.getUsername());
+
+        user.update(requestDto.getUsername(),requestDto.getBio(),requestDto.getProfileImageUrl());
+
+        return requestDto;
+
     }
 }
