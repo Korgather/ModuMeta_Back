@@ -8,6 +8,7 @@ import com.metaverse.station.back.domain.user.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -19,6 +20,7 @@ public class LikesService {
     private final PostsRepository postsRepository;
     private final UserService userService;
 
+    @Transactional
     public boolean addLike(Long postId) {
 
         org.springframework.security.core.userdetails.User principal = (org.springframework.security.core.userdetails.User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
