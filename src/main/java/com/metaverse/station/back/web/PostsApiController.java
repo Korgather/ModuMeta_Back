@@ -37,6 +37,11 @@ public class PostsApiController {
 //        }
 //    }
 
+    //    @GetMapping("/api/v1/posts/category")
+//    public Page<PostsResponseDto> findByContentAndTitle(@RequestParam String category, @PageableDefault(size = 8,sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
+//        return postsService.findByCategory(category, pageable);
+//    }
+
     @GetMapping("/api/v1/posts")
     public Page<PostsResponseDto> findAllByCategory(@RequestParam String keyword,@RequestParam String category, @PageableDefault(size = 8,sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
 
@@ -50,33 +55,10 @@ public class PostsApiController {
         }
     }
 
-//    @GetMapping("/api/v1/posts/category")
-//    public Page<PostsResponseDto> findByContentAndTitle(@RequestParam String category, @PageableDefault(size = 8,sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
-//        return postsService.findByCategory(category, pageable);
-//    }
-
-    @PostMapping("/api/v1/posts")
-    public PostsSaveRequestResponseDto save(@RequestBody PostsSaveRequestDto requestDto) {
-
-        return postsService.save(requestDto);
-    }
-
     @GetMapping("/api/v1/posts/{id}")
     public PostsResponseDto findById(@PathVariable Long id) {
 
         return postsService.findById(id);
-    }
-
-
-
-    @PutMapping("/api/v1/posts/{id}")
-    public Long update(@PathVariable Long id, @RequestBody PostsUpdateRequestDto requestDto) {
-        return postsService.update(id, requestDto);
-    }
-
-    @DeleteMapping("/api/v1/posts/{id}")
-    public ResponseEntity<String> delete(@PathVariable Long id) {
-        return postsService.deletePost(id);
     }
 
     @GetMapping("/api/v1/posts/view/{id}")
@@ -84,15 +66,6 @@ public class PostsApiController {
 
         return postsService.updateView(id);
     }
-
-
-
-    @PostMapping("/api/v1/upload")
-    @ResponseBody
-    public List<String> upload(@RequestParam("data") List<MultipartFile> multipartFile) throws IOException {
-        return s3Uploader.upload(multipartFile, "static");
-    }
-
 
     @GetMapping("/api/v1/posts/likepost/{id}")
     public Page<PostsResponseDto> getLikePost(@PathVariable Long id, @PageableDefault(size = 8) Pageable pageable) {
@@ -107,4 +80,29 @@ public class PostsApiController {
     }
 
 
+
+
+    @PostMapping("/api/v1/posts")
+    public PostsSaveRequestResponseDto save(@RequestBody PostsSaveRequestDto requestDto) {
+
+        return postsService.save(requestDto);
+    }
+
+    @PostMapping("/api/v1/upload")
+    @ResponseBody
+    public List<String> upload(@RequestParam("data") List<MultipartFile> multipartFile) throws IOException {
+        return s3Uploader.upload(multipartFile, "static");
+    }
+
+
+    @PutMapping("/api/v1/posts/{id}")
+    public Long update(@PathVariable Long id, @RequestBody PostsUpdateRequestDto requestDto) {
+        return postsService.update(id, requestDto);
+    }
+
+    @DeleteMapping("/api/v1/posts/{id}")
+    public ResponseEntity<String> delete(@PathVariable Long id) {
+
+        return postsService.deletePost(id);
+    }
 }
