@@ -33,7 +33,7 @@ public class PostsSaveRequestDto {
     }
 
     public Posts toEntity() {
-        return Posts.builder().title(title).category(category).content(content).link(link).images(images).user(user).build();
+        return Posts.builder().title(title).content(content).link(link).images(images).user(user).build();
     }
 
     public void setUser(User user){

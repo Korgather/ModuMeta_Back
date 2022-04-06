@@ -43,7 +43,7 @@ public class PostsApiController {
     }
 
     @GetMapping("/api/v1/posts/category")
-    public Page<PostsResponseDto> findByContentAndTitle(@RequestParam PostsCategory category, @PageableDefault(size = 8,sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
+    public Page<PostsResponseDto> findByContentAndTitle(@RequestParam String category, @PageableDefault(size = 8,sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
         return postsService.findByCategory(category, pageable);
     }
 

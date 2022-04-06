@@ -106,7 +106,7 @@ public class PostsResponseDto {
 
     public PostsResponseDto(Posts entity) {
         this.id = entity.getId();
-        this.category = entity.getPostsCategory();
+        this.category = entity.getCategory();
         this.postUser = new postUser(entity.getUser());
         this.title = entity.getTitle();
         this.content = entity.getContent();

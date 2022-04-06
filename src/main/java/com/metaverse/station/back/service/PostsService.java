@@ -45,6 +45,7 @@ public class PostsService {
         requestDto.setUser(user);
 
         Posts posts = requestDto.toEntity();
+        posts.setCategory(requestDto.getCategory());
 
         if(images != null){
             images.forEach(posts::addImages);
@@ -132,10 +133,18 @@ public class PostsService {
         return page.map(PostsResponseDto::new);
     }
 
-    public Page<PostsResponseDto> findByCategory(PostsCategory postsCategory, Pageable pageable) {
+    public Page<PostsResponseDto> findByContentOrTitleInCategory(String text,String category, Pageable pageable) {
 
-        Page<Posts> page = postsRepository.findPostsByPostsCategory(postsCategory, pageable);
 
-        return page.map(PostsResponseDto::new);
+        return null;
+    }
+
+    public Page<PostsResponseDto> findByCategory(String postsCategory, Pageable pageable) {
+
+//        Page<Posts> page = postsRepository.findPostsByCategoryContaining(postsCategory, pageable);
+
+//        return page.map(PostsResponseDto::new);
+
+        return null;
     }
 }

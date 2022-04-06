@@ -1,6 +1,5 @@
 package com.metaverse.station.back.domain.posts;
 
-import com.metaverse.station.back.domain.user.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Modifying;
@@ -29,5 +28,7 @@ public interface PostsRepository extends PagingAndSortingRepository<Posts,Long> 
 
     Page<Posts> findPostsByContentContainingIgnoreCaseOrTitleContainingIgnoreCase(String content, String title, Pageable pageable);
 
-    Page<Posts> findPostsByPostsCategory(PostsCategory category, Pageable pageable);
+
+    @Query("from Posts p WHERE (p.content like :keyword or p.title like :keyword) AND (p.categoryString like :categoryname)")
+    Page<Posts> findPostsByContentTitleCategory(@Param("keyword") String postsCategory, @Param("categoryname") String category  , Pageable pageable);
 }
