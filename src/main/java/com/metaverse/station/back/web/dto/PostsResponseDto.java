@@ -38,6 +38,7 @@ public class PostsResponseDto {
         private String profileImageUrl;
         private String email;
         private String roleType;
+        private String bio;
 
         private postUser(User user) {
             this.userId = user.getUserSeq();
@@ -45,6 +46,7 @@ public class PostsResponseDto {
             this.profileImageUrl = user.getProfileImageUrl();
             this.email = user.getEmail();
             this.roleType = user.getRoleType().toString();
+            this.bio = user.getBio();
         }
     }
 
