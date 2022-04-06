@@ -2,6 +2,7 @@ package com.metaverse.station.back.web.dto;
 
 import com.metaverse.station.back.domain.images.Images;
 import com.metaverse.station.back.domain.posts.Posts;
+import com.metaverse.station.back.domain.posts.PostsCategory;
 import com.metaverse.station.back.domain.user.User;
 import lombok.Builder;
 import lombok.Getter;
@@ -15,6 +16,7 @@ import java.util.List;
 public class PostsSaveRequestDto {
 
     private String title;
+    private PostsCategory category;
     private String content;
     private String link;
     private User user;
@@ -31,7 +33,7 @@ public class PostsSaveRequestDto {
     }
 
     public Posts toEntity() {
-        return Posts.builder().title(title).content(content).link(link).images(images).user(user).build();
+        return Posts.builder().title(title).category(category).content(content).link(link).images(images).user(user).build();
     }
 
     public void setUser(User user){

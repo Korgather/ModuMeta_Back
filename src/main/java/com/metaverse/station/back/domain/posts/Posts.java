@@ -8,12 +8,14 @@ import com.metaverse.station.back.domain.comments.Comments;
 import com.metaverse.station.back.domain.images.Images;
 import com.metaverse.station.back.domain.likes.Likes;
 import com.metaverse.station.back.domain.user.User;
+import com.metaverse.station.back.oauth.domain.RoleType;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -29,6 +31,10 @@ public class Posts extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "post_id")
     private Long id;
+
+    @Column(name = "POST_CATEGORY", length = 20)
+    @Enumerated(EnumType.STRING)
+    private PostsCategory postsCategory;
 
     @Column(length = 500, nullable = false)
     private String title;
@@ -66,8 +72,9 @@ public class Posts extends BaseTimeEntity {
     Set<Likes> likes = new HashSet<>();
 
     @Builder
-    public Posts(Long id, String title, String content, String link, List<Images> images, User user, List<Comments> commentsList) {
+    public Posts(Long id,PostsCategory category, String title, String content, String link, List<Images> images, User user, List<Comments> commentsList) {
         this.id = id;
+        this.postsCategory = category;
         this.title = title;
         this.content = content;
         this.link = link;
