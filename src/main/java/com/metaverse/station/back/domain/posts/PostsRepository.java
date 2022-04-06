@@ -28,7 +28,8 @@ public interface PostsRepository extends PagingAndSortingRepository<Posts,Long> 
 
     Page<Posts> findPostsByContentContainingIgnoreCaseOrTitleContainingIgnoreCase(String content, String title, Pageable pageable);
 
+    Page<Posts> findPostsByCategoryStringContaining(String category,Pageable pageable);
 
-    @Query("from Posts p WHERE (p.content like :keyword or p.title like :keyword) AND (p.categoryString like :categoryname)")
-    Page<Posts> findPostsByContentTitleCategory(@Param("keyword") String postsCategory, @Param("categoryname") String category  , Pageable pageable);
+    @Query("SELECT p from Posts p WHERE (p.content like concat('%',:keyword,'%')  or p.title like concat('%',:keyword,'%')) AND (p.categoryString like concat('%',:categoryname,'%'))")
+    Page<Posts> findPostsByContentTitleCategory(@Param("keyword") String keyword, @Param("categoryname") String category  , Pageable pageable);
 }
