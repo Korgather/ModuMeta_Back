@@ -26,7 +26,7 @@ public interface PostsRepository extends PagingAndSortingRepository<Posts,Long> 
 
     Page<Posts> findPostsByUserUserSeq(Long id, Pageable pageable);
 
-    Page<Posts> findPostsByContentContainingIgnoreCaseOrTitleContainingIgnoreCase(String content, String title, Pageable pageable);
+//    Page<Posts> findPostsByContentContainingIgnoreCaseOrTitleContainingIgnoreCase(String content, String title, Pageable pageable);
 
     Page<Posts> findPostsByCategoryStringContaining(String category,Pageable pageable);
 

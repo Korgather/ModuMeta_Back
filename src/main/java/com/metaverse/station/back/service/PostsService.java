@@ -14,14 +14,11 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
@@ -54,11 +51,6 @@ public class PostsService {
         postsRepository.save(posts);
 
         return new PostsSaveRequestResponseDto(posts);
-    }
-
-    public PostsResponseDto findById(Long id) {
-        Posts entity = postsRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("해당 게시글이 없습니다. id=" + id));
-        return new PostsResponseDto(entity);
     }
 
     @Transactional
@@ -111,6 +103,18 @@ public class PostsService {
 
     }
 
+    public PostsResponseDto findById(Long id) {
+        Posts entity = postsRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("해당 게시글이 없습니다. id=" + id));
+        return new PostsResponseDto(entity);
+    }
+
+    public Page<PostsResponseDto> findAllByCategory(String category,Pageable pageable) {
+
+        Page<Posts> page= postsRepository.findPostsByCategoryStringContaining(category, pageable);
+
+        return page.map(PostsResponseDto::new);
+    }
+
     public Page<PostsResponseDto> findByLikeUserId(Long id, Pageable pageable){
 
         Page<Posts> page = postsRepository.findPostsByLikesUserUserSeq(id,pageable);
@@ -125,26 +129,19 @@ public class PostsService {
         return page.map(PostsResponseDto::new);
     }
 
-    public Page<PostsResponseDto> findByContentOrTitle(String text, Pageable pageable) {
+//    public Page<PostsResponseDto> findByContentOrTitle(String text, Pageable pageable) {
+//
+//        Page<Posts> page = postsRepository.findPostsByContentContainingIgnoreCaseOrTitleContainingIgnoreCase(text,text, pageable);
+//
+//
+//        return page.map(PostsResponseDto::new);
+//    }
 
-        Page<Posts> page = postsRepository.findPostsByContentContainingIgnoreCaseOrTitleContainingIgnoreCase(text,text, pageable);
+    public Page<PostsResponseDto> findByContentTitleCategory(String text,String category, Pageable pageable) {
 
+        Page<Posts> page = postsRepository.findPostsByContentTitleCategory(text, category, pageable);
 
         return page.map(PostsResponseDto::new);
     }
 
-    public Page<PostsResponseDto> findByContentOrTitleInCategory(String text,String category, Pageable pageable) {
-
-
-        return null;
-    }
-
-    public Page<PostsResponseDto> findByCategory(String postsCategory, Pageable pageable) {
-
-//        Page<Posts> page = postsRepository.findPostsByCategoryContaining(postsCategory, pageable);
-
-//        return page.map(PostsResponseDto::new);
-
-        return null;
-    }
 }
