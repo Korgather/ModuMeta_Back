@@ -36,7 +36,7 @@ public class Posts extends BaseTimeEntity {
     @Enumerated(EnumType.STRING)
     private PostsCategory category;
 
-    @Column(name ="CATEGORY", updatable = false, insertable = false)
+    @Column(name ="CATEGORY_STR")
     private String categoryString;
 
     @Column(length = 500, nullable = false)
@@ -98,13 +98,15 @@ public class Posts extends BaseTimeEntity {
         image.setPosts(this);
     }
 
-    public void setCategory(PostsCategory category) {
-        this.category = category;
-        this.categoryString = category.toString();
-    }
+
 
     public void addUser(User user){
         this.user = user;
 //        user.addPost(this);
+    }
+
+    public void setCategory(PostsCategory category) {
+        this.category = category;
+        this.categoryString = category.toString();
     }
 }
