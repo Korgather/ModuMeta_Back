@@ -3,6 +3,7 @@ package com.metaverse.station.back.service;
 import com.metaverse.station.back.domain.images.Images;
 import com.metaverse.station.back.domain.images.ImagesRepository;
 import com.metaverse.station.back.domain.posts.Posts;
+import com.metaverse.station.back.domain.posts.PostsCategory;
 import com.metaverse.station.back.domain.posts.PostsRepository;
 import com.metaverse.station.back.domain.user.User;
 import com.metaverse.station.back.web.dto.PostsResponseDto;
@@ -127,6 +128,13 @@ public class PostsService {
 
         Page<Posts> page = postsRepository.findPostsByContentContainingIgnoreCaseOrTitleContainingIgnoreCase(text,text, pageable);
 
+
+        return page.map(PostsResponseDto::new);
+    }
+
+    public Page<PostsResponseDto> findByCategory(PostsCategory postsCategory, Pageable pageable) {
+
+        Page<Posts> page = postsRepository.findPostsByPostsCategory(postsCategory, pageable);
 
         return page.map(PostsResponseDto::new);
     }

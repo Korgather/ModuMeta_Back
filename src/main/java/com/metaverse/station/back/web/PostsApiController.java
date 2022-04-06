@@ -1,5 +1,6 @@
 package com.metaverse.station.back.web;
 
+import com.metaverse.station.back.domain.posts.PostsCategory;
 import com.metaverse.station.back.service.PostsService;
 import com.metaverse.station.back.utils.S3Uploader;
 import com.metaverse.station.back.web.dto.PostsResponseDto;
@@ -41,10 +42,10 @@ public class PostsApiController {
         }
     }
 
-//    @GetMapping("/api/v1/posts")
-//    public Page<PostsResponseDto> findByContentAndTitle(@RequestParam String keyword, @PageableDefault(size = 8,sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
-//        return postsService.findByContentAndTitle(keyword, pageable);
-//    }
+    @GetMapping("/api/v1/posts/category")
+    public Page<PostsResponseDto> findByContentAndTitle(@RequestParam PostsCategory category, @PageableDefault(size = 8,sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
+        return postsService.findByCategory(category, pageable);
+    }
 
     @PostMapping("/api/v1/posts")
     public PostsSaveRequestResponseDto save(@RequestBody PostsSaveRequestDto requestDto) {
