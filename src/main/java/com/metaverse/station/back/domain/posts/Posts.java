@@ -86,7 +86,9 @@ public class Posts extends BaseTimeEntity {
         this.commentsList = commentsList;
     }
 
-    public void update(String title, String content, List<Images> images, String link) {
+    public void update(PostsCategory category, String title, String content, List<Images> images, String link) {
+        this.category = category;
+        this.categoryString = category.toString();
         this.title = title;
         this.content = content;
         this.images.clear();

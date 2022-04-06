@@ -68,7 +68,7 @@ public class PostsService {
         }
 
         if(posts.getUser() == user) {
-            posts.update(requestDto.getTitle(), requestDto.getContent(), requestDto.getImages(),requestDto.getLink());
+            posts.update(requestDto.getCategory(),requestDto.getTitle(), requestDto.getContent(), requestDto.getImages(),requestDto.getLink());
         }
 
         return id;
