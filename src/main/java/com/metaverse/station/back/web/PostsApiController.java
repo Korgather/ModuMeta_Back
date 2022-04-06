@@ -28,24 +28,32 @@ public class PostsApiController {
 
 
 //    @GetMapping("/api/v1/posts")
-//    public List<PostsResponseDto> findAll(@PageableDefault(size = 8) Pageable pageable) {
-//        return postsService.findAll(pageable);
+//    public Page<PostsResponseDto> findAll(@RequestParam String keyword, @PageableDefault(size = 8,sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
+//        if (keyword == null) {
+//            return postsService.findAll(pageable);
+//        }
+//        else {
+//            return postsService.findByContentOrTitle(keyword, pageable);
+//        }
 //    }
 
     @GetMapping("/api/v1/posts")
-    public Page<PostsResponseDto> findAll(@RequestParam String keyword, @PageableDefault(size = 8,sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
-        if (keyword == null) {
-            return postsService.findAll(pageable);
+    public Page<PostsResponseDto> findAllByCategory(@RequestParam String keyword,@RequestParam String category, @PageableDefault(size = 8,sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
+
+        if(category.isEmpty()) category = "METAVERSE";
+
+        if (keyword.isEmpty()) {
+            return postsService.findAllByCategory(category, pageable);
         }
         else {
-            return postsService.findByContentOrTitle(keyword, pageable);
+            return postsService.findByContentTitleCategory(keyword, category, pageable);
         }
     }
 
-    @GetMapping("/api/v1/posts/category")
-    public Page<PostsResponseDto> findByContentAndTitle(@RequestParam String category, @PageableDefault(size = 8,sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
-        return postsService.findByCategory(category, pageable);
-    }
+//    @GetMapping("/api/v1/posts/category")
+//    public Page<PostsResponseDto> findByContentAndTitle(@RequestParam String category, @PageableDefault(size = 8,sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
+//        return postsService.findByCategory(category, pageable);
+//    }
 
     @PostMapping("/api/v1/posts")
     public PostsSaveRequestResponseDto save(@RequestBody PostsSaveRequestDto requestDto) {
@@ -58,6 +66,8 @@ public class PostsApiController {
 
         return postsService.findById(id);
     }
+
+
 
     @PutMapping("/api/v1/posts/{id}")
     public Long update(@PathVariable Long id, @RequestBody PostsUpdateRequestDto requestDto) {
