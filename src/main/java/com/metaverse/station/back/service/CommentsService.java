@@ -41,8 +41,9 @@ public class CommentsService {
         Comments comments = requestDto.toEntity();
         commentsRepository.save(comments);
 
-        notificationService.save(NotificationSaveRequestDto.builder().postId(posts.getId()).postTitle(posts.getTitle()).pub_username(user.getUsername()).user(posts.getUser()).build());
-
+        if(user != posts.getUser()) {
+            notificationService.save(NotificationSaveRequestDto.builder().postId(posts.getId()).postTitle(posts.getTitle()).pub_username(user.getUsername()).user(posts.getUser()).build());
+        }
         return new CommentsSaveRequestResponseDto(comments);
 
 
