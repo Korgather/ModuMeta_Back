@@ -4,6 +4,7 @@ import com.metaverse.station.back.domain.comments.Comments;
 import com.metaverse.station.back.domain.comments.CommentsRepository;
 import com.metaverse.station.back.domain.comments.Replies;
 import com.metaverse.station.back.domain.comments.RepliesRepository;
+import com.metaverse.station.back.domain.notification.NotificationRepository;
 import com.metaverse.station.back.domain.posts.Posts;
 import com.metaverse.station.back.domain.posts.PostsRepository;
 import com.metaverse.station.back.domain.user.User;
@@ -24,6 +25,7 @@ public class CommentsService {
     private final PostsRepository postsRepository;
     private final CommentsRepository commentsRepository;
     private final RepliesRepository repliesRepository;
+    private final NotificationService notificationService;
 
     @Transactional
     public CommentsSaveRequestResponseDto save(Long id,CommentsSaveRequestDto requestDto) {
@@ -38,6 +40,8 @@ public class CommentsService {
 
         Comments comments = requestDto.toEntity();
         commentsRepository.save(comments);
+
+        notificationService.save(NotificationSaveRequestDto.builder().postId(posts.getId()).postTitle(posts.getTitle()).pub_username(user.getUsername()).user(posts.getUser()).build());
 
         return new CommentsSaveRequestResponseDto(comments);
 
