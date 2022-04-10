@@ -30,7 +30,6 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsUtils;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-import java.util.Arrays;
 
 @Configuration
 @EnableWebSecurity
@@ -105,6 +104,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .antMatchers(HttpMethod.GET,"/api/v1/posts/**").permitAll()
                 //전체 게시글 조회
                     .antMatchers(HttpMethod.GET,"/api/v1/posts").permitAll()
+                //알림 삭제
+                    .antMatchers(HttpMethod.DELETE, "/api/v1/notification/**").hasAnyAuthority(RoleType.USER.getCode())
 
                     .antMatchers("/h2-console/**").permitAll()
                     .antMatchers("/api/**/admin/**").hasAnyAuthority(RoleType.ADMIN.getCode())
