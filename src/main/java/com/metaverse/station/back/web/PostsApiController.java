@@ -1,8 +1,6 @@
 package com.metaverse.station.back.web;
 
-import com.metaverse.station.back.domain.posts.Posts;
-import com.metaverse.station.back.domain.user.User;
-import com.metaverse.station.back.oauth.domain.UserPrincipal;
+import com.metaverse.station.back.service.NotificationService;
 import com.metaverse.station.back.service.PostsService;
 import com.metaverse.station.back.utils.S3Uploader;
 import com.metaverse.station.back.web.dto.PostsResponseDto;
@@ -15,7 +13,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -31,19 +28,33 @@ public class PostsApiController {
 
 
 //    @GetMapping("/api/v1/posts")
-//    public List<PostsResponseDto> findAll(@PageableDefault(size = 8) Pageable pageable) {
-//        return postsService.findAll(pageable);
+//    public Page<PostsResponseDto> findAll(@RequestParam String keyword, @PageableDefault(size = 8,sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
+//        if (keyword == null) {
+//            return postsService.findAll(pageable);
+//        }
+//        else {
+//            return postsService.findByContentOrTitle(keyword, pageable);
+//        }
+//    }
+
+    //    @GetMapping("/api/v1/posts/category")
+//    public Page<PostsResponseDto> findByContentAndTitle(@RequestParam String category, @PageableDefault(size = 8,sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
+//        return postsService.findByCategory(category, pageable);
 //    }
 
     @GetMapping("/api/v1/posts")
-    public Page<PostsResponseDto> findAll(@PageableDefault(size = 8,sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
-        return postsService.findAll(pageable);
-    }
+    public Page<PostsResponseDto> findAllByCategory(@RequestParam(required = false) String keyword,
+                                                    @RequestParam(required = false) String category,
+                                                    @PageableDefault(size = 8,sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
 
-    @PostMapping("/api/v1/posts")
-    public PostsSaveRequestResponseDto save(@RequestBody PostsSaveRequestDto requestDto) {
+        if(category.isEmpty()) category = "METAVERSE";
 
-        return postsService.save(requestDto);
+        if (keyword.isEmpty()) {
+            return postsService.findAllByCategory(category, pageable);
+        }
+        else {
+            return postsService.findByContentTitleCategory(keyword, category, pageable);
+        }
     }
 
     @GetMapping("/api/v1/posts/{id}")
@@ -52,23 +63,40 @@ public class PostsApiController {
         return postsService.findById(id);
     }
 
-    @PutMapping("/api/v1/posts/{id}")
-    public Long update(@PathVariable Long id, @RequestBody PostsUpdateRequestDto requestDto) {
-        return postsService.update(id, requestDto);
-    }
-
-    @DeleteMapping("/api/v1/posts/{id}")
-    public ResponseEntity<String> delete(@PathVariable Long id) {
-        return postsService.deletePost(id);
-    }
-
     @GetMapping("/api/v1/posts/view/{id}")
     public String viewCountUp(@PathVariable Long id) {
 
         return postsService.updateView(id);
     }
 
+    @GetMapping("/api/v1/posts/likepost/{id}")
+    public Page<PostsResponseDto> getLikePost(@PathVariable Long id,
+                                              @RequestParam(required = false) String category,
+                                              @PageableDefault(size = 6,sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
 
+        if(category.isEmpty()) category = "METAVERSE";
+
+        return postsService.findByLikeUserId(id,category,pageable);
+    }
+
+    @GetMapping("/api/v1/posts/userid/{id}")
+    public Page<PostsResponseDto> getUserPost(@PathVariable Long id,
+                                              @RequestParam(required = false) String category,
+                                              @PageableDefault(size = 6,sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
+
+        if(category == null) category = "METAVERSE";
+
+        return postsService.findByUserId(id, category, pageable);
+    }
+
+
+
+
+    @PostMapping("/api/v1/posts")
+    public PostsSaveRequestResponseDto save(@RequestBody PostsSaveRequestDto requestDto) {
+
+        return postsService.save(requestDto);
+    }
 
     @PostMapping("/api/v1/upload")
     @ResponseBody
@@ -77,17 +105,14 @@ public class PostsApiController {
     }
 
 
-    @GetMapping("/api/v1/posts/likepost/{id}")
-    public Page<PostsResponseDto> getLikePost(@PathVariable Long id, @PageableDefault(size = 8) Pageable pageable) {
-
-        return postsService.findByLikeUserId(id,pageable);
+    @PutMapping("/api/v1/posts/{id}")
+    public Long update(@PathVariable Long id, @RequestBody PostsUpdateRequestDto requestDto) {
+        return postsService.update(id, requestDto);
     }
 
-    @GetMapping("/api/v1/posts/userid/{id}")
-    public Page<PostsResponseDto> getUserPost(@PathVariable Long id, @PageableDefault(size = 8) Pageable pageable) {
+    @DeleteMapping("/api/v1/posts/{id}")
+    public ResponseEntity<String> delete(@PathVariable Long id) {
 
-        return postsService.findByUserId(id,pageable);
+        return postsService.deletePost(id);
     }
-
-
 }

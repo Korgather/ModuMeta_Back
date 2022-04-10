@@ -3,6 +3,7 @@ package com.metaverse.station.back.service;
 import com.metaverse.station.back.domain.images.Images;
 import com.metaverse.station.back.domain.images.ImagesRepository;
 import com.metaverse.station.back.domain.posts.Posts;
+import com.metaverse.station.back.domain.posts.PostsCategory;
 import com.metaverse.station.back.domain.posts.PostsRepository;
 import com.metaverse.station.back.domain.user.User;
 import com.metaverse.station.back.web.dto.PostsResponseDto;
@@ -13,14 +14,11 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
@@ -44,6 +42,7 @@ public class PostsService {
         requestDto.setUser(user);
 
         Posts posts = requestDto.toEntity();
+        posts.setCategory(requestDto.getCategory());
 
         if(images != null){
             images.forEach(posts::addImages);
@@ -52,11 +51,6 @@ public class PostsService {
         postsRepository.save(posts);
 
         return new PostsSaveRequestResponseDto(posts);
-    }
-
-    public PostsResponseDto findById(Long id) {
-        Posts entity = postsRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("해당 게시글이 없습니다. id=" + id));
-        return new PostsResponseDto(entity);
     }
 
     @Transactional
@@ -69,12 +63,12 @@ public class PostsService {
 
         List<Images> images = requestDto.getImages();
 
-        if(images != null){
+        if(!(images == null || images.isEmpty())){
             images.forEach(posts::addImages);
         }
 
         if(posts.getUser() == user) {
-            posts.update(requestDto.getTitle(), requestDto.getContent(), requestDto.getImages(),requestDto.getLink());
+            posts.update(requestDto.getCategory(),requestDto.getTitle(), requestDto.getContent(), requestDto.getImages(),requestDto.getLink());
         }
 
         return id;
@@ -109,17 +103,46 @@ public class PostsService {
 
     }
 
-    public Page<PostsResponseDto> findByLikeUserId(Long id, Pageable pageable){
+    public PostsResponseDto findById(Long id) {
+        Posts entity = postsRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("해당 게시글이 없습니다. id=" + id));
+        return new PostsResponseDto(entity);
+    }
 
-        Page<Posts> page = postsRepository.findPostsByLikesUserUserSeq(id,pageable);
+    public Page<PostsResponseDto> findAllByCategory(String category,Pageable pageable) {
+
+        Page<Posts> page= postsRepository.findPostsByCategoryStringContaining(category, pageable);
 
         return page.map(PostsResponseDto::new);
     }
 
-    public Page<PostsResponseDto> findByUserId(Long id, Pageable pageable){
+    public Page<PostsResponseDto> findByLikeUserId(Long id, String category, Pageable pageable){
 
-        Page<Posts> page = postsRepository.findPostsByUserUserSeq(id,pageable);
+        Page<Posts> page = postsRepository.mylikepost(id,category, pageable);
+//        Page<Posts> page = postsRepository.findPostsByLikesUserUserSeq(id,pageable);
 
         return page.map(PostsResponseDto::new);
     }
+
+    public Page<PostsResponseDto> findByUserId(Long id, String category, Pageable pageable){
+
+        Page<Posts> page = postsRepository.mypost(id, category, pageable);
+
+        return page.map(PostsResponseDto::new);
+    }
+
+//    public Page<PostsResponseDto> findByContentOrTitle(String text, Pageable pageable) {
+//
+//        Page<Posts> page = postsRepository.findPostsByContentContainingIgnoreCaseOrTitleContainingIgnoreCase(text,text, pageable);
+//
+//
+//        return page.map(PostsResponseDto::new);
+//    }
+
+    public Page<PostsResponseDto> findByContentTitleCategory(String text,String category, Pageable pageable) {
+
+        Page<Posts> page = postsRepository.findPostsByContentTitleCategory(text, category, pageable);
+
+        return page.map(PostsResponseDto::new);
+    }
+
 }

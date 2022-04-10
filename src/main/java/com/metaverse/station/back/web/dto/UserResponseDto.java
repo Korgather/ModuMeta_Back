@@ -1,5 +1,6 @@
 package com.metaverse.station.back.web.dto;
 
+import com.metaverse.station.back.domain.notification.Notification;
 import com.metaverse.station.back.domain.posts.Posts;
 import com.metaverse.station.back.domain.user.User;
 import lombok.Getter;
@@ -19,7 +20,8 @@ public class UserResponseDto {
     private String emailVerifiedYn;
     private String userNameModifiedYn;
     private String bio;
-    private List<Long> postList = new ArrayList<>();
+//    private List<Long> postList = new ArrayList<>();
+    private List<NotificationResponseDto> notificationResponseDtoList = new ArrayList<>();
 
     public UserResponseDto(User user) {
 
@@ -32,11 +34,18 @@ public class UserResponseDto {
         this.userNameModifiedYn = user.getUsernameModifiedYn();
         this.bio = user.getBio();
 
-        if (user.getPostList() != null) {
-            for (Posts post : user.getPostList()) {
-                postList.add(post.getId());
+        List<Notification> notificationList = user.getNotificationList();
+        if(!notificationList.isEmpty()){
+            for(Notification notification : notificationList){
+                this.notificationResponseDtoList.add(new NotificationResponseDto(notification));
             }
         }
+
+//        if (user.getPostList() != null) {
+//            for (Posts post : user.getPostList()) {
+//                postList.add(post.getId());
+//            }
+//        }
 
     }
 }

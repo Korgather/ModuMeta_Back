@@ -2,6 +2,7 @@ package com.metaverse.station.back.web.dto;
 
 import com.metaverse.station.back.domain.images.Images;
 import com.metaverse.station.back.domain.posts.Posts;
+import com.metaverse.station.back.domain.posts.PostsCategory;
 import com.metaverse.station.back.domain.user.User;
 import lombok.Builder;
 import lombok.Getter;
@@ -17,6 +18,7 @@ import java.util.List;
 @NoArgsConstructor
 public class PostsSaveRequestResponseDto {
 
+    private PostsCategory category;
     private String title;
     private String content;
     private String link;
@@ -50,6 +52,7 @@ public class PostsSaveRequestResponseDto {
     }
 
     public PostsSaveRequestResponseDto(Posts posts) {
+        this.category = posts.getCategory();
         this.title = posts.getTitle();
         this.content = posts.getContent();
         this.link = posts.getLink();

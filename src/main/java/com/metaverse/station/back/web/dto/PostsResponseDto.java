@@ -5,6 +5,7 @@ import com.metaverse.station.back.domain.comments.Replies;
 import com.metaverse.station.back.domain.images.Images;
 import com.metaverse.station.back.domain.likes.Likes;
 import com.metaverse.station.back.domain.posts.Posts;
+import com.metaverse.station.back.domain.posts.PostsCategory;
 import com.metaverse.station.back.domain.user.User;
 import lombok.Builder;
 import lombok.Getter;
@@ -18,6 +19,7 @@ import java.util.*;
 public class PostsResponseDto {
 
     private Long id;
+    private PostsCategory category;
     private postUser postUser;
     private String title;
     private String content;
@@ -38,6 +40,7 @@ public class PostsResponseDto {
         private String profileImageUrl;
         private String email;
         private String roleType;
+        private String bio;
 
         private postUser(User user) {
             this.userId = user.getUserSeq();
@@ -45,6 +48,7 @@ public class PostsResponseDto {
             this.profileImageUrl = user.getProfileImageUrl();
             this.email = user.getEmail();
             this.roleType = user.getRoleType().toString();
+            this.bio = user.getBio();
         }
     }
 
@@ -102,6 +106,7 @@ public class PostsResponseDto {
 
     public PostsResponseDto(Posts entity) {
         this.id = entity.getId();
+        this.category = entity.getCategory();
         this.postUser = new postUser(entity.getUser());
         this.title = entity.getTitle();
         this.content = entity.getContent();

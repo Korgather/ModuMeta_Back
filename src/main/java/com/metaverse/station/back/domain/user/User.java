@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.metaverse.station.back.domain.BaseTimeEntity;
 import com.metaverse.station.back.domain.images.Images;
+import com.metaverse.station.back.domain.notification.Notification;
 import com.metaverse.station.back.domain.posts.Posts;
 import com.metaverse.station.back.oauth.domain.ProviderType;
 import com.metaverse.station.back.oauth.domain.RoleType;
@@ -83,9 +84,10 @@ public class User extends BaseTimeEntity {
     private String bio;
 
     @OneToMany(mappedBy = "user", cascade = {CascadeType.PERSIST},orphanRemoval = true)
-//    @JsonIgnore
     private List<Posts> postList = new ArrayList<>();
 
+    @OneToMany(mappedBy = "user", cascade = {CascadeType.PERSIST},orphanRemoval = true)
+    private List<Notification> notificationList = new ArrayList<>();
 
 
     @Builder

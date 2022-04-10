@@ -30,7 +30,6 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsUtils;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-import java.util.Arrays;
 
 @Configuration
 @EnableWebSecurity
@@ -55,21 +54,21 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
 
-                    .cors()
-                .and()
-                    .headers().frameOptions().disable()
-                .and()
-                    .sessionManagement()
-                    .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
-                    .csrf().disable()
-                    .formLogin().disable()
-                    .httpBasic().disable()
-                    .exceptionHandling()
-                    .authenticationEntryPoint(new RestAuthenticationEntryPoint())
-                    .accessDeniedHandler(tokenAccessDeniedHandler)
-                .and()
-                    .authorizeRequests()
+                .cors()
+                    .and()
+                .headers().frameOptions().disable()
+                    .and()
+                .sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                    .and()
+                .csrf().disable()
+                .formLogin().disable()
+                .httpBasic().disable()
+                .exceptionHandling()
+                .authenticationEntryPoint(new RestAuthenticationEntryPoint())
+                .accessDeniedHandler(tokenAccessDeniedHandler)
+                    .and()
+                .authorizeRequests()
                     .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
                 //게시글 작성
                     .antMatchers(HttpMethod.POST,"/api/v1/posts/**").hasAnyAuthority(RoleType.USER.getCode())
@@ -105,24 +104,26 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .antMatchers(HttpMethod.GET,"/api/v1/posts/**").permitAll()
                 //전체 게시글 조회
                     .antMatchers(HttpMethod.GET,"/api/v1/posts").permitAll()
+                //알림 삭제
+                    .antMatchers(HttpMethod.DELETE, "/api/v1/notification/**").hasAnyAuthority(RoleType.USER.getCode())
 
                     .antMatchers("/h2-console/**").permitAll()
                     .antMatchers("/api/**/admin/**").hasAnyAuthority(RoleType.ADMIN.getCode())
                     .anyRequest().denyAll()
-                .and()
-                    .oauth2Login()
+                    .and()
+                .oauth2Login()
                     .authorizationEndpoint()
                     .baseUri("/oauth2/authorization")
                     .authorizationRequestRepository(oAuth2AuthorizationRequestBasedOnCookieRepository())
-                .and()
-                    .redirectionEndpoint()
+                    .and()
+                .redirectionEndpoint()
                     .baseUri("/*/oauth2/code/*")
                     .and()
-                    .userInfoEndpoint()
+                .userInfoEndpoint()
                     .userService(oAuth2UserService)
-                .and()
-                    .successHandler(oAuth2AuthenticationSuccessHandler())
-                    .failureHandler(oAuth2AuthenticationFailureHandler());
+                    .and()
+                .successHandler(oAuth2AuthenticationSuccessHandler())
+                .failureHandler(oAuth2AuthenticationFailureHandler());
 
         httpSecurity.addFilterBefore(tokenAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
     }

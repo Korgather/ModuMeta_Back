@@ -27,6 +27,9 @@ public class S3Uploader {
     @Value("${cloud.aws.s3.bucket}")
     private String bucket;
 
+    @Value("{cloud.aws.cloudfront.s3.url}")
+    private String cdn;
+
     public List<String> upload(List<MultipartFile> multipartFiles, String dirName) throws IOException {
 
         List<String> imageUrls = new ArrayList<>();
@@ -43,10 +46,11 @@ public class S3Uploader {
     }
 
     private String upload(File uploadFile, String dirName) {
-        String fileName = dirName + "/" + UUID.randomUUID() + uploadFile.getName();
-        String uploadImageUrl = putS3(uploadFile, fileName);
+        String fileName = UUID.randomUUID() + uploadFile.getName();
+        String fileDir = dirName + "/" + fileName;
+        String uploadImageUrl = putS3(uploadFile, fileDir);
         removeNewFile(uploadFile);
-        return uploadImageUrl;
+        return fileName;
     }
 
     private String putS3(File uploadFile, String fileName) {
