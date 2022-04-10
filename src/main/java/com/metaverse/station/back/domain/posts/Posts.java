@@ -75,7 +75,7 @@ public class Posts extends BaseTimeEntity {
     Set<Likes> likes = new HashSet<>();
 
     @Builder
-    public Posts(Long id,PostsCategory category, String title, String content, String link, List<Images> images, User user, List<Comments> commentsList) {
+    public Posts(Long id,PostsCategory category, String title, String content, String link, List<Images> images, User user, List<Comments> commentsList, Set<Likes> likes) {
         this.id = id;
         this.category = category;
         this.title = title;
@@ -84,6 +84,7 @@ public class Posts extends BaseTimeEntity {
         this.images = images;
         this.user = user;
         this.commentsList = commentsList;
+        this.likes = likes;
     }
 
     public void update(PostsCategory category, String title, String content, List<Images> images, String link) {
@@ -91,8 +92,10 @@ public class Posts extends BaseTimeEntity {
         this.categoryString = category.toString();
         this.title = title;
         this.content = content;
-        this.images.clear();
-        this.images.addAll(images);
+        if(images != null){
+            this.images.clear();
+            this.images.addAll(images);
+        }
         this.link = link;
     }
 

@@ -63,7 +63,7 @@ public class PostsService {
 
         List<Images> images = requestDto.getImages();
 
-        if(images != null){
+        if(!(images == null || images.isEmpty())){
             images.forEach(posts::addImages);
         }
 
