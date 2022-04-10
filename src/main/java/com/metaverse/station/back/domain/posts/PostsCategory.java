@@ -11,7 +11,8 @@ public enum PostsCategory {
     METAVERSE_ZEP("METAVERSE_ZEP", "ZEP 게시판"),
     METAVERSE_GATHERTOWN("METAVERSE_GATHERTOWN", "GATHERTOWN 게시판"),
     COMMUNITY_QUESTION("COMMUNITY_QUESTION", "질문 게시판"),
-    COMMUNITY_GENERAL("COMMUNITY_GENERAL", "자유 게시판")
+    COMMUNITY_GENERAL("COMMUNITY_GENERAL", "자유 게시판"),
+    COMMUNITY_STUDY("COMMUNITY_GENERAL", "스터디 모집 게시판")
     ;
 
     private final String code;
