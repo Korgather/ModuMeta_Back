@@ -1,6 +1,6 @@
 package com.metaverse.station.back.web;
 
-import com.metaverse.station.back.domain.posts.PostsCategory;
+import com.metaverse.station.back.service.NotificationService;
 import com.metaverse.station.back.service.PostsService;
 import com.metaverse.station.back.utils.S3Uploader;
 import com.metaverse.station.back.web.dto.PostsResponseDto;
