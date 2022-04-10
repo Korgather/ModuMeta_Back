@@ -43,7 +43,9 @@ public class PostsApiController {
 //    }
 
     @GetMapping("/api/v1/posts")
-    public Page<PostsResponseDto> findAllByCategory(@RequestParam String keyword,@RequestParam String category, @PageableDefault(size = 8,sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
+    public Page<PostsResponseDto> findAllByCategory(@RequestParam(required = false) String keyword,
+                                                    @RequestParam(required = false) String category,
+                                                    @PageableDefault(size = 8,sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
 
         if(category.isEmpty()) category = "METAVERSE";
 
@@ -68,15 +70,23 @@ public class PostsApiController {
     }
 
     @GetMapping("/api/v1/posts/likepost/{id}")
-    public Page<PostsResponseDto> getLikePost(@PathVariable Long id, @PageableDefault(size = 8) Pageable pageable) {
+    public Page<PostsResponseDto> getLikePost(@PathVariable Long id,
+                                              @RequestParam(required = false) String category,
+                                              @PageableDefault(size = 6,sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
 
-        return postsService.findByLikeUserId(id,pageable);
+        if(category.isEmpty()) category = "METAVERSE";
+
+        return postsService.findByLikeUserId(id,category,pageable);
     }
 
     @GetMapping("/api/v1/posts/userid/{id}")
-    public Page<PostsResponseDto> getUserPost(@PathVariable Long id, @PageableDefault(size = 8) Pageable pageable) {
+    public Page<PostsResponseDto> getUserPost(@PathVariable Long id,
+                                              @RequestParam(required = false) String category,
+                                              @PageableDefault(size = 6,sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
 
-        return postsService.findByUserId(id,pageable);
+        if(category == null) category = "METAVERSE";
+
+        return postsService.findByUserId(id, category, pageable);
     }
 
 

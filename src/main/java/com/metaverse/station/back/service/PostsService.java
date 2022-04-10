@@ -115,16 +115,17 @@ public class PostsService {
         return page.map(PostsResponseDto::new);
     }
 
-    public Page<PostsResponseDto> findByLikeUserId(Long id, Pageable pageable){
+    public Page<PostsResponseDto> findByLikeUserId(Long id, String category, Pageable pageable){
 
-        Page<Posts> page = postsRepository.findPostsByLikesUserUserSeq(id,pageable);
+        Page<Posts> page = postsRepository.mylikepost(id,category, pageable);
+//        Page<Posts> page = postsRepository.findPostsByLikesUserUserSeq(id,pageable);
 
         return page.map(PostsResponseDto::new);
     }
 
-    public Page<PostsResponseDto> findByUserId(Long id, Pageable pageable){
+    public Page<PostsResponseDto> findByUserId(Long id, String category, Pageable pageable){
 
-        Page<Posts> page = postsRepository.findPostsByUserUserSeq(id,pageable);
+        Page<Posts> page = postsRepository.mypost(id, category, pageable);
 
         return page.map(PostsResponseDto::new);
     }
