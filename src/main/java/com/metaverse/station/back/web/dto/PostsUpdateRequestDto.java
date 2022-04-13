@@ -33,7 +33,7 @@ public class PostsUpdateRequestDto {
     private List<Images> images;
 
     @Builder
-    public PostsUpdateRequestDto(PostsCategory category, String title,String link, String content, List<Images> images) {
+    public PostsUpdateRequestDto(String category, String title,String link, String content, List<Images> images) {
         this.category = category;
         this.title = title;
         this.content = content;

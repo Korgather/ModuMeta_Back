@@ -35,7 +35,7 @@ public class S3Uploader {
         List<String> imageUrls = new ArrayList<>();
 
         for (MultipartFile multipartFile : multipartFiles) {
-            System.out.println(multipartFile.getOriginalFilename());
+//            System.out.println(multipartFile.getOriginalFilename());
             File uploadFile = convert(multipartFile)
                     .orElseThrow(() -> new IllegalArgumentException("MultipartFile -> File 전환이 실패했습니다."));
             imageUrls.add(upload(uploadFile, dirName));

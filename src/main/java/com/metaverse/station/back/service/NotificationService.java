@@ -34,7 +34,7 @@ public class NotificationService {
 
         if(user == notification.getUser()){
             notificationRepository.delete(notification);
-            System.out.println("ok");
+
         }else{
             System.out.println("Nope");
         }
