@@ -4,6 +4,7 @@ import com.metaverse.station.back.domain.user.User;
 import com.metaverse.station.back.domain.user.UserRepository;
 import com.metaverse.station.back.web.dto.UserProfileUpdateRequestDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,7 +23,7 @@ public class UserService {
     }
 
     @Transactional
-    public String setUserName(String userName) {
+    public String setUserName(String userName) throws AccessDeniedException {
         org.springframework.security.core.userdetails.User principal = (org.springframework.security.core.userdetails.User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         User user = getUser(principal.getUsername());
