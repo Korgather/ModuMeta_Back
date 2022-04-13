@@ -42,7 +42,7 @@ public class PostsService {
         requestDto.setUser(user);
 
         Posts posts = requestDto.toEntity();
-        posts.setCategory(requestDto.getCategory());
+        posts.setCategory(PostsCategory.of(requestDto.getCategory()));
 
         if(images != null){
             images.forEach(posts::addImages);
