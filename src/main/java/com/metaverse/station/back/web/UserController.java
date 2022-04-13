@@ -11,6 +11,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.validation.Valid;
 import java.io.IOException;
 import java.util.List;
 
@@ -30,7 +31,7 @@ public class UserController {
     }
 
     @PutMapping("/profile")
-    public UserProfileUpdateRequestDto updateUserProfile(@RequestBody UserProfileUpdateRequestDto requestDto) {
+    public UserProfileUpdateRequestDto updateUserProfile(@Valid @RequestBody UserProfileUpdateRequestDto requestDto) {
 
         return userService.updateUserProfile(requestDto);
     }
