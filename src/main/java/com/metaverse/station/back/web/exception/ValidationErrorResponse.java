@@ -47,7 +47,7 @@ public class ValidationErrorResponse {
             //DTO에 유효성체크를 걸어놓은 어노테이션명을 가져온다.
             String bindResultCode = bindingResult.getFieldError().getCode();
 
-//            System.out.println(bindResultCode);
+            System.out.println(bindResultCode);
 
             switch (bindResultCode){
                 case "NotNull":
@@ -70,9 +70,13 @@ public class ValidationErrorResponse {
                     code = ValidationErrorCode.ENUM.getCode();
                     description = ValidationErrorCode.ENUM.getDescription();
                     break;
-                case "Url":
+                case "URL":
                     code = ValidationErrorCode.URL.getCode();
                     description = ValidationErrorCode.URL.getDescription();
+                    break;
+                case "Pattern":
+                    code = ValidationErrorCode.PATTERN.getCode();
+                    description = ValidationErrorCode.PATTERN.getDescription();
             }
         }
 

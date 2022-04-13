@@ -2,6 +2,8 @@ package com.metaverse.station.back.web.exception;
 
 import lombok.Getter;
 
+import javax.management.loading.MLetContent;
+
 public enum ValidationErrorCode {
 
     NOT_NULL("ERROR_CODE_0001","필수값이 누락되었습니다")
@@ -10,6 +12,7 @@ public enum ValidationErrorCode {
     ,LENGTH("ERROR_CODE_004","최소 길이를 만족하지 못합니다.")
     ,ENUM("ERROR_CODE_005","없는 카테고리 입니다.")
     ,URL("ERROR_CODE_005","유효하지 않은 URL 입니다.")
+    ,PATTERN("ERROR_CODE_006", "형식이 올바르지 않습니다.")
     ;
 
     @Getter
