@@ -7,10 +7,15 @@ import com.metaverse.station.back.domain.user.User;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotBlank;
+
 @Getter
 @NoArgsConstructor
 public class RepliesSaveRequestDto {
+
+    @NotBlank(message = "공백을 입력 할 수 없습니다.")
     private String content;
+
     private User user;
     private Comments comments;
 

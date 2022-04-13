@@ -7,6 +7,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RequiredArgsConstructor
 @RestController
 public class CommentsApiController {
@@ -14,25 +16,25 @@ public class CommentsApiController {
     private final CommentsService commentsService;
 
     @PostMapping("/api/v1/posts/{id}/comments")
-    public CommentsSaveRequestResponseDto save(@PathVariable Long id,@RequestBody CommentsSaveRequestDto requestDto) {
+    public CommentsSaveRequestResponseDto save(@PathVariable Long id,@Valid @RequestBody CommentsSaveRequestDto requestDto) {
 
         return commentsService.save(id, requestDto);
     }
 
     @PostMapping("/api/v1/comments/{id}")
-    public RepliesSaveRequestResponseDto saveReply(@PathVariable Long id, @RequestBody RepliesSaveRequestDto requestDto) {
+    public RepliesSaveRequestResponseDto saveReply(@PathVariable Long id,@Valid @RequestBody RepliesSaveRequestDto requestDto) {
 
         return commentsService.saveReply(id, requestDto);
     }
 
     @PutMapping("/api/v1/comments/{id}")
-    public ContentDto updateComment(@PathVariable Long id, @RequestBody ContentDto requestDto) {
+    public ContentDto updateComment(@PathVariable Long id,@Valid @RequestBody ContentDto requestDto) {
 
         return commentsService.updateComment(id, requestDto);
     }
 
     @PutMapping("/api/v1/replies/{id}")
-    public ContentDto updateReply(@PathVariable Long id, @RequestBody ContentDto requestDto) {
+    public ContentDto updateReply(@PathVariable Long id,@Valid @RequestBody ContentDto requestDto) {
 
         return commentsService.updateReply(id, requestDto);
     }
