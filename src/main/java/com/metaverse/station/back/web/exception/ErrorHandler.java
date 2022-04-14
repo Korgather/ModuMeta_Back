@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.metaverse.station.back.web.dto.PostsSaveRequestDto;
 import com.nimbusds.oauth2.sdk.ErrorResponse;
 import lombok.SneakyThrows;
+import org.apache.tomcat.util.http.fileupload.impl.FileSizeLimitExceededException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -52,6 +53,13 @@ public class ErrorHandler {
         ValidationErrorResponse errorResponse = ValidationErrorResponse.makeErrorResponse(e.getBindingResult());
 
         return new ResponseEntity<ValidationErrorResponse>(errorResponse, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(FileSizeLimitExceededException.class)
+    public  ResponseEntity<Object> handleFileSizeLimitException(FileSizeLimitExceededException ex, WebRequest request){
+
+        return ResponseEntity.badRequest().body("{ \"error\": \"" + "5메가 이하의 파일을 업로드해주세요." + "\" }");
+
     }
 
 }
