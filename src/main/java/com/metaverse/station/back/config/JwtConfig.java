@@ -13,7 +13,7 @@ public class JwtConfig {
 
     @Bean
     public AuthTokenProvider jwtProvider() {
-        System.out.println("key = " + secret);
+
         return new AuthTokenProvider(secret);
     }
 }

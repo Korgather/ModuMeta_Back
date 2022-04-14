@@ -42,7 +42,7 @@ public class PostsService {
         requestDto.setUser(user);
 
         Posts posts = requestDto.toEntity();
-        posts.setCategory(requestDto.getCategory());
+        posts.setCategory(PostsCategory.of(requestDto.getCategory()));
 
         if(images != null){
             images.forEach(posts::addImages);
@@ -68,7 +68,7 @@ public class PostsService {
         }
 
         if(posts.getUser() == user) {
-            posts.update(requestDto.getCategory(),requestDto.getTitle(), requestDto.getContent(), requestDto.getImages(),requestDto.getLink());
+            posts.update(PostsCategory.of(requestDto.getCategory()),requestDto.getTitle(), requestDto.getContent(), requestDto.getImages(),requestDto.getLink());
         }
 
         return id;

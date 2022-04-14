@@ -16,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.validation.Valid;
 import java.io.IOException;
 import java.util.List;
 
@@ -93,7 +94,7 @@ public class PostsApiController {
 
 
     @PostMapping("/api/v1/posts")
-    public PostsSaveRequestResponseDto save(@RequestBody PostsSaveRequestDto requestDto) {
+    public PostsSaveRequestResponseDto save(@Valid @RequestBody PostsSaveRequestDto requestDto) {
 
         return postsService.save(requestDto);
     }
