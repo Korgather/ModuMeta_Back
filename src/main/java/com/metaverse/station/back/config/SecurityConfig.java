@@ -108,6 +108,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .antMatchers(HttpMethod.DELETE, "/api/v1/notification/**").hasAnyAuthority(RoleType.USER.getCode())
                 //피드백 포스트
                     .antMatchers(HttpMethod.POST, "/api/v1/feedback").hasAnyAuthority(RoleType.USER.getCode())
+                //게더타운 API
+                    .antMatchers(HttpMethod.POST,"/api/v1/gathertown/**").hasAnyAuthority(RoleType.USER.getCode())
                     .antMatchers("/h2-console/**").permitAll()
                     .antMatchers("/api/**/admin/**").hasAnyAuthority(RoleType.ADMIN.getCode())
                     .anyRequest().denyAll()
