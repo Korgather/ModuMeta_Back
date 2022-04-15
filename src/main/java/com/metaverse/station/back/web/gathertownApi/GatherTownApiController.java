@@ -15,17 +15,21 @@ public class GatherTownApiController {
     private final GatherTownService gatherTownService;
 
     @PostMapping("/api/v1/gathertown/getmap")
-    public Mono<GatherTownMapResponseDto> getMap(@RequestBody GatherTownGetMapRequestDto requestDto) {
+    public GatherTownMapResponseDto getMap(@RequestBody GatherTownGetMapRequestDto requestDto) {
 
         return gatherTownService.getMap(requestDto);
     }
-
     @PostMapping("/api/v1/gathertown/setmap")
-    public String setMap(@RequestBody GatherTownGetMapRequestDto requestDto) {
+    public String setMap(@RequestBody GatherTownSetMapRequestDto requestDto) {
+
+        return gatherTownService.setMap(requestDto);
+//        return gatherTownService.setMusicWithWebclient(requestDto);
+    }
+
+    @PostMapping("/api/v1/gathertown/setmap/music")
+    public String setMusic(@RequestBody GatherTownSetMapRequestDto requestDto) {
 
         return gatherTownService.setMusic(requestDto);
 //        return gatherTownService.setMusicWithWebclient(requestDto);
     }
-
-
 }

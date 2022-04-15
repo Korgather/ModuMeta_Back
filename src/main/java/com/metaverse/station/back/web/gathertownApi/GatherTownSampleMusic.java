@@ -1,11 +1,8 @@
 package com.metaverse.station.back.web.gathertownApi;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.w3c.dom.html.HTMLFrameElement;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,6 +16,7 @@ public class GatherTownSampleMusic {
     private String templateId = "SoundEmitterBarAmbience - 3u3pREPN_1Ymg7Cx-jS5f";
     private String objectPlacerId = "mXaETfP5wkMKYWBNQzlKOKVI8KE2";
     private int height = 3;
+
     private Object properties = new Object();
     private int offsetY = 16;
     private int offsetX = 16;
