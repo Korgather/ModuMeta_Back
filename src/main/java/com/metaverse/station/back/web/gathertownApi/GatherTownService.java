@@ -1,30 +1,20 @@
 package com.metaverse.station.back.web.gathertownApi;
 
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
-import com.google.gson.Gson;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.*;
 import org.springframework.http.codec.json.Jackson2JsonDecoder;
 import org.springframework.http.codec.json.Jackson2JsonEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.util.UriComponentsBuilder;
-import reactor.core.publisher.Mono;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 
 @Slf4j
@@ -69,20 +59,37 @@ public class GatherTownService {
 
         String apiUrl = "https://api.gather.town/api/setMap";
 
+        AtomicBoolean success = new AtomicBoolean(false);
+
         GatherTownMapResponseDto gatherTownMap = getMap(requestDto.getApiKey(),
                                                         requestDto.getSpaceId(),
                                                         requestDto.getMapId());
 
-        GatherTownSampleMusic gatherTownSampleMusic = new GatherTownSampleMusic();
-        gatherTownSampleMusic.setX(requestDto.getX());
-        gatherTownSampleMusic.setY(requestDto.getY());
-        gatherTownSampleMusic.sound.setSrc(requestDto.getSrc());
-        gatherTownSampleMusic.sound.setLoop(requestDto.getLoop());
-        gatherTownSampleMusic.sound.setVolume(requestDto.getVolume());
-        gatherTownSampleMusic.sound.setMaxDistance(requestDto.getMaxDistance());
-        gatherTownSampleMusic.setId(requestDto.getId());
-
-        gatherTownMap.getObjects().add(gatherTownSampleMusic);
+        gatherTownMap.getObjects().forEach(gatherTownObject -> {
+            if(gatherTownObject.id.equals(requestDto.getId())){
+                gatherTownObject.setX(requestDto.getX());
+                gatherTownObject.setX(requestDto.getX());
+                gatherTownObject.setY(requestDto.getY());
+                gatherTownObject.sound.setSrc(requestDto.getSrc());
+                gatherTownObject.sound.setLoop(requestDto.getLoop());
+                gatherTownObject.sound.setVolume(requestDto.getVolume());
+                gatherTownObject.sound.setMaxDistance(requestDto.getMaxDistance());
+                success.set(true);
+            }
+        });
+//        System.out.println(success.get());
+        if (!success.get())
+        {
+            GatherTownSampleMusic gatherTownSampleMusic = new GatherTownSampleMusic();
+            gatherTownSampleMusic.setX(requestDto.getX());
+            gatherTownSampleMusic.setY(requestDto.getY());
+            gatherTownSampleMusic.sound.setSrc(requestDto.getSrc());
+            gatherTownSampleMusic.sound.setLoop(requestDto.getLoop());
+            gatherTownSampleMusic.sound.setVolume(requestDto.getVolume());
+            gatherTownSampleMusic.sound.setMaxDistance(requestDto.getMaxDistance());
+            gatherTownSampleMusic.setId(requestDto.getId());
+            gatherTownMap.getObjects().add(gatherTownSampleMusic);
+        }
 
         requestDto.setMapContent(gatherTownMap);
         requestDto.setSpaceId(requestDto.getSpaceId().replace("/", "\\").replace("%20", " "));
@@ -107,7 +114,7 @@ public class GatherTownService {
         headers.set(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE);
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<GatherTownSetMapRequestDto> entity = new HttpEntity<>(requestDto, headers);
-        
+
         requestDto.setSpaceId(requestDto.getSpaceId().replace("/", "\\").replace("%20", " "));
 
 
@@ -119,6 +126,7 @@ public class GatherTownService {
         ).getBody();
     }
 
+    @Deprecated
     public String setMusicWithWebclient(GatherTownGetMapRequestDto requestDto) {
 
         String apiUrl = "https://api.gather.town/api/setMap";
@@ -159,6 +167,7 @@ public class GatherTownService {
 
     }
 
+    @Deprecated
     public HttpEntity<Object> getMapRestemplate(GatherTownGetMapRequestDto requestDto) {
         HttpHeaders headers = new HttpHeaders();
         headers.set(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE);
