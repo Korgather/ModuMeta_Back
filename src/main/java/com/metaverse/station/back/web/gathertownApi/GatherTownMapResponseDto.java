@@ -1,5 +1,6 @@
 package com.metaverse.station.back.web.gathertownApi;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -11,6 +12,7 @@ import java.util.Map;
 @NoArgsConstructor
 @Getter
 @Setter
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class GatherTownMapResponseDto {
     private String mostRecentUpdateId;
     private List<Long> dimensions;
@@ -27,11 +29,13 @@ public class GatherTownMapResponseDto {
     private List<Object> announcer;
     private List<Object> spawns;
     private String version;
-    private List<Object> objects;
+    private List<GatherTownObject> objects;
     private List<Object> portals;
+
 
     @Getter
     @Setter
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     static class Space{
         public int y;
         public int x;
@@ -41,6 +45,7 @@ public class GatherTownMapResponseDto {
 
     @Getter
     @Setter
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     static class Spawn
     {
         public int x;
@@ -49,34 +54,54 @@ public class GatherTownMapResponseDto {
 
     @Getter
     @Setter
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     static class GatherTownObject {
-        public String distThreshold;
-        public String id;
-        public int offsetX;
-        public String normal;
-        public List<String> _tags;
-        public String highlighted;
-        public int width;
-        public int x;
-        public String _name;
-        public int type;
-        public String templateId;
-        public Properties properties;
-        public int orientation;
-        public String color;
-        public String previewMessage;
-        public int scale;
-        public int height;
         public int y;
-        public int offsetY;
+        public List<String> _tags;
+        public String templateId;
+        public int orientation;
+        public int scale;
+        public String color;
+        public int width;
+        public int height;
+        public String previewMessage;
+        public String highlighted;
+        public int x;
+        public String id;
+        public String _name;
+        public Properties properties;
+        public int type;
+        public String normal;
+        public double offsetX;
+        public double offsetY;
+        public int distThreshold;
+        public Sound sound;
+        public int key;
+        public String extensionClass;
+        private Object entity;
 
         @Getter
         @Setter
+        @JsonInclude(JsonInclude.Include.NON_NULL)
+        static class Sound{
+            public String src;
+            public int maxDistance;
+            public double volume;
+            public Boolean loop;
+        }
+
+        @Getter
+        @Setter
+        @JsonInclude(JsonInclude.Include.NON_NULL)
         static class Properties
         {
             public String hash;
             public ExtensionData extensionData;
             public Boolean closed;
+
+            @Getter
+            @Setter
+            @JsonInclude(JsonInclude.Include.NON_NULL)
             static class ExtensionData
             {
                 public Images images;
@@ -84,6 +109,7 @@ public class GatherTownMapResponseDto {
 
                 @Getter
                 @Setter
+                @JsonInclude(JsonInclude.Include.NON_NULL)
                 static class Entry
                 {
                     public String value;
@@ -93,6 +119,7 @@ public class GatherTownMapResponseDto {
                 }
                 @Getter
                 @Setter
+                @JsonInclude(JsonInclude.Include.NON_NULL)
                 static class Images
                 {
                     public String closedHighlighted;

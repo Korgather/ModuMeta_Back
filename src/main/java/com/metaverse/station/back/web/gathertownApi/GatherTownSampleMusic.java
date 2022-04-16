@@ -1,5 +1,6 @@
 package com.metaverse.station.back.web.gathertownApi;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -10,16 +11,17 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 @Setter
-public class GatherTownSampleMusic {
+@JsonInclude(JsonInclude.Include.NON_NULL)
+public class GatherTownSampleMusic extends GatherTownMapResponseDto.GatherTownObject {
 
     private String _name = "Sound Emitter (Bar/Restaurant) Ambience";
     private String templateId = "SoundEmitterBarAmbience - 3u3pREPN_1Ymg7Cx-jS5f";
     private String objectPlacerId = "mXaETfP5wkMKYWBNQzlKOKVI8KE2";
     private int height = 3;
 
-    private Object properties = new Object();
-    private int offsetY = 16;
-    private int offsetX = 16;
+    private Properties properties;
+    private double offsetY = 16;
+    private double offsetX = 16;
     private int width = 2;
     private int type = 0;
     private int x = 0;
@@ -32,14 +34,6 @@ public class GatherTownSampleMusic {
     private String normal = "https://cdn.gather.town/storage.googleapis.com/gather-town.appspot.com/internal-dashboard/images/4uyTiJdT700i7__UEsgWL";
     private int orientation = 0;
 
-    @Setter
-    @Getter
-    static class Sound
-    {
-        private int maxDistance;
-        private String src;
-        private double volume;
-        private Boolean loop;
-    }
+
 
 }
