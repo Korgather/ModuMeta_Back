@@ -17,7 +17,7 @@ public class WebConfig implements WebMvcConfigurer {
 //                .allowedOrigins("https://api.gather.town")
 //                .allowedOrigins("http://127.0.0.1:8080")
                 .allowedMethods("GET","POST","DELETE","PUT")
-                .allowCredentials(true)
+//                .allowCredentials(true)
                 .maxAge(1500);
 
     }
