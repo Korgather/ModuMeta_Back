@@ -10,10 +10,12 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
-                .allowedOrigins("https://www.modumeta.com")
-                .allowedOrigins("https://cdn.metaversestation.shop")
-                .allowedOrigins("https://api.metaversestation.shop")
-                .allowedOrigins("https://api.gather.town")
+                .allowedOrigins("*")
+//                .allowedOrigins("https://www.modumeta.com")
+//                .allowedOrigins("https://cdn.metaversestation.shop")
+//                .allowedOrigins("https://api.metaversestation.shop")
+//                .allowedOrigins("https://api.gather.town")
+//                .allowedOrigins("http://127.0.0.1:8080")
                 .allowedMethods("GET","POST","DELETE","PUT")
                 .allowCredentials(true)
                 .maxAge(1500);
