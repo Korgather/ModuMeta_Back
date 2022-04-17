@@ -70,6 +70,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .and()
                 .authorizeRequests()
                     .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
+                    .antMatchers(HttpMethod.OPTIONS,"/**").permitAll()
                 //게시글 작성
                     .antMatchers(HttpMethod.POST,"/api/v1/posts/**").hasAnyAuthority(RoleType.USER.getCode())
                 //게시글 수정
