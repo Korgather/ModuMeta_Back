@@ -12,9 +12,9 @@ public class WebConfig implements WebMvcConfigurer {
         registry.addMapping("/**")
 //                .allowedOrigins("*")
                 .allowedOrigins("https://www.modumeta.com")
-                .allowedOrigins("https://cdn.metaversestation.shop")
-                .allowedOrigins("https://api.metaversestation.shop")
-                .allowedOrigins("https://api.gather.town")
+//                .allowedOrigins("https://cdn.metabusstation.shop")
+//                .allowedOrigins("https://api.metabusstation.shop")
+//                .allowedOrigins("https://api.gather.town")
                 .allowedMethods("GET","POST","DELETE","PUT")
                 .maxAge(1500);
 
