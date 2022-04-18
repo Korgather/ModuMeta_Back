@@ -14,6 +14,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Enumeration;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -27,6 +28,11 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
             FilterChain filterChain)  throws ServletException, IOException {
 
         log.info(String.valueOf(request.getRequestURL()));
+        Enumeration<String> e = request.getHeaderNames();
+        while (e.hasMoreElements()){
+            log.info(e.nextElement());
+        }
+
         String tokenStr = HeaderUtil.getAccessToken(request);
         AuthToken token = tokenProvider.convertAuthToken(tokenStr);
 
