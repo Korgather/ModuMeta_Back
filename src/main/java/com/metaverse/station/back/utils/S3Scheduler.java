@@ -4,6 +4,7 @@ import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.DeleteObjectsRequest;
 import com.amazonaws.services.s3.model.DeleteObjectsRequest.KeyVersion;
 import com.amazonaws.services.s3.model.DeleteObjectsResult;
+import com.amazonaws.services.s3.model.DeleteObjectsResult.DeletedObject;
 import com.amazonaws.services.s3.model.ObjectListing;
 import com.amazonaws.services.s3.model.S3ObjectSummary;
 import com.metaverse.station.back.domain.images.ImagesRepository;
@@ -30,39 +31,18 @@ public class S3Scheduler {
     @Value("${cloud.aws.s3.bucket}")
     private String bucket;
 
-    @Value("{cloud.aws.cloudfront.s3.url}")
-    private String cdn;
 
-    @Scheduled(initialDelay = 1000, fixedDelay = 86400000)
-    public void test() {
+    @Scheduled(initialDelay = 86400000, fixedDelay = 86400000)
+    public void s3DeleteObjectsScheduler() {
 
         List<String> postImageList = imagesRepository.getImage_pathList();
         List<String> profileImageList = userRepository.getProfileImageList();
 
-
-        if (deleteS3Objects(postImageList,"static/") == null){
-            log.info("/static: 삭제할 항목이 없습니다.");
-        }
-        else {
-            deleteS3Objects(postImageList,"static/").getDeletedObjects().forEach(deletedObject ->
-            {
-                log.info("delete unused file : "+deletedObject.getKey());
-            });
-        }
-        if (deleteS3Objects(profileImageList,"profileImage/") == null)
-        {
-            log.info("/profileImage: 삭제할 항목이 없습니다.");
-        }
-        else{
-            deleteS3Objects(profileImageList,"profileImage/").getDeletedObjects().forEach(deletedObject -> {
-                log.info("delete unused file : "+deletedObject.getKey());
-            });
-        }
-
-
+        deleteS3Objects(postImageList,"static/");
+        deleteS3Objects(profileImageList,"profileImage/");
     }
 
-    public DeleteObjectsResult deleteS3Objects(List<String> fileList,String path){
+    public void deleteS3Objects(List<String> fileList,String path){
 
         List<String> handledList = new ArrayList<>();
 
@@ -88,20 +68,23 @@ public class S3Scheduler {
         }
 
         S3Images.removeAll(handledList);
-        if(!S3Images.isEmpty()){
+        if(!S3Images.isEmpty() ){
             DeleteObjectsRequest deleteObjectsRequest = new DeleteObjectsRequest(bucket);
 
             List<KeyVersion> keyList = new ArrayList<KeyVersion>();
 
             for (String key : S3Images) {
-
                 keyList.add(new KeyVersion(key));
             }
 
             deleteObjectsRequest.setKeys(keyList);
-            return amazonS3Client.deleteObjects(deleteObjectsRequest);
+            amazonS3Client.deleteObjects(deleteObjectsRequest).getDeletedObjects().forEach(deletedObject -> {
+                log.info("delete unused file : " + deletedObject.getKey());
+            });
         }
-        else return null;
+        else {
+            log.info(path + ": 삭제할 파일이 없습니다.");
+        }
 
     }
 }
