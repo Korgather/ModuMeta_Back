@@ -33,20 +33,32 @@ public class S3Scheduler {
     @Value("{cloud.aws.cloudfront.s3.url}")
     private String cdn;
 
-    @Scheduled(initialDelay = 86400000, fixedDelay = 86400000)
+    @Scheduled(initialDelay = 1000, fixedDelay = 86400000)
     public void test() {
 
         List<String> postImageList = imagesRepository.getImage_pathList();
         List<String> profileImageList = userRepository.getProfileImageList();
 
 
-        deleteS3Objects(postImageList,"static/").getDeletedObjects().forEach(deletedObject ->
+        if (deleteS3Objects(postImageList,"static/") == null){
+            log.info("/static: 삭제할 항목이 없습니다.");
+        }
+        else {
+            deleteS3Objects(postImageList,"static/").getDeletedObjects().forEach(deletedObject ->
+            {
+                log.info("delete unused file : "+deletedObject.getKey());
+            });
+        }
+        if (deleteS3Objects(profileImageList,"profileImage/") == null)
         {
-            log.info(deletedObject.getKey());
-        });
-        deleteS3Objects(profileImageList,"profileImage/").getDeletedObjects().forEach(deletedObject -> {
-            log.info(deletedObject.getKey());
-        });
+            log.info("/profileImage: 삭제할 항목이 없습니다.");
+        }
+        else{
+            deleteS3Objects(profileImageList,"profileImage/").getDeletedObjects().forEach(deletedObject -> {
+                log.info("delete unused file : "+deletedObject.getKey());
+            });
+        }
+
 
     }
 
@@ -76,18 +88,20 @@ public class S3Scheduler {
         }
 
         S3Images.removeAll(handledList);
+        if(!S3Images.isEmpty()){
+            DeleteObjectsRequest deleteObjectsRequest = new DeleteObjectsRequest(bucket);
 
-        DeleteObjectsRequest deleteObjectsRequest = new DeleteObjectsRequest(bucket);
+            List<KeyVersion> keyList = new ArrayList<KeyVersion>();
 
-        List<KeyVersion> keyList = new ArrayList<KeyVersion>();
+            for (String key : S3Images) {
 
-        for (String key : S3Images) {
+                keyList.add(new KeyVersion(key));
+            }
 
-            keyList.add(new KeyVersion(key));
+            deleteObjectsRequest.setKeys(keyList);
+            return amazonS3Client.deleteObjects(deleteObjectsRequest);
         }
+        else return null;
 
-        deleteObjectsRequest.setKeys(keyList);
-
-        return amazonS3Client.deleteObjects(deleteObjectsRequest);
     }
 }
