@@ -52,13 +52,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Override
-    public void configure(WebSecurity webSecurity) throws Exception{
-        webSecurity.ignoring()
-                .mvcMatchers("/*")
-                .mvcMatchers(HttpMethod.GET,"/api/v1/posts/**");
-    }
-
-    @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
 
@@ -76,6 +69,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authenticationEntryPoint(new RestAuthenticationEntryPoint())
                 .accessDeniedHandler(tokenAccessDeniedHandler)
                     .and()
+                .mvcMatcher("/api/v1/**")
                 .authorizeRequests()
                     .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
                 //게시글 작성
@@ -119,7 +113,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 //게더타운 API
                     .mvcMatchers(HttpMethod.POST,"/api/v1/gathertown/**").hasAnyAuthority(RoleType.USER.getCode())
                     .mvcMatchers("/h2-console/**").permitAll()
-                    .mvcMatchers("/api/**/admin/**").hasAnyAuthority(RoleType.ADMIN.getCode())
+                    .mvcMatchers("/api/v1/admin/**").hasAnyAuthority(RoleType.ADMIN.getCode())
                     .anyRequest().denyAll()
                     .and()
                 .oauth2Login()
