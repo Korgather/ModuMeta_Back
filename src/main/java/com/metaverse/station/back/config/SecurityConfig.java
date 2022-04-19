@@ -54,8 +54,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(WebSecurity webSecurity) throws Exception{
         webSecurity.ignoring()
-                .antMatchers("/*")
-                .antMatchers(HttpMethod.GET,"/api/v1/posts/**");
+                .mvcMatchers("/*")
+                .mvcMatchers(HttpMethod.GET,"/api/v1/posts/**");
     }
 
     @Override
@@ -78,49 +78,48 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .and()
                 .authorizeRequests()
                     .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
-                    .antMatchers(HttpMethod.OPTIONS,"/**").permitAll()
                 //게시글 작성
-                    .antMatchers(HttpMethod.POST,"/api/v1/posts/**").hasAnyAuthority(RoleType.USER.getCode())
+                    .mvcMatchers(HttpMethod.POST,"/api/v1/posts/**").hasAnyAuthority(RoleType.USER.getCode())
                 //게시글 수정
-                    .antMatchers(HttpMethod.PUT,"/api/v1/posts/*").hasAnyAuthority(RoleType.USER.getCode())
+                    .mvcMatchers(HttpMethod.PUT,"/api/v1/posts/*").hasAnyAuthority(RoleType.USER.getCode())
                 //게시글 삭제
-                    .antMatchers(HttpMethod.DELETE,"/api/v1/posts/*").hasAnyAuthority(RoleType.USER.getCode())
+                    .mvcMatchers(HttpMethod.DELETE,"/api/v1/posts/*").hasAnyAuthority(RoleType.USER.getCode())
                 //댓글 수정
-                    .antMatchers(HttpMethod.PUT,"/api/v1/comments/*").hasAnyAuthority(RoleType.USER.getCode())
+                    .mvcMatchers(HttpMethod.PUT,"/api/v1/comments/*").hasAnyAuthority(RoleType.USER.getCode())
                 //댓글 삭제
-                    .antMatchers(HttpMethod.DELETE,"/api/v1/comments/*").hasAnyAuthority(RoleType.USER.getCode())
+                    .mvcMatchers(HttpMethod.DELETE,"/api/v1/comments/*").hasAnyAuthority(RoleType.USER.getCode())
                 //대댓글 작성
-                    .antMatchers(HttpMethod.POST,"/api/v1/comments/*").hasAnyAuthority(RoleType.USER.getCode())
+                    .mvcMatchers(HttpMethod.POST,"/api/v1/comments/*").hasAnyAuthority(RoleType.USER.getCode())
                 //대댓글 수정
-                    .antMatchers(HttpMethod.PUT,"/api/v1/replies/*").hasAnyAuthority(RoleType.USER.getCode())
+                    .mvcMatchers(HttpMethod.PUT,"/api/v1/replies/*").hasAnyAuthority(RoleType.USER.getCode())
                 //대댓글 삭제
-                    .antMatchers(HttpMethod.DELETE,"/api/v1/replies/*").hasAnyAuthority(RoleType.USER.getCode())
+                    .mvcMatchers(HttpMethod.DELETE,"/api/v1/replies/*").hasAnyAuthority(RoleType.USER.getCode())
                 //이미지 업로드요청
-                    .antMatchers(HttpMethod.POST,"/api/v1/upload").hasAnyAuthority(RoleType.USER.getCode())
+                    .mvcMatchers(HttpMethod.POST,"/api/v1/upload").hasAnyAuthority(RoleType.USER.getCode())
                 //이미지 삭제
-                    .antMatchers(HttpMethod.DELETE,"/api/v1/upload").hasAnyAuthority(RoleType.USER.getCode())
+                    .mvcMatchers(HttpMethod.DELETE,"/api/v1/upload").hasAnyAuthority(RoleType.USER.getCode())
                 //좋아요
-                    .antMatchers(HttpMethod.POST,"/api/v1/like/**").hasAnyAuthority(RoleType.USER.getCode())
+                    .mvcMatchers(HttpMethod.POST,"/api/v1/like/**").hasAnyAuthority(RoleType.USER.getCode())
                 //유저정보조회
-                    .antMatchers(HttpMethod.GET,"/api/v1/users").hasAnyAuthority(RoleType.USER.getCode())
+                    .mvcMatchers(HttpMethod.GET,"/api/v1/users").hasAnyAuthority(RoleType.USER.getCode())
                 //Refresh토큰
-                    .antMatchers(HttpMethod.GET,"/api/v1/auth/refresh").hasAnyAuthority(RoleType.USER.getCode())
+                    .mvcMatchers(HttpMethod.GET,"/api/v1/auth/refresh").hasAnyAuthority(RoleType.USER.getCode())
                 //유저정보 수정 관련
-                    .antMatchers(HttpMethod.PUT,"/api/v1/users/**").hasAnyAuthority(RoleType.USER.getCode())
+                    .mvcMatchers(HttpMethod.PUT,"/api/v1/users/**").hasAnyAuthority(RoleType.USER.getCode())
                 //유저 프로필이미지 업로드
-                    .antMatchers(HttpMethod.POST,"/api/v1/users/profileimage").hasAnyAuthority(RoleType.USER.getCode())
+                    .mvcMatchers(HttpMethod.POST,"/api/v1/users/profileimage").hasAnyAuthority(RoleType.USER.getCode())
                 //단일 게시글 조회
-                    .antMatchers(HttpMethod.GET,"/api/v1/posts/**").permitAll()
+                    .mvcMatchers(HttpMethod.GET,"/api/v1/posts/**").permitAll()
                 //전체 게시글 조회
-                    .antMatchers(HttpMethod.GET,"/api/v1/posts").permitAll()
+                    .mvcMatchers(HttpMethod.GET,"/api/v1/posts").permitAll()
                 //알림 삭제
-                    .antMatchers(HttpMethod.DELETE, "/api/v1/notification/**").hasAnyAuthority(RoleType.USER.getCode())
+                    .mvcMatchers(HttpMethod.DELETE, "/api/v1/notification/**").hasAnyAuthority(RoleType.USER.getCode())
                 //피드백 포스트
-                    .antMatchers(HttpMethod.POST, "/api/v1/feedback").hasAnyAuthority(RoleType.USER.getCode())
+                    .mvcMatchers(HttpMethod.POST, "/api/v1/feedback").hasAnyAuthority(RoleType.USER.getCode())
                 //게더타운 API
-                    .antMatchers(HttpMethod.POST,"/api/v1/gathertown/**").hasAnyAuthority(RoleType.USER.getCode())
-                    .antMatchers("/h2-console/**").permitAll()
-                    .antMatchers("/api/**/admin/**").hasAnyAuthority(RoleType.ADMIN.getCode())
+                    .mvcMatchers(HttpMethod.POST,"/api/v1/gathertown/**").hasAnyAuthority(RoleType.USER.getCode())
+                    .mvcMatchers("/h2-console/**").permitAll()
+                    .mvcMatchers("/api/**/admin/**").hasAnyAuthority(RoleType.ADMIN.getCode())
                     .anyRequest().denyAll()
                     .and()
                 .oauth2Login()
