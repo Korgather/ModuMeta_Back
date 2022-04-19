@@ -1,14 +1,13 @@
-# 메타버스 공유 커뮤니티 - 모두의메타버스(ModuMeta)
 
-<br/>
+
+
 
 ![](modumeta_logo.png)
 
-### Backend(Spirng) : EarlGray (https://github.com/scm1400)
+<br/>
 
-### Frontend(Next.js) : Gwang (https://github.com/eungwang1)
+# 메타버스 공유 커뮤니티 - 모두의메타버스(ModuMeta)
 
-### Infra : Aws EB, RDS, S3, Vercel
 
 <br/>
 <br/>
@@ -47,3 +46,15 @@
 <br/>
 
 네이버카페 게더타운 커뮤니티 코게더(KorGather)를 운영하면서 게더타운 뿐만 아니라 다른 메타버스 플랫폼(젭, 세컨블록 등)을 한 곳에서 경험 할 수 있고, 서로 다른 메타버스 플랫폼 이용자들이 상호작용 할 수 있는 커뮤니티 사이트를 만들고 싶어서 제작하게 되었습니다.
+
+<br/>
+<br/>
+
+EarlGray (https://github.com/scm1400)  
+Gwang (https://github.com/eungwang1)
+
+### Backend : SpirngBoot
+
+### Frontend : Next.js
+
+### Infra : AWS EB, RDS, S3, Vercel
