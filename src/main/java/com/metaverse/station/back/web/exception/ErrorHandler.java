@@ -4,24 +4,27 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.metaverse.station.back.web.dto.PostsSaveRequestDto;
 import com.nimbusds.oauth2.sdk.ErrorResponse;
 import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.tomcat.util.http.fileupload.impl.FileSizeLimitExceededException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.security.authentication.InsufficientAuthenticationException;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.web.servlet.mvc.support.DefaultHandlerExceptionResolver;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.stream.Collectors;
 
-
+@Slf4j
 @RestControllerAdvice
 public class ErrorHandler {
 
@@ -48,7 +51,7 @@ public class ErrorHandler {
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<ValidationErrorResponse> handleValidException(MethodArgumentNotValidException e, HttpServletRequest request) {
+    public ResponseEntity<ValidationErrorResponse> handleValidException(MethodArgumentNotValidException e, WebRequest request) {
 
         ValidationErrorResponse errorResponse = ValidationErrorResponse.makeErrorResponse(e.getBindingResult());
 
@@ -60,6 +63,15 @@ public class ErrorHandler {
 
         return ResponseEntity.badRequest().body("{ \"error\": \"" + "5메가 이하의 파일을 업로드해주세요." + "\" }");
 
+    }
+
+    @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
+    public ResponseEntity<Object> handleHttpRequestMethodNotSupportedException(
+            Exception ex, HttpServletRequest request
+    ) {
+
+        log.info(ex.getMessage() +": " + request.getRequestURI());
+        return new ResponseEntity<Object>("잘못된 요청입니다.",new HttpHeaders(), HttpStatus.BAD_REQUEST);
     }
 
 }
