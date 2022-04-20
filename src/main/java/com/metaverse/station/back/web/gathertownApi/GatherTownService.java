@@ -65,6 +65,8 @@ public class GatherTownService {
                                                         requestDto.getSpaceId(),
                                                         requestDto.getMapId());
 
+        //음악 Object ID 값과 같은 것이 있는지 찾는다.
+        //있다면 해당 오브젝트의 데이터만 교체.
         gatherTownMap.getObjects().forEach(gatherTownObject -> {
             if(gatherTownObject.id.equals(requestDto.getId())){
                 gatherTownObject.setX(requestDto.getX());
@@ -77,7 +79,7 @@ public class GatherTownService {
                 success.set(true);
             }
         });
-//        System.out.println(success.get());
+        //없다면 새로운 오브젝트를 만들어서 넣는다.
         if (!success.get())
         {
             GatherTownSampleMusic gatherTownSampleMusic = new GatherTownSampleMusic();

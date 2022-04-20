@@ -34,6 +34,4 @@ public class GatherTownSampleMusic extends GatherTownMapResponseDto.GatherTownOb
     private String normal = "https://cdn.gather.town/storage.googleapis.com/gather-town.appspot.com/internal-dashboard/images/4uyTiJdT700i7__UEsgWL";
     private int orientation = 0;
 
-
-
 }
