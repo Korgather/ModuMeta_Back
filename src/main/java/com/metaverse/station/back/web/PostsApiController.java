@@ -28,21 +28,6 @@ public class PostsApiController {
     private final S3Uploader s3Uploader;
 
 
-//    @GetMapping("/api/v1/posts")
-//    public Page<PostsResponseDto> findAll(@RequestParam String keyword, @PageableDefault(size = 8,sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
-//        if (keyword == null) {
-//            return postsService.findAll(pageable);
-//        }
-//        else {
-//            return postsService.findByContentOrTitle(keyword, pageable);
-//        }
-//    }
-
-    //    @GetMapping("/api/v1/posts/category")
-//    public Page<PostsResponseDto> findByContentAndTitle(@RequestParam String category, @PageableDefault(size = 8,sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
-//        return postsService.findByCategory(category, pageable);
-//    }
-
     @GetMapping("/api/v1/posts")
     public Page<PostsResponseDto> findAllByCategory(@RequestParam(required = false) String keyword,
                                                     @RequestParam(required = false) String category,
@@ -52,8 +37,9 @@ public class PostsApiController {
 
         if (keyword.isEmpty()) {
             return postsService.findAllByCategory(category, pageable);
-        }
-        else {
+        } else if (category.equals("_")) {
+            return postsService.findAll(pageable);
+        } else {
             return postsService.findByContentTitleCategory(keyword, category, pageable);
         }
     }

@@ -28,7 +28,7 @@ public class PostsSaveRequestDto {
     private String category;
 
     @NotBlank(message = "공백을 입력 할 수 없습니다.")
-    @Length(min = 10, message = "내용을 최소 10글자 이상 입력해주세요")
+    @Length(max = 2000, message = "본문 내용 길이가 너무 깁니다.")
     private String content;
 
     @URL(message = "유효한 URL을 입력해주세요.")
