@@ -17,7 +17,7 @@ public class GatherTownApiController {
     @PostMapping("/api/v1/gathertown/getmap")
     public GatherTownMapResponseDto getMap(@RequestBody GatherTownGetMapRequestDto requestDto) {
 
-        return gatherTownService.getMap(requestDto);
+        return gatherTownService.getMap(requestDto.getApiKey(),requestDto.getSpaceId(),requestDto.getMapId());
     }
     @PostMapping("/api/v1/gathertown/setmap")
     public String setMap(@RequestBody GatherTownSetMapRequestDto requestDto) {

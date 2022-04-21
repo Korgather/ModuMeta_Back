@@ -9,6 +9,7 @@ import org.springframework.http.codec.json.Jackson2JsonDecoder;
 import org.springframework.http.codec.json.Jackson2JsonEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.reactive.function.client.ExchangeStrategies;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -27,24 +28,13 @@ public class GatherTownService {
         this.restTemplate = restTemplateBuilder.build();
     }
 
-    public GatherTownMapResponseDto getMap(GatherTownGetMapRequestDto requestDto) {
-        String apiUrl = "https://api.gather.town/api/getMap";
-
-        WebClient client = WebClient.create(apiUrl);
-
-        return client.get().uri(uriBuilder -> uriBuilder
-                        .queryParam("spaceId", requestDto.getSpaceId().replace("/", "\\").replace("%20", " "))
-                        .queryParam("mapId", requestDto.getMapId())
-                        .queryParam("apiKey", requestDto.getApiKey())
-                        .build())
-                .retrieve()
-                .bodyToMono(GatherTownMapResponseDto.class).block();
-    }
-
     public GatherTownMapResponseDto getMap(String apiKey,String spaceId, String mapId) {
+        ExchangeStrategies exchangeStrategies = ExchangeStrategies.builder()
+                .codecs(configurer -> configurer.defaultCodecs().maxInMemorySize(10 * 1024 * 1024)) // 10MB
+                .build();
         String apiUrl = "https://api.gather.town/api/getMap";
 
-        WebClient client = WebClient.create(apiUrl);
+        WebClient client = WebClient.builder().exchangeStrategies(exchangeStrategies).baseUrl(apiUrl).build();
 
         return client.get().uri(uriBuilder -> uriBuilder
                         .queryParam("spaceId", spaceId.replace("/", "\\").replace("%20", " "))
@@ -129,47 +119,6 @@ public class GatherTownService {
     }
 
     @Deprecated
-    public String setMusicWithWebclient(GatherTownGetMapRequestDto requestDto) {
-
-        String apiUrl = "https://api.gather.town/api/setMap";
-
-
-        WebClient client = WebClient.builder()
-                .codecs(configurer -> {
-                    configurer.defaultCodecs().jackson2JsonEncoder(new Jackson2JsonEncoder(new ObjectMapper(), MediaType.APPLICATION_JSON));
-                    configurer.defaultCodecs().jackson2JsonDecoder(new Jackson2JsonDecoder(new ObjectMapper(), MediaType.APPLICATION_JSON));
-                })
-                .baseUrl(apiUrl)
-                .build();
-
-        GatherTownMapResponseDto gatherTownMap = getMap(requestDto);
-
-        GatherTownSampleMusic gatherTownSampleMusic = new GatherTownSampleMusic();
-        gatherTownSampleMusic.setX(10);
-        gatherTownSampleMusic.setY(10);
-        gatherTownSampleMusic.sound.setSrc("https://cdn.gather.town/storage.googleapis.com/gather-town.appspot.com/internal-dashboard/sounds/jAlXIofmjkQFHBM_oYl-F");
-        gatherTownSampleMusic.sound.setLoop(false);
-        gatherTownSampleMusic.sound.setVolume(0.5);
-        gatherTownSampleMusic.sound.setMaxDistance(30);
-        gatherTownSampleMusic.setId("modumeta-sound-001");
-
-        gatherTownMap.getObjects().add(gatherTownSampleMusic);
-
-        requestDto.setMapContent(gatherTownMap);
-        requestDto.setSpaceId(requestDto.getSpaceId().replace("/", "\\").replace("%20", " "));
-
-
-        return  client.
-                post().
-                contentType(MediaType.APPLICATION_JSON).
-                accept(MediaType.APPLICATION_JSON).
-                bodyValue(requestDto).
-                retrieve().
-                bodyToMono(String.class).block();
-
-    }
-
-    @Deprecated
     public HttpEntity<Object> getMapRestemplate(GatherTownGetMapRequestDto requestDto) {
         HttpHeaders headers = new HttpHeaders();
         headers.set(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE);
@@ -200,6 +149,61 @@ public class GatherTownService {
         );
         return response;
     }
+
+    @Deprecated
+    public String setMusicWithWebclient(GatherTownGetMapRequestDto requestDto) {
+
+        String apiUrl = "https://api.gather.town/api/setMap";
+
+
+        WebClient client = WebClient.builder()
+                .codecs(configurer -> {
+                    configurer.defaultCodecs().jackson2JsonEncoder(new Jackson2JsonEncoder(new ObjectMapper(), MediaType.APPLICATION_JSON));
+                    configurer.defaultCodecs().jackson2JsonDecoder(new Jackson2JsonDecoder(new ObjectMapper(), MediaType.APPLICATION_JSON));
+                })
+                .baseUrl(apiUrl)
+                .build();
+
+        GatherTownMapResponseDto gatherTownMap = getMap(requestDto.getApiKey(),requestDto.getSpaceId(),requestDto.getMapId());
+
+        GatherTownSampleMusic gatherTownSampleMusic = new GatherTownSampleMusic();
+        gatherTownSampleMusic.setX(10);
+        gatherTownSampleMusic.setY(10);
+        gatherTownSampleMusic.sound.setSrc("https://cdn.gather.town/storage.googleapis.com/gather-town.appspot.com/internal-dashboard/sounds/jAlXIofmjkQFHBM_oYl-F");
+        gatherTownSampleMusic.sound.setLoop(false);
+        gatherTownSampleMusic.sound.setVolume(0.5);
+        gatherTownSampleMusic.sound.setMaxDistance(30);
+        gatherTownSampleMusic.setId("modumeta-sound-001");
+
+        gatherTownMap.getObjects().add(gatherTownSampleMusic);
+
+        requestDto.setMapContent(gatherTownMap);
+        requestDto.setSpaceId(requestDto.getSpaceId().replace("/", "\\").replace("%20", " "));
+
+
+        return  client.
+                post().
+                contentType(MediaType.APPLICATION_JSON).
+                accept(MediaType.APPLICATION_JSON).
+                bodyValue(requestDto).
+                retrieve().
+                bodyToMono(String.class).block();
+
+    }
+
+//    public GatherTownMapResponseDto getMap(GatherTownGetMapRequestDto requestDto) {
+//        String apiUrl = "https://api.gather.town/api/getMap";
+//
+//        WebClient client = WebClient.create(apiUrl);
+//
+//        return client.get().uri(uriBuilder -> uriBuilder
+//                        .queryParam("spaceId", requestDto.getSpaceId().replace("/", "\\").replace("%20", " "))
+//                        .queryParam("mapId", requestDto.getMapId())
+//                        .queryParam("apiKey", requestDto.getApiKey())
+//                        .build())
+//                .retrieve()
+//                .bodyToMono(GatherTownMapResponseDto.class).block();
+//    }
 
 
 }
