@@ -23,7 +23,7 @@ import java.util.*;
 
 @SpringBootTest(
         properties = {
-                "spring.config.location=classpath:application-test.properties"
+                "spring.config.location=classpath:application-test-test.properties"
         }
 )
 public class RequestToGraphql {
