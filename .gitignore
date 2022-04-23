@@ -3,6 +3,7 @@ HELP.md
 application-local-real.properties
 application-db.properties
 application-oauth.properties
+application-test-test.properties
 build/
 !gradle/wrapper/gradle-wrapper.jar
 !**/src/main/**/build/
