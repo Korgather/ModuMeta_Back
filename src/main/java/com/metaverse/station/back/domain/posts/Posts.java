@@ -56,6 +56,8 @@ public class Posts extends BaseTimeEntity {
     @Column(columnDefinition = "integer default 0", nullable = false)
     private int view;
 
+    private int playerCount;
+
 
     @OneToMany(
             mappedBy = "posts",
@@ -113,5 +115,8 @@ public class Posts extends BaseTimeEntity {
     public void setCategory(PostsCategory category) {
         this.category = category;
         this.categoryString = category.toString();
+    }
+    public void setPlayerCount(int playerCount){
+        this.playerCount = playerCount;
     }
 }
