@@ -28,6 +28,7 @@ public class PostsResponseDto {
     private String link;
     private final List<postComment> postCommentList = new ArrayList<>();
     private final Map<Long,String> likeUserList = new HashMap<>();
+    private int playerCount;
     private LocalDateTime createdDate;
     private LocalDateTime modifiedDate;
 
@@ -112,6 +113,7 @@ public class PostsResponseDto {
         this.content = entity.getContent();
         this.link = entity.getLink();
         this.view = entity.getView();
+        this.playerCount = entity.getPlayerCount();
         if(!entity.getLikes().isEmpty()) {
             for (Likes likes : entity.getLikes()) {
                 likeUserList.put(likes.getUser().getUserSeq(),likes.getUser().getUsername());
