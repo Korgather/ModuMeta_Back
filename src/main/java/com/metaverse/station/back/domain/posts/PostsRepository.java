@@ -39,6 +39,8 @@ public interface PostsRepository extends PagingAndSortingRepository<Posts,Long> 
     Page<Posts> findPostsByContentTitleCategory(@Param("keyword") String keyword, @Param("categoryname") String category  , Pageable pageable);
 
 
+    List<Posts> findPostsByCategoryStringContaining(String category);
+
     //    Page<Posts> findPostsByLikesUserUserSeq(Long id,Pageable pageable);
     //    Page<Posts> findPostsByUserUserSeq(Long id, Pageable pageable);
 //    Page<Posts> findPostsByContentContainingIgnoreCaseOrTitleContainingIgnoreCase(String content, String title, Pageable pageable);
