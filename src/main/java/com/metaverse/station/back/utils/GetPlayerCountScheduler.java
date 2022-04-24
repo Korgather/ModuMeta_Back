@@ -50,7 +50,14 @@ public class GetPlayerCountScheduler {
             String graphqlQuery = null;
             if(link.contains("gather.town/app/")){
                 String spaceid = link.substring(link.indexOf("app/")+4,link.lastIndexOf("/"));
-                String spacename = link.substring(link.lastIndexOf("/")+1, link.length());
+                String spacename = null;
+                if(link.contains("?spawn"))
+                {
+                    spacename = link.substring(link.lastIndexOf("/")+1,link.lastIndexOf("?spawn"));
+                }
+                else {
+                    spacename = link.substring(link.lastIndexOf("/") + 1, link.length());
+                }
                 String variables = "{\"apikey\": \"QUNCVEQGILsqeXR5\",\"spaceid\": \""+spaceid+"\",\"spacename\" : \""+spacename+"\"}";
 
                 try {
