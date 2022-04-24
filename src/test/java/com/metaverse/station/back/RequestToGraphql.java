@@ -18,9 +18,11 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.CoreSubscriber;
 import reactor.core.publisher.Mono;
 
 import java.util.*;
+import java.util.stream.Stream;
 
 
 //@SpringBootTest(
@@ -36,6 +38,9 @@ public class RequestToGraphql {
 //
 //    @Autowired
 //    private PostsRepository postsRepository;
+//
+//    @Autowired
+//    WebClient.Builder webClientBuilder;
 //
 //
 //    @Test
@@ -95,14 +100,12 @@ public class RequestToGraphql {
 //    @Test
 //    @Transactional
 //    @Rollback(false)
-//    public void postToGraphql3() throws JsonProcessingException, JSONException {
+//    public void postToGraphql3() throws JsonProcessingException, JSONException, InterruptedException {
 //        String URL = "https://gt-space-data.herokuapp.com/graphql";
 //
-//        HttpHeaders headers = new HttpHeaders();
+//        WebClient webClient = webClientBuilder.baseUrl(URL).defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE).build();
 //
-//        WebClient webClient = WebClient.builder().baseUrl(URL).defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE).build();
-//
-//        headers.add("content-type", "application/json"); // just modified graphql into json
+////        WebClient webClient = WebClient.builder().baseUrl(URL).defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE).build();
 //
 //        long startTime = System.currentTimeMillis();
 //
@@ -110,25 +113,67 @@ public class RequestToGraphql {
 //        String query = "query gameData($apikey:String!,$spaceid:String!,$spacename:String!){gameData(spaceData:{apiKey: $apikey, spaceIdNum: $spaceid, spaceName: $spacename}){playerCount,}}";
 //        String opertationName = "gameData";
 //
+//        List<Mono<PlayerCountDto>> playerCountDtoList = new ArrayList<>();
 //
 //        list.forEach(posts -> {
 //            String link = posts.getLink();
+//            String graphqlQuery = null;
 //            if(link.contains("gather.town")){
 //                String spaceid = link.substring(link.indexOf("app/")+4,link.lastIndexOf("/"));
 //                String spacename = link.substring(link.lastIndexOf("/")+1, link.length());
 //                String variables = "{\"apikey\": \"QUNCVEQGILsqeXR5\",\"spaceid\": \""+spaceid+"\",\"spacename\" : \""+spacename+"\"}";
 //
 //                try {
-//                    String graphqlQuery = createJsonQueries(query,opertationName,variables);
-//                    Mono<PlayerCountDto> playerCountDto = webClient.post().bodyValue(graphqlQuery).retrieve().bodyToMono(PlayerCountDto.class);
-//
+//                    graphqlQuery = createJsonQueries(query,opertationName,variables);
 //                } catch (JsonProcessingException e) {
 //                    e.printStackTrace();
 //                }
-//
 //            }
-////            System.out.println(posts.getLink());
+//            //blocking call
+////            System.out.println(webClient.post().bodyValue(graphqlQuery).retrieve().bodyToMono(PlayerCountDto.class).block().getData().getGameData().playerCount);
+////            playerCountDtoList.add(webClient.post().bodyValue(graphqlQuery).retrieve().bodyToMono(PlayerCountDto.class));
+////            webClient.post().bodyValue(graphqlQuery)
+////                    .retrieve()
+////                    .bodyToMono(PlayerCountDto.class)
+////                    .doOnSuccess(
+////                        playerCountDto -> {
+////                            System.out.println(playerCountDto.getData().getGameData().playerCount);
+////                            posts.setPlayerCount(playerCountDto.getData().getGameData().playerCount);
+////                            System.out.println(posts.getLink());
+////                        }
+////            ).subscribe();
+//
+//            Mono<PlayerCountDto> playerCountDtoMono = webClient.post().bodyValue(graphqlQuery)
+//                    .retrieve()
+//                    .bodyToMono(PlayerCountDto.class);
+//
+//            playerCountDtoMono.doOnSuccess(
+//                    playerCountDto -> {
+//                        System.out.println(playerCountDto.getData().gameData.getPlayerCount());
+//                    }
+//            ).log().subscribe();
 //        });
+//        String variables = "{\"apikey\": \"QUNCVEQGILsqeXR5\",\"spaceid\": \""+"cDRgrckO2OfoZSJc"+"\",\"spacename\" : \""+"onethepl"+"\"}";
+//
+//        wait(10000);
+//
+////        webClient.post().bodyValue(createJsonQueries(query,opertationName,variables)).retrieve().bodyToMono(PlayerCountDto.class).doOnSuccess(
+////                playerCountDto -> {
+////                    System.out.println("aa" +playerCountDto.getData().getGameData().playerCount);
+////                }
+////        ).block();
+//
+////        playerCountDtoList.forEach(
+////                mono->{
+////                    mono.block();
+////                    mono.doOnSuccess(
+////                            playerCountDto -> {
+////                                System.out.println(playerCountDto.getData().gameData.getPlayerCount());
+////                            }
+////                    ).subscribe();
+////                }
+////        );
+//
 //
 //        long stopTime = System.currentTimeMillis();
 //        long elapsedTime = stopTime - startTime;
