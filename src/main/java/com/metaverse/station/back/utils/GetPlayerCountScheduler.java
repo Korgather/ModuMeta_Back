@@ -48,7 +48,7 @@ public class GetPlayerCountScheduler {
         list.forEach(posts -> {
             String link = posts.getLink();
             String graphqlQuery = null;
-            if(link.contains("gather.town")){
+            if(link.contains("gather.town/app/")){
                 String spaceid = link.substring(link.indexOf("app/")+4,link.lastIndexOf("/"));
                 String spacename = link.substring(link.lastIndexOf("/")+1, link.length());
                 String variables = "{\"apikey\": \"QUNCVEQGILsqeXR5\",\"spaceid\": \""+spaceid+"\",\"spacename\" : \""+spacename+"\"}";
@@ -58,19 +58,18 @@ public class GetPlayerCountScheduler {
                 } catch (JsonProcessingException e) {
                     e.printStackTrace();
                 }
-            }
+                Mono<PlayerCountDto> playerCountDtoMono = webClient.post().bodyValue(graphqlQuery)
+                        .retrieve()
+                        .bodyToMono(PlayerCountDto.class);
 
-            Mono<PlayerCountDto> playerCountDtoMono = webClient.post().bodyValue(graphqlQuery)
-                    .retrieve()
-                    .bodyToMono(PlayerCountDto.class);
-
-            playerCountDtoMono.doOnSuccess(
-                    playerCountDto -> {
-                        postsService.updatePlayerCount(posts,playerCountDto.getData().gameData.getPlayerCount());
-                        System.out.println(playerCountDto.getData().gameData.getPlayerCount());
+                playerCountDtoMono.doOnSuccess(
+                        playerCountDto -> {
+                            postsService.updatePlayerCount(posts,playerCountDto.getData().gameData.getPlayerCount());
+                            System.out.println(playerCountDto.getData().gameData.getPlayerCount());
 //                        posts.setPlayerCount(playerCountDto.getData().gameData.getPlayerCount());
-                    }
-            ).subscribe();
+                        }
+                ).subscribe();
+            }
         });
 
 
