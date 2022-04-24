@@ -14,6 +14,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
@@ -23,6 +24,7 @@ import java.util.List;
 @Slf4j
 @Component
 @RequiredArgsConstructor
+@Transactional
 public class GetPlayerCountScheduler {
 
     private final WebClient.Builder webClientBuild;
@@ -65,7 +67,7 @@ public class GetPlayerCountScheduler {
 //                        System.out.println(playerCountDto.getData().gameData.getPlayerCount());
                         posts.setPlayerCount(playerCountDto.getData().gameData.getPlayerCount());
                     }
-            ).log().subscribe();
+            ).subscribe();
         });
 
 
