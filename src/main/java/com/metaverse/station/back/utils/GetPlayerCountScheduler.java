@@ -24,13 +24,13 @@ import java.util.List;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-@Transactional
 public class GetPlayerCountScheduler {
 
     private final WebClient.Builder webClientBuild;
     private final PostsRepository postsRepository;
 
     @Scheduled(initialDelay = 10000, fixedDelay = 30000)
+    @Transactional
     public void requestScheduler() {
 
         String URL = "https://gt-space-data.herokuapp.com/graphql";
