@@ -103,6 +103,12 @@ public class PostsService {
 
     }
 
+    @Transactional
+    public void updatePlayerCount(Posts posts, int playerCount){
+        Posts post = postsRepository.findById(posts.getId()).orElseThrow(() -> new IllegalArgumentException("해당 게시글이 없습니다."));
+        post.setPlayerCount(playerCount);
+    }
+
     public PostsResponseDto findById(Long id) {
         Posts entity = postsRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("해당 게시글이 없습니다. id=" + id));
         return new PostsResponseDto(entity);

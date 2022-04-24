@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.metaverse.station.back.domain.posts.Posts;
 import com.metaverse.station.back.domain.posts.PostsRepository;
+import com.metaverse.station.back.service.PostsService;
 import com.metaverse.station.back.web.gathertownApi.PlayerCountDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -28,9 +29,10 @@ public class GetPlayerCountScheduler {
 
     private final WebClient.Builder webClientBuild;
     private final PostsRepository postsRepository;
+    private final PostsService postsService;
 
-    @Scheduled(initialDelay = 10000, fixedDelay = 30000)
-    @Transactional
+    @Scheduled(initialDelay = 1000, fixedDelay = 30000)
+//    @Transactional
     public void requestScheduler() {
 
         String URL = "https://gt-space-data.herokuapp.com/graphql";
@@ -64,8 +66,9 @@ public class GetPlayerCountScheduler {
 
             playerCountDtoMono.doOnSuccess(
                     playerCountDto -> {
-//                        System.out.println(playerCountDto.getData().gameData.getPlayerCount());
-                        posts.setPlayerCount(playerCountDto.getData().gameData.getPlayerCount());
+                        postsService.updatePlayerCount(posts,playerCountDto.getData().gameData.getPlayerCount());
+                        System.out.println(playerCountDto.getData().gameData.getPlayerCount());
+//                        posts.setPlayerCount(playerCountDto.getData().gameData.getPlayerCount());
                     }
             ).subscribe();
         });
