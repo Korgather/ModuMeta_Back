@@ -120,6 +120,10 @@ public class User extends BaseTimeEntity {
         this.username = userName;
     }
 
+    public void setUserEmail(String email) {
+        this.email = email;
+    }
+
     public void update(String userName, String bio, String profileImageUrl) {
         this.username = userName;
         this.bio = bio;
