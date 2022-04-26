@@ -72,7 +72,7 @@ public class GetPlayerCountScheduler {
                 playerCountDtoMono.doOnSuccess(
                         playerCountDto -> {
                             postsService.updatePlayerCount(posts,playerCountDto.getData().gameData.getPlayerCount());
-                            System.out.println(playerCountDto.getData().gameData.getPlayerCount());
+//                            System.out.println(playerCountDto.getData().gameData.getPlayerCount());
 //                        posts.setPlayerCount(playerCountDto.getData().gameData.getPlayerCount());
                         }
                 ).subscribe();
