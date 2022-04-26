@@ -58,7 +58,7 @@ public class GetPlayerCountScheduler {
                 else {
                     spacename = link.substring(link.lastIndexOf("/") + 1, link.length());
                 }
-                String variables = "{\"apikey\": \"QUNCVEQGILsqeXR5\",\"spaceid\": \""+spaceid+"\",\"spacename\" : \""+spacename+"\"}";
+                String variables = "{\"apikey\": \"2nPMLfFH8AwVAr9e\",\"spaceid\": \""+spaceid+"\",\"spacename\" : \""+spacename+"\"}";
 
                 try {
                     graphqlQuery = createJsonQueries(query,opertationName,variables);
