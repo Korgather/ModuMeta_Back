@@ -36,13 +36,16 @@ public class GatherTownService {
 
         WebClient client = WebClient.builder().exchangeStrategies(exchangeStrategies).baseUrl(apiUrl).build();
 
+        ObjectMapper mapper = new ObjectMapper();
+
         return client.get().uri(uriBuilder -> uriBuilder
                         .queryParam("spaceId", spaceId.replace("/", "\\").replace("%20", " "))
                         .queryParam("mapId", mapId)
                         .queryParam("apiKey", apiKey)
                         .build())
                 .retrieve()
-                .bodyToMono(GatherTownMapResponseDto.class).block();
+                .bodyToMono(GatherTownMapResponseDto.class)
+                .block();
     }
 
     public String setMusic(GatherTownSetMapRequestDto requestDto) {

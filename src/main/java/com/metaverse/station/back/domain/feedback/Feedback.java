@@ -1,18 +1,12 @@
 package com.metaverse.station.back.domain.feedback;
 
 import com.metaverse.station.back.domain.BaseTimeEntity;
-import com.metaverse.station.back.domain.comments.Comments;
-import com.metaverse.station.back.domain.images.Images;
-import com.metaverse.station.back.domain.likes.Likes;
-import com.metaverse.station.back.domain.posts.PostsCategory;
 import com.metaverse.station.back.domain.user.User;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.List;
-import java.util.Set;
 
 @Entity
 @Getter

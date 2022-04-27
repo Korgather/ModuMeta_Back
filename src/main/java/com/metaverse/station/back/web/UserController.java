@@ -1,6 +1,5 @@
 package com.metaverse.station.back.web;
 
-import com.metaverse.station.back.common.ApiResponse;
 import com.metaverse.station.back.domain.user.User;
 import com.metaverse.station.back.service.UserService;
 import com.metaverse.station.back.utils.S3Uploader;
@@ -13,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
-import javax.validation.constraints.Pattern;
 import java.io.IOException;
 import java.util.List;
 

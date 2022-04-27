@@ -1,15 +1,11 @@
 package com.metaverse.station.back.web.dto;
 
-import com.metaverse.station.back.domain.images.Images;
 import com.metaverse.station.back.domain.notification.Notification;
-import com.metaverse.station.back.domain.posts.Posts;
 import com.metaverse.station.back.domain.user.User;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import java.util.List;
 
 
 @Getter

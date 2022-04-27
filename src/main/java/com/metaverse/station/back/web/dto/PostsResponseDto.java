@@ -7,12 +7,14 @@ import com.metaverse.station.back.domain.likes.Likes;
 import com.metaverse.station.back.domain.posts.Posts;
 import com.metaverse.station.back.domain.posts.PostsCategory;
 import com.metaverse.station.back.domain.user.User;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Getter
 @NoArgsConstructor

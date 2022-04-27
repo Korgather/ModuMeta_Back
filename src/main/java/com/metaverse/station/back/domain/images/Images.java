@@ -1,6 +1,5 @@
 package com.metaverse.station.back.domain.images;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.metaverse.station.back.domain.posts.Posts;
 import lombok.Builder;
 import lombok.Getter;

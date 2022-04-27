@@ -1,7 +1,6 @@
 package com.metaverse.station.back.web.dto;
 
 import com.metaverse.station.back.domain.notification.Notification;
-import com.metaverse.station.back.domain.user.User;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
