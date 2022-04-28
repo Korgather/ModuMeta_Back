@@ -41,57 +41,59 @@ public class GetPlayerCountScheduler {
 
         WebClient webClient = webClientBuild.baseUrl(URL).defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE).build();
 
-//        long startTime = System.currentTimeMillis();
+        HttpStatus httpStatus = webClient.get().exchangeToMono(clientResponse -> Mono.just(clientResponse.statusCode())).block();
+        //        long startTime = System.currentTimeMillis();
+        if (httpStatus.value() != 503) {
 
-        List<Posts> list = postsRepository.findPostsByCategoryStringContaining("GATHERTOWN");
-        String query = "query gameData($apikey:String!,$spaceid:String!,$spacename:String!){gameData(spaceData:{apiKey: $apikey, spaceIdNum: $spaceid, spaceName: $spacename}){playerCount,}}";
-        String opertationName = "gameData";
+            List<Posts> list = postsRepository.findPostsByCategoryStringContaining("GATHERTOWN");
+            String query = "query gameData($apikey:String!,$spaceid:String!,$spacename:String!){gameData(spaceData:{apiKey: $apikey, spaceIdNum: $spaceid, spaceName: $spacename}){playerCount,}}";
+            String opertationName = "gameData";
 
-        list.forEach(posts -> {
-            String link = posts.getLink();
-            String graphqlQuery = null;
-            if(link.contains("gather.town/app/")){
-                String spaceid = link.substring(link.indexOf("app/")+4,link.lastIndexOf("/"));
-                String spacename = null;
-                if(link.contains("?spawn"))
-                {
-                    spacename = link.substring(link.lastIndexOf("/")+1,link.lastIndexOf("?spawn"));
-                }
-                else {
-                    spacename = link.substring(link.lastIndexOf("/") + 1, link.length());
-                }
-                String variables = "{\"apikey\": \"2nPMLfFH8AwVAr9e\",\"spaceid\": \""+spaceid+"\",\"spacename\" : \""+spacename+"\"}";
+            list.forEach(posts -> {
+                String link = posts.getLink();
+                String graphqlQuery = null;
+                if(link.contains("gather.town/app/")){
+                    String spaceid = link.substring(link.indexOf("app/")+4,link.lastIndexOf("/"));
+                    String spacename = null;
+                    if(link.contains("?spawn"))
+                    {
+                        spacename = link.substring(link.lastIndexOf("/")+1,link.lastIndexOf("?spawn"));
+                    }
+                    else {
+                        spacename = link.substring(link.lastIndexOf("/") + 1, link.length());
+                    }
+                    String variables = "{\"apikey\": \"2nPMLfFH8AwVAr9e\",\"spaceid\": \""+spaceid+"\",\"spacename\" : \""+spacename+"\"}";
 
-                try {
-                    graphqlQuery = createJsonQueries(query,opertationName,variables);
-                } catch (JsonProcessingException e) {
-                    e.printStackTrace();
-                }
-                Mono<PlayerCountDto> playerCountDtoMono;
-                try {
+                    try {
+                        graphqlQuery = createJsonQueries(query,opertationName,variables);
+                    } catch (JsonProcessingException e) {
+                        e.printStackTrace();
+                    }
+                    Mono<PlayerCountDto> playerCountDtoMono;
+
 
                     playerCountDtoMono = webClient.post().bodyValue(graphqlQuery)
                             .retrieve()
-//                        .onStatus(httpStatus -> httpStatus.value() == HttpStatus.SERVICE_UNAVAILABLE.value(),
-//                                clientResponse -> Mono.error(new WebClientServiceException("서버가 닫혀있습니다",clientResponse.statusCode().value())))
+    //                        .onStatus(httpStatus -> httpStatus.value() == HttpStatus.SERVICE_UNAVAILABLE.value(),
+    //                                clientResponse -> Mono.error(new WebClientServiceException("서버가 닫혀있습니다",clientResponse.statusCode().value())))
                             .bodyToMono(PlayerCountDto.class);
                     playerCountDtoMono.doOnSuccess(
                             playerCountDto -> {
                                 postsService.updatePlayerCount(posts,playerCountDto.getData().gameData.getPlayerCount());
-//                            System.out.println(playerCountDto.getData().gameData.getPlayerCount());
-//                        posts.setPlayerCount(playerCountDto.getData().gameData.getPlayerCount());
+    //                            System.out.println(playerCountDto.getData().gameData.getPlayerCount());
+    //                        posts.setPlayerCount(playerCountDto.getData().gameData.getPlayerCount());
                             }
                     ).subscribe();
 
-                } catch (Exception e) {
 
-                    log.error("서버가 닫혀있습니다 : " + e.getLocalizedMessage());
+
+
                 }
-
-
-
-            }
-        });
+            });
+        }
+        else {
+            log.error("요청 서버가 닫혀있습니다");
+        }
 //        long elapsedTime = stopTime - startTime;
 //        System.out.println(elapsedTime);
 
