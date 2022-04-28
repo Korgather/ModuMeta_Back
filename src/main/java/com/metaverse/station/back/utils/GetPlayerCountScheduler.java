@@ -7,17 +7,21 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.metaverse.station.back.domain.posts.Posts;
 import com.metaverse.station.back.domain.posts.PostsRepository;
 import com.metaverse.station.back.service.PostsService;
+import com.metaverse.station.back.web.exception.CustomException;
 import com.metaverse.station.back.web.gathertownApi.PlayerCountDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.Exceptions;
 import reactor.core.publisher.Mono;
 
 import java.util.List;
+import java.util.function.Supplier;
 
 @Slf4j
 @Component
@@ -27,6 +31,7 @@ public class GetPlayerCountScheduler {
     private final WebClient.Builder webClientBuild;
     private final PostsRepository postsRepository;
     private final PostsService postsService;
+
 
     @Scheduled(initialDelay = 1000, fixedDelay = 30000)
 //    @Transactional
@@ -62,22 +67,31 @@ public class GetPlayerCountScheduler {
                 } catch (JsonProcessingException e) {
                     e.printStackTrace();
                 }
-                Mono<PlayerCountDto> playerCountDtoMono = webClient.post().bodyValue(graphqlQuery)
-                        .retrieve()
-                        .bodyToMono(PlayerCountDto.class);
+                Mono<PlayerCountDto> playerCountDtoMono;
+                try {
 
-                playerCountDtoMono.doOnSuccess(
-                        playerCountDto -> {
-                            postsService.updatePlayerCount(posts,playerCountDto.getData().gameData.getPlayerCount());
+                    playerCountDtoMono = webClient.post().bodyValue(graphqlQuery)
+                            .retrieve()
+//                        .onStatus(httpStatus -> httpStatus.value() == HttpStatus.SERVICE_UNAVAILABLE.value(),
+//                                clientResponse -> Mono.error(new WebClientServiceException("서버가 닫혀있습니다",clientResponse.statusCode().value())))
+                            .bodyToMono(PlayerCountDto.class);
+                    playerCountDtoMono.doOnSuccess(
+                            playerCountDto -> {
+                                postsService.updatePlayerCount(posts,playerCountDto.getData().gameData.getPlayerCount());
 //                            System.out.println(playerCountDto.getData().gameData.getPlayerCount());
 //                        posts.setPlayerCount(playerCountDto.getData().gameData.getPlayerCount());
-                        }
-                ).subscribe();
+                            }
+                    ).subscribe();
+
+                } catch (Exception e) {
+
+                    log.error("서버가 닫혀있습니다 : " + e.getLocalizedMessage());
+                }
+
+
+
             }
         });
-
-
-//        long stopTime = System.currentTimeMillis();
 //        long elapsedTime = stopTime - startTime;
 //        System.out.println(elapsedTime);
 
