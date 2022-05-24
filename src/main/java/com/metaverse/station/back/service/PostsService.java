@@ -6,10 +6,7 @@ import com.metaverse.station.back.domain.posts.Posts;
 import com.metaverse.station.back.domain.posts.PostsCategory;
 import com.metaverse.station.back.domain.posts.PostsRepository;
 import com.metaverse.station.back.domain.user.User;
-import com.metaverse.station.back.web.dto.PostsResponseDto;
-import com.metaverse.station.back.web.dto.PostsSaveRequestDto;
-import com.metaverse.station.back.web.dto.PostsSaveRequestResponseDto;
-import com.metaverse.station.back.web.dto.PostsUpdateRequestDto;
+import com.metaverse.station.back.web.dto.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -104,10 +101,20 @@ public class PostsService {
     }
 
     @Transactional
-    public void updatePlayerCount(Posts posts, int playerCount){
+    public void updatePlayerCountById(Posts posts, int playerCount){
         Posts post = postsRepository.findById(posts.getId()).orElseThrow(() -> new IllegalArgumentException("해당 게시글이 없습니다."));
         post.setPlayerCount(playerCount);
     }
+
+    @Transactional
+    public void updatePlayerCountByUrl(UpdateZepPlayerCountRequestDto requestDto){
+        int playerCount = requestDto.getPlayerCount();
+        String link = "https://zep.us/play/" + requestDto.getHashId();
+        Posts post = postsRepository.findByLink(link).orElseThrow(() -> new IllegalArgumentException("해당 게시글이 없습니다."));
+        post.setPlayerCount(playerCount);
+    }
+
+
 
     public PostsResponseDto findById(Long id) {
         Posts entity = postsRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("해당 게시글이 없습니다. id=" + id));
