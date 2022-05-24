@@ -8,6 +8,7 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface PostsRepository extends PagingAndSortingRepository<Posts,Long> {
 
@@ -21,7 +22,7 @@ public interface PostsRepository extends PagingAndSortingRepository<Posts,Long> 
     @Query("update Posts p set p.view = p.view + 1 where p.id = :id")
     int updateView(Long id);
 
-
+    Optional<Posts> findByLink(String url);
 
 
     @Query("select l.posts from Likes l " +
