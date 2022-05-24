@@ -7,7 +7,6 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.metaverse.station.back.domain.posts.Posts;
 import com.metaverse.station.back.domain.posts.PostsRepository;
 import com.metaverse.station.back.service.PostsService;
-import com.metaverse.station.back.web.exception.CustomException;
 import com.metaverse.station.back.web.gathertownApi.PlayerCountDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,11 +16,9 @@ import org.springframework.http.MediaType;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
-import reactor.core.Exceptions;
 import reactor.core.publisher.Mono;
 
 import java.util.List;
-import java.util.function.Supplier;
 
 @Slf4j
 @Component
@@ -79,7 +76,7 @@ public class GetPlayerCountScheduler {
                             .bodyToMono(PlayerCountDto.class);
                     playerCountDtoMono.doOnSuccess(
                             playerCountDto -> {
-                                postsService.updatePlayerCount(posts,playerCountDto.getData().gameData.getPlayerCount());
+                                postsService.updatePlayerCountById(posts,playerCountDto.getData().gameData.getPlayerCount());
     //                            System.out.println(playerCountDto.getData().gameData.getPlayerCount());
     //                        posts.setPlayerCount(playerCountDto.getData().gameData.getPlayerCount());
                             }
