@@ -7,7 +7,8 @@ import javax.persistence.*;
 
 @NoArgsConstructor
 @Getter
-@Entity(name = "mafiaGameRoom")
+@Entity
+@Table(name = "mafiaGameRoom")
 public class MafiaGameRoom {
 
     @Id
