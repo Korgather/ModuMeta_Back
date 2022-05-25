@@ -1,12 +1,8 @@
 package com.metaverse.station.back.web;
 
-import com.metaverse.station.back.service.NotificationService;
 import com.metaverse.station.back.service.PostsService;
 import com.metaverse.station.back.utils.S3Uploader;
-import com.metaverse.station.back.web.dto.PostsResponseDto;
-import com.metaverse.station.back.web.dto.PostsSaveRequestDto;
-import com.metaverse.station.back.web.dto.PostsSaveRequestResponseDto;
-import com.metaverse.station.back.web.dto.PostsUpdateRequestDto;
+import com.metaverse.station.back.web.dto.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -75,9 +71,6 @@ public class PostsApiController {
 
         return postsService.findByUserId(id, category, pageable);
     }
-
-
-
 
     @PostMapping("/api/v1/posts")
     public PostsSaveRequestResponseDto save(@Valid @RequestBody PostsSaveRequestDto requestDto) {

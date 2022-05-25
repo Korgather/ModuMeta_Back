@@ -1,7 +1,6 @@
 package com.metaverse.station.back.domain.comments;
 
 import com.metaverse.station.back.domain.BaseTimeEntity;
-import com.metaverse.station.back.domain.posts.Posts;
 import com.metaverse.station.back.domain.user.User;
 import lombok.AccessLevel;
 import lombok.Builder;

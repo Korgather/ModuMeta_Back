@@ -4,8 +4,6 @@ import com.metaverse.station.back.domain.images.Images;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-
 @Getter
 @NoArgsConstructor
 public class ImagesDto {

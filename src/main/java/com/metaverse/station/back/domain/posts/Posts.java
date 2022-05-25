@@ -1,21 +1,16 @@
 package com.metaverse.station.back.domain.posts;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.metaverse.station.back.domain.BaseTimeEntity;
 import com.metaverse.station.back.domain.comments.Comments;
 import com.metaverse.station.back.domain.images.Images;
 import com.metaverse.station.back.domain.likes.Likes;
 import com.metaverse.station.back.domain.user.User;
-import com.metaverse.station.back.oauth.domain.RoleType;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -55,6 +50,8 @@ public class Posts extends BaseTimeEntity {
 
     @Column(columnDefinition = "integer default 0", nullable = false)
     private int view;
+
+    private int playerCount;
 
 
     @OneToMany(
@@ -113,5 +110,8 @@ public class Posts extends BaseTimeEntity {
     public void setCategory(PostsCategory category) {
         this.category = category;
         this.categoryString = category.toString();
+    }
+    public void setPlayerCount(int playerCount){
+        this.playerCount = playerCount;
     }
 }

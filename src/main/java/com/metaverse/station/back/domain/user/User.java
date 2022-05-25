@@ -1,23 +1,22 @@
 package com.metaverse.station.back.domain.user;
 
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.metaverse.station.back.domain.BaseTimeEntity;
-import com.metaverse.station.back.domain.images.Images;
 import com.metaverse.station.back.domain.notification.Notification;
 import com.metaverse.station.back.domain.posts.Posts;
 import com.metaverse.station.back.oauth.domain.ProviderType;
 import com.metaverse.station.back.oauth.domain.RoleType;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -118,6 +117,10 @@ public class User extends BaseTimeEntity {
 
     public void setUserName(String userName) {
         this.username = userName;
+    }
+
+    public void setUserEmail(String email) {
+        this.email = email;
     }
 
     public void update(String userName, String bio, String profileImageUrl) {

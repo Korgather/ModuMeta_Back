@@ -8,6 +8,7 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface PostsRepository extends PagingAndSortingRepository<Posts,Long> {
 
@@ -21,7 +22,7 @@ public interface PostsRepository extends PagingAndSortingRepository<Posts,Long> 
     @Query("update Posts p set p.view = p.view + 1 where p.id = :id")
     int updateView(Long id);
 
-
+    Optional<Posts> findByLink(String url);
 
 
     @Query("select l.posts from Likes l " +
@@ -38,6 +39,8 @@ public interface PostsRepository extends PagingAndSortingRepository<Posts,Long> 
     @Query("SELECT p from Posts p WHERE (p.content like concat('%',:keyword,'%')  or p.title like concat('%',:keyword,'%')) AND (p.categoryString like concat('%',:categoryname,'%'))")
     Page<Posts> findPostsByContentTitleCategory(@Param("keyword") String keyword, @Param("categoryname") String category  , Pageable pageable);
 
+
+    List<Posts> findPostsByCategoryStringContaining(String category);
 
     //    Page<Posts> findPostsByLikesUserUserSeq(Long id,Pageable pageable);
     //    Page<Posts> findPostsByUserUserSeq(Long id, Pageable pageable);
