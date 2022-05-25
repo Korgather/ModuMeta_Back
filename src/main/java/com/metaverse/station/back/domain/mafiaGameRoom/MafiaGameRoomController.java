@@ -21,4 +21,10 @@ public class MafiaGameRoomController {
         UpdateZepPlayerCountRequestDto requestDto = UpdateZepPlayerCountRequestDto.builder().playerCount(playerCount).hashId(hashId).build();
         mafiaGameRoomService.updatePlayerCountByUrl(requestDto);
     }
+
+    @GetMapping("/api/v1/posts/zep/mafiagame/playercount")
+    public int getMafiaGamePlayerCount(@RequestParam String hashId) {
+
+        return mafiaGameRoomService.getPlayerCountByUrl(hashId);
+    }
 }
