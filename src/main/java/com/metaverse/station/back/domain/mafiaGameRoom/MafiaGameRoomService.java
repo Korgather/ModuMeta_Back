@@ -21,4 +21,11 @@ public class MafiaGameRoomService {
         MafiaGameRoom mafiaGameRoom = mafiaGameRoomRepository.findByUrl(link).orElseThrow(() -> new IllegalArgumentException("해당 게시글이 없습니다."));
         mafiaGameRoom.setPlayerCount(playerCount);
     }
+
+    @Transactional
+    public int getPlayerCountByUrl(String hashId){
+        String link = "https://zep.us/play/" + hashId;
+        MafiaGameRoom mafiaGameRoom = mafiaGameRoomRepository.findByUrl(link).orElseThrow(() -> new IllegalArgumentException("해당 게시글이 없습니다."));
+        return mafiaGameRoom.getPlayer_count();
+    }
 }
