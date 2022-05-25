@@ -72,19 +72,6 @@ public class PostsApiController {
         return postsService.findByUserId(id, category, pageable);
     }
 
-    @PostMapping("/api/v1/posts/zep/playercount")
-    public void updateZepPlayerCount(@RequestBody UpdateZepPlayerCountRequestDto requestDto) {
-
-        postsService.updatePlayerCountByUrl(requestDto);
-    }
-
-    @GetMapping("/api/v1/posts/zep/playercount")
-    public void updateZepPlayerCount2(@RequestParam String hashId, @RequestParam int playerCount) {
-        UpdateZepPlayerCountRequestDto requestDto = UpdateZepPlayerCountRequestDto.builder().playerCount(playerCount).hashId(hashId).build();
-        postsService.updatePlayerCountByUrl(requestDto);
-    }
-
-
     @PostMapping("/api/v1/posts")
     public PostsSaveRequestResponseDto save(@Valid @RequestBody PostsSaveRequestDto requestDto) {
 

@@ -106,16 +106,6 @@ public class PostsService {
         post.setPlayerCount(playerCount);
     }
 
-    @Transactional
-    public void updatePlayerCountByUrl(UpdateZepPlayerCountRequestDto requestDto){
-        int playerCount = requestDto.getPlayerCount();
-        String link = "https://zep.us/play/" + requestDto.getHashId();
-        Posts post = postsRepository.findByLink(link).orElseThrow(() -> new IllegalArgumentException("해당 게시글이 없습니다."));
-        post.setPlayerCount(playerCount);
-    }
-
-
-
     public PostsResponseDto findById(Long id) {
         Posts entity = postsRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("해당 게시글이 없습니다. id=" + id));
         return new PostsResponseDto(entity);
