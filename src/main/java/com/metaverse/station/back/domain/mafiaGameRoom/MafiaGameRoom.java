@@ -1,7 +1,5 @@
 package com.metaverse.station.back.domain.mafiaGameRoom;
 
-import com.metaverse.station.back.domain.posts.Posts;
-import com.metaverse.station.back.domain.user.User;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -9,7 +7,7 @@ import javax.persistence.*;
 
 @NoArgsConstructor
 @Getter
-@Entity
+@Entity(name = "mafiaGameRoom")
 public class MafiaGameRoom {
 
     @Id
