@@ -1,4 +1,4 @@
-package com.metaverse.station.back.domain.mafiaGameRoom;
+package com.metaverse.station.back.domain.gameRoom;
 
 import com.metaverse.station.back.web.dto.UpdateZepPlayerCountRequestDto;
 import lombok.RequiredArgsConstructor;
@@ -6,25 +6,25 @@ import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
 @RestController
-public class MafiaGameRoomController {
+public class GameRoomController {
 
-    private final MafiaGameRoomService mafiaGameRoomService;
+    private final GameRoomService gameRoomService;
 
     @PostMapping("/api/v1/posts/zep/playercount")
     public void updateZepPlayerCount(@RequestBody UpdateZepPlayerCountRequestDto requestDto) {
 
-        mafiaGameRoomService.updatePlayerCountByUrl(requestDto);
+        gameRoomService.updatePlayerCountByUrl(requestDto);
     }
 
     @GetMapping("/api/v1/posts/zep/playercount")
     public void updateZepPlayerCount2(@RequestParam String hashId, @RequestParam int playerCount) {
         UpdateZepPlayerCountRequestDto requestDto = UpdateZepPlayerCountRequestDto.builder().playerCount(playerCount).hashId(hashId).build();
-        mafiaGameRoomService.updatePlayerCountByUrl(requestDto);
+        gameRoomService.updatePlayerCountByUrl(requestDto);
     }
 
     @GetMapping("/api/v1/posts/zep/mafiagame/playercount")
     public int getMafiaGamePlayerCount(@RequestParam String hashId) {
 
-        return mafiaGameRoomService.getPlayerCountByUrl(hashId);
+        return gameRoomService.getPlayerCountByUrl(hashId);
     }
 }

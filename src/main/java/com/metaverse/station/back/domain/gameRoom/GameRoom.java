@@ -1,4 +1,4 @@
-package com.metaverse.station.back.domain.mafiaGameRoom;
+package com.metaverse.station.back.domain.gameRoom;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,7 +9,7 @@ import javax.persistence.*;
 @Getter
 @Entity
 @Table(name = "mafia_game_room")
-public class MafiaGameRoom {
+public class GameRoom {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
