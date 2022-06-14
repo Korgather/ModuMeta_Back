@@ -109,6 +109,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .mvcMatchers(HttpMethod.POST, "/api/v1/feedback").hasAnyAuthority(RoleType.USER.getCode())
                 //게더타운 API
                     .mvcMatchers(HttpMethod.POST,"/api/v1/gathertown/**").hasAnyAuthority(RoleType.USER.getCode())
+                //게임 관련 API
+                    .mvcMatchers(HttpMethod.POST,"/api/v1/game/**").hasAnyAuthority(RoleType.USER.getCode())
                     .mvcMatchers("/h2-console/**").permitAll()
                     .mvcMatchers("/api/v1/admin/**").hasAnyAuthority(RoleType.ADMIN.getCode())
                     .anyRequest().denyAll()
