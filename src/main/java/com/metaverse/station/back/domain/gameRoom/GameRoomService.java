@@ -69,10 +69,10 @@ public class GameRoomService {
                 }
 
                 strJson = "{\n" +
-                        "    id: "+omokUser.getUserId()+",\n" +
-                        "    nickname: "+omokUser.getNickname()+",\n" +
-                        "    win: "+omokUser.getWin()+",\n" +
-                        "    lose: "+omokUser.getLose()+"\n" +
+                        "    id: "+"\""+omokUser.getUserId()+"\""+",\n" +
+                        "    nickname: "+"\""+omokUser.getNickname()+"\""+",\n" +
+                        "    win: "+"\""+omokUser.getWin()+"\""+",\n" +
+                        "    lose: "+"\""+omokUser.getLose()+"\""+"\n" +
                         "}";
 
                 break;
