@@ -22,10 +22,10 @@ public class OmokUserController {
 
     @PostMapping("/api/v1/game/{gameName}/user/info")
     public String updateGameUser(@PathVariable(value = "gameName") String gameName,
-                                 @RequestParam("id") Long id,
-                                 @RequestParam("win") int win,
-                                 @RequestParam("lose") int lose,
-                                 @RequestParam("nickname") String nickname) {
+                                 @RequestParam(value = "id") Long id,
+                                 @RequestParam(value = "win",required = false) int win,
+                                 @RequestParam(value = "lose",required = false) int lose,
+                                 @RequestParam(value = "nickname",required = false) String nickname) {
 
 
         OmokUserUpdateRequestDto requestDto = new OmokUserUpdateRequestDto(id,nickname,win,lose);
