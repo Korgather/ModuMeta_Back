@@ -2,6 +2,7 @@ package com.metaverse.station.back.domain.gameRoom;
 
 import com.metaverse.station.back.domain.gameRoom.omok.OmokUser;
 import com.metaverse.station.back.domain.gameRoom.omok.OmokUserRepository;
+import com.metaverse.station.back.domain.gameRoom.omok.OmokUserUpdateRequestDto;
 import com.metaverse.station.back.domain.images.Images;
 import com.metaverse.station.back.domain.user.User;
 import com.metaverse.station.back.service.UserService;
@@ -77,5 +78,34 @@ public class GameRoomService {
         }
 
         return strJson;
+    }
+
+    @Transactional
+    public String updateUser(String gameName, OmokUserUpdateRequestDto requestDto){
+//        org.springframework.security.core.userdetails.User principal = (org.springframework.security.core.userdetails.User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+//        User user = userService.getUser(principal.getUsername());
+
+        if(Category.of(gameName) == Category.NOT_REGISTERED){
+            return "등록되지 않은 게임입니다.";
+        }
+        switch (gameName){
+            case "mafia":
+
+                break;
+            case "omok":
+                OmokUser omokUser;
+                if(omokUserRepository.findById(requestDto.getId()).isPresent())
+                {
+                    omokUser = omokUserRepository.getById(requestDto.getId());
+                    omokUser.update(requestDto.getNickname(),requestDto.getWin(),requestDto.getLose());
+                }
+                else{
+                    return "존재하지 않는 유저입니다.";
+                }
+
+                break;
+        }
+
+        return "업데이트 성공";
     }
 }

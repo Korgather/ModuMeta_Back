@@ -48,4 +48,12 @@ public class OmokUser implements Serializable{
         this.lose = lose;
     }
 
+    public void update(String nickname, int win, int lose) {
+        if(nickname != null){
+            this.nickname = nickname;
+        }
+        this.lose = lose;
+        this.win = win;
+    }
+
 }
