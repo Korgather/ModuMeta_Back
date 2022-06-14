@@ -68,13 +68,14 @@ public class GameRoomService {
                     omokUserRepository.save(omokUser);
                 }
 
-                strJson = "{\n" +
-                        "    id: "+"\""+omokUser.getUserId()+"\""+",\n" +
-                        "    nickname: "+"\""+omokUser.getNickname()+"\""+",\n" +
-                        "    win: "+"\""+omokUser.getWin()+"\""+",\n" +
-                        "    lose: "+"\""+omokUser.getLose()+"\""+"\n" +
+                strJson = "{" +
+                        "\"id\": "+"\""+omokUser.getUserId()+"\""+"," +
+                        "\"nickname\": "+"\""+omokUser.getNickname()+"\""+"," +
+                        "\"win\": "+"\""+omokUser.getWin()+"\""+"," +
+                        "\"lose\": "+"\""+omokUser.getLose()+"\""+"" +
                         "}";
 
+                System.out.println(strJson);
                 break;
         }
 
