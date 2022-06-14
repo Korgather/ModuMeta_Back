@@ -18,4 +18,11 @@ public class OmokUserUpdateRequestDto {
     private int win;
 
     private int lose;
+
+    public OmokUserUpdateRequestDto(Long id, String nickname, int win, int lose){
+        this.id = id;
+        this.nickname = nickname;
+        this.win = win;
+        this.lose = lose;
+    }
 }
