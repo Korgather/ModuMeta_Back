@@ -1,10 +1,18 @@
 package com.metaverse.station.back.domain.gameRoom;
 
+import com.metaverse.station.back.domain.gameRoom.omok.OmokUser;
+import com.metaverse.station.back.domain.gameRoom.omok.OmokUserRepository;
+import com.metaverse.station.back.domain.images.Images;
+import com.metaverse.station.back.domain.user.User;
+import com.metaverse.station.back.service.UserService;
 import com.metaverse.station.back.web.dto.UpdateZepPlayerCountRequestDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -12,6 +20,8 @@ import org.springframework.transaction.annotation.Transactional;
 public class GameRoomService {
 
     private final GameRoomRepository gameRoomRepository;
+    private final OmokUserRepository omokUserRepository;
+    private final UserService userService;
 
     @Transactional
     public void updatePlayerCountByUrl(UpdateZepPlayerCountRequestDto requestDto){
@@ -26,5 +36,46 @@ public class GameRoomService {
         String link = "https://zep.us/play/" + hashId;
         GameRoom gameRoom = gameRoomRepository.findByUrl(link).orElseThrow(() -> new IllegalArgumentException("해당 게시글이 없습니다."));
         return gameRoom.getPlayer_count();
+    }
+
+    @Transactional
+    public String registerUser(String gameName){
+        org.springframework.security.core.userdetails.User principal = (org.springframework.security.core.userdetails.User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User user = userService.getUser(principal.getUsername());
+
+        String strJson = "";
+
+        if(Category.of(gameName) == Category.NOT_REGISTERED){
+            return "등록되지 않은 게임입니다.";
+        }
+        boolean registered = false;
+
+        switch (gameName){
+            case "mafia":
+
+                break;
+            case "omok":
+                OmokUser omokUser;
+                if(omokUserRepository.findById(user.getUserSeq()).isPresent())
+                {
+                    omokUser = omokUserRepository.getById(user.getUserSeq());
+                    registered = true;
+
+                }
+                else{
+                    omokUser = OmokUser.builder().nickname(user.getUsername()).win(0).lose(0).user(user).build();
+                    omokUserRepository.save(omokUser);
+                }
+
+                strJson = "{\n" +
+                        "    nickname: "+omokUser.getNickname()+",\n" +
+                        "    win: "+omokUser.getWin()+",\n" +
+                        "    lose: "+omokUser.getLose()+"\n" +
+                        "}";
+
+                break;
+        }
+
+        return strJson;
     }
 }
