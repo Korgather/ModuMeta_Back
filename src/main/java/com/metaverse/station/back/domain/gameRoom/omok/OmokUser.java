@@ -52,8 +52,12 @@ public class OmokUser implements Serializable{
         if(nickname != null){
             this.nickname = nickname;
         }
-        this.lose = lose;
-        this.win = win;
+        if (win != 0) {
+            this.win = win;
+        }
+        if(lose != 0){
+            this.lose = lose;
+        }
     }
 
 }
