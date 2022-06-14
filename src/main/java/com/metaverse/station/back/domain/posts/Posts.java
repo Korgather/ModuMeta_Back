@@ -45,7 +45,6 @@ public class Posts extends BaseTimeEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "userId")
-//    @JsonIgnore
     private User user;
 
     @Column(columnDefinition = "integer default 0", nullable = false)
