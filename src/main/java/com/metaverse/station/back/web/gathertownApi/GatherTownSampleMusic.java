@@ -24,8 +24,8 @@ public class GatherTownSampleMusic extends GatherTownMapResponseDto.GatherTownOb
     private double offsetX = 16;
     private int width = 2;
     private int type = 0;
-    private int x = 0;
-    private int y = 0;
+    private long x = 0;
+    private long y = 0;
     private String color = "#9badb7";
     private List<String> _tags = new ArrayList<>();
     private String id = "SoundEmitterBarAmbience - 3u3pREPN1Ymg7Cx-jS5f_71aded18-8e5e-41e6-b5ba-c7b00265533f";
