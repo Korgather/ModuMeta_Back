@@ -54,7 +54,7 @@ public class GatherTownMapResponseDto {
     @Setter
     @JsonInclude(JsonInclude.Include.NON_NULL)
     static class GatherTownObject {
-        public int y;
+        public long y;
         public List<String> _tags;
         public String templateId;
         public int orientation;
@@ -64,7 +64,7 @@ public class GatherTownMapResponseDto {
         public int height;
         public String previewMessage;
         public String highlighted;
-        public int x;
+        public long x;
         public String id;
         public String _name;
         public Properties properties;
