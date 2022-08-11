@@ -35,7 +35,7 @@ public class GameRoomService {
             GameRoom gameRoom = gameRoomRepository.findByUrl(link).orElseThrow(() -> new IllegalArgumentException("해당 게시글이 없습니다. url=" + link));
             gameRoom.setPlayerCount(playerCount);
         }else{
-            GameRoom gameRoom = GameRoom.builder().url(link).player_count(playerCount).build();
+            GameRoom gameRoom = GameRoom.builder().url(link).player_count(playerCount).category(Category.NOT_REGISTERED.getCode()).build();
             gameRoomRepository.save(gameRoom);
         }
         
