@@ -4,6 +4,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.metaverse.station.back.domain.gameRoom.GameRoom;
+import com.metaverse.station.back.domain.gameRoom.GameRoomRepository;
 import com.metaverse.station.back.domain.posts.Posts;
 import com.metaverse.station.back.domain.posts.PostsRepository;
 import com.metaverse.station.back.service.PostsService;
@@ -18,6 +20,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Slf4j
@@ -28,6 +31,7 @@ public class GetPlayerCountScheduler {
     private final WebClient.Builder webClientBuild;
     private final PostsRepository postsRepository;
     private final PostsService postsService;
+    private final GameRoomRepository gameRoomRepository;
 
 
     @Scheduled(initialDelay = 1000, fixedDelay = 30000)
@@ -94,6 +98,18 @@ public class GetPlayerCountScheduler {
 //        long elapsedTime = stopTime - startTime;
 //        System.out.println(elapsedTime);
 
+    }
+
+    @Scheduled(initialDelay = 10000, fixedDelay = 30000)
+//    @Transactional
+    public void resetGameRoom() {
+        List<GameRoom> gameRoomList = gameRoomRepository.findAll();
+
+        for(int i = 0; i < gameRoomList.size(); i++){
+            if(i>15){
+                gameRoomRepository.delete(gameRoomList.get(i));
+            }
+        }
     }
 
     String createJsonQueries(String graphql, String operationName, String variables) throws JsonProcessingException {

@@ -1,5 +1,6 @@
 package com.metaverse.station.back.domain.gameRoom;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -21,5 +22,12 @@ public class GameRoom {
 
     public void setPlayerCount(int playerCount){
         this.player_count = playerCount;
+    }
+
+    @Builder
+    public GameRoom(Long id,String url, int player_count) {
+        this.id = id;
+        this.url = url;
+        this.player_count = player_count;
     }
 }

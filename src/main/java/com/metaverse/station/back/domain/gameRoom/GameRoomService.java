@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -28,8 +29,15 @@ public class GameRoomService {
     public void updatePlayerCountByUrl(UpdateZepPlayerCountRequestDto requestDto){
         int playerCount = requestDto.getPlayerCount();
         String link = "https://zep.us/play/" + requestDto.getHashId();
-        GameRoom gameRoom = gameRoomRepository.findByUrl(link).orElseThrow(() -> new IllegalArgumentException("해당 게시글이 없습니다."));
-        gameRoom.setPlayerCount(playerCount);
+
+        if(gameRoomRepository.findByUrl(link).isPresent()){
+            GameRoom gameRoom = gameRoomRepository.findByUrl(link).orElseThrow(() -> new IllegalArgumentException("해당 게시글이 없습니다. url=" + link));
+            gameRoom.setPlayerCount(playerCount);
+        }else{
+            GameRoom gameRoom = GameRoom.builder().url(link).player_count(playerCount).build();
+            gameRoomRepository.save(gameRoom);
+        }
+        
     }
 
     @Transactional
