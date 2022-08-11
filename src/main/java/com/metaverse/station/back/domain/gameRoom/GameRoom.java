@@ -20,14 +20,17 @@ public class GameRoom {
 
     private int player_count;
 
+    private String category = Category.NOT_REGISTERED.getCode();
+
     public void setPlayerCount(int playerCount){
         this.player_count = playerCount;
     }
 
     @Builder
-    public GameRoom(Long id,String url, int player_count) {
+    public GameRoom(Long id,String url, int player_count, String category) {
         this.id = id;
         this.url = url;
         this.player_count = player_count;
+        this.category = category;
     }
 }

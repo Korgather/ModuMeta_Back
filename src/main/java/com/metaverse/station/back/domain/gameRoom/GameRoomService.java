@@ -29,6 +29,7 @@ public class GameRoomService {
     public void updatePlayerCountByUrl(UpdateZepPlayerCountRequestDto requestDto){
         int playerCount = requestDto.getPlayerCount();
         String link = "https://zep.us/play/" + requestDto.getHashId();
+        System.out.println(link);
 
         if(gameRoomRepository.findByUrl(link).isPresent()){
             GameRoom gameRoom = gameRoomRepository.findByUrl(link).orElseThrow(() -> new IllegalArgumentException("해당 게시글이 없습니다. url=" + link));
@@ -44,6 +45,7 @@ public class GameRoomService {
     public int getPlayerCountByUrl(String hashId){
         String link = "https://zep.us/play/" + hashId;
         GameRoom gameRoom = gameRoomRepository.findByUrl(link).orElseThrow(() -> new IllegalArgumentException("해당 게시글이 없습니다."));
+
         return gameRoom.getPlayer_count();
     }
 
