@@ -4,6 +4,8 @@ import com.metaverse.station.back.web.dto.UpdateZepPlayerCountRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RequiredArgsConstructor
 @RestController
 public class GameRoomController {
@@ -26,5 +28,11 @@ public class GameRoomController {
     public int getMafiaGamePlayerCount(@RequestParam String hashId) {
 
         return gameRoomService.getPlayerCountByUrl(hashId);
+    }
+
+    @GetMapping("/api/v1/posts/zep/game/playercount")
+    public List<GameRoom> getGamePlayerCount(@RequestParam String category) {
+
+        return gameRoomService.getPlayerCountByCategory(category);
     }
 }

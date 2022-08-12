@@ -50,6 +50,12 @@ public class GameRoomService {
     }
 
     @Transactional
+    public List<GameRoom> getPlayerCountByCategory(String category){
+
+        return gameRoomRepository.findAllByCategory(category);
+    }
+
+    @Transactional
     public String registerUser(String gameName){
         org.springframework.security.core.userdetails.User principal = (org.springframework.security.core.userdetails.User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         User user = userService.getUser(principal.getUsername());
