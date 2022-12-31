@@ -69,6 +69,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //                .mvcMatcher("/api/v1/**")
                 .authorizeRequests()
                     .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
+                .mvcMatchers(HttpMethod.GET,"/").permitAll()
                 //게시글 작성
                     .mvcMatchers(HttpMethod.POST,"/api/v1/posts/**").hasAnyAuthority(RoleType.USER.getCode())
                 //게시글 수정
