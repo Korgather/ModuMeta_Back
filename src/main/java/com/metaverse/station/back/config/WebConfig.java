@@ -11,7 +11,7 @@ public class WebConfig implements WebMvcConfigurer {
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
 //                .allowedOrigins("*")
-                .allowedOrigins("https://www.modumeta.com","http://localhost:3000","https://zep.us")
+                .allowedOrigins("https://www.modumeta.com","http://localhost:3000","https://zep.us", "http://localhost:3001")
                 .allowedMethods("GET","POST","DELETE","PUT")
                 .maxAge(1500);
 
