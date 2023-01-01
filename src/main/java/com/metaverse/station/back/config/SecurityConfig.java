@@ -70,6 +70,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                     .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
                 .mvcMatchers(HttpMethod.GET,"/").permitAll()
+                .mvcMatchers(HttpMethod.GET,"/swagger-ui/*").permitAll()
+                .antMatchers("/v2/api-docs",  "/configuration/ui",
+                "/swagger-resources", "/configuration/security",
+                "/swagger-ui.html", "/webjars/**","/swagger/**").permitAll()
+                .antMatchers("/swagger-resources/**").permitAll()
                 //게시글 작성
                     .mvcMatchers(HttpMethod.POST,"/api/v1/posts/**").hasAnyAuthority(RoleType.USER.getCode())
                 //게시글 수정
